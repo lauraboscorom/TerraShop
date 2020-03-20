@@ -30,7 +30,7 @@ public class UsuarioController {
 		if (usuarioService.comprobarUsuario(usuario,contrasena)) {
 			mav.setViewName("correcto");
 		} else {
-			mav.setViewName("incorrecto");
+			mav.setViewName("usuario_incorrecto");
 		}
 		return mav;
 		

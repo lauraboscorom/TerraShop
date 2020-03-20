@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+<head>
+<title>Pagina Index</title>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<link
+	href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	rel="stylesheet" id="bootstrap-css">
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/style/login_style.css}">
+</head>
+<body>
+	<!-- <a href="profesor/list"> Lista de profesores</a> -->
+	
+	<div class="wrapper fadeInDown">
+		<div id="formContent">
+			<!-- Icon -->
+			<div class="fadeIn first">
+				<i class="fas fa-user fa-5x" style="color: #871F1F"></i>
+			</div>
+
+			<!-- Login Form -->
+			<form
+				th:action="@{/usuario/comprobar_usuario}"
+				method="post">
+				<input type="text" id="usuario" class="fadeIn second" name="usuario"
+					placeholder="usuario"> <input type="text"
+					id="contrasena" class="fadeIn third" name="contrasena"
+					placeholder="contraseña"> <input type="submit"
+					class="fadeIn fourth" value="Log In">
+			</form>
+
+			<!-- Remind Password -->
+			<div id="formFooter">
+				<a class="underlineHover" href="#">Crear nueva cuenta</a>
+			</div>
+
+		</div>
+	</div>
+
+	<script src="https://kit.fontawesome.com/4c9cf097a7.js"
+		crossorigin="anonymous"></script>
+
+</body>
+</html>
