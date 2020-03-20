@@ -25,3 +25,5 @@ insert into PROFESOR_MODULO(ID_PROFESOR, ID_MODULO) values (3, 5);
 insert into PROFESOR_MODULO(ID_PROFESOR, ID_MODULO) values (3, 2);
 insert into PROFESOR_MODULO(ID_PROFESOR, ID_MODULO) values (4, 4);
 insert into PROFESOR_MODULO(ID_PROFESOR, ID_MODULO) values (4, 3);
+
+INSERT INTO `springprueba_modelo`.`usuario` (`USUARIO`, `CONTRASENA`, `NOMBRE`, `APELLIDOS`, `EMAIL`, `DIRECCION_ENVIO`, `BANCO`, `NUMERO_TARJETA`, `TITULAR`, `CODIGO_SEGURIDAD`, `DIRECCION_FACTURACION`) VALUES ('lonlitay', '1234', 'Laura', 'Bosco Romero', 'laurabosrom@gmail.com', 'Calle Sol', 'ING', '123484631', 'Laura Bosco Romero', '9876', 'Calle Luna');
