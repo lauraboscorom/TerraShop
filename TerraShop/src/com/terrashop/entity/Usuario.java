@@ -19,10 +19,10 @@ public class Usuario implements Serializable {
 	private Long idUsuario;
 
 	@Column(name = "NOMBRE")
-	private String nombreUsuario;
+	private String nombre;
 
 	@Column(name = "APELLIDOS")
-	private String apellidosUsuario;
+	private String apellidos;
 
 	@Column(name = "EMAIL")
 	private String email;
@@ -51,6 +51,25 @@ public class Usuario implements Serializable {
 	@Column(name = "CONTRASENA")
 	private String contrasena;
 	
+	public Usuario(String nombre, String apellidos, String email, String direccionEnvio, String banco,
+			Long numeroTarjeta, String titular, Long codigoSeguridad, String direccionFacturacion, String usuario,
+			String contrasena) {
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.email = email;
+		this.direccionEnvio = direccionEnvio;
+		this.banco = banco;
+		this.numeroTarjeta = numeroTarjeta;
+		this.titular = titular;
+		this.codigoSeguridad = codigoSeguridad;
+		this.direccionFacturacion = direccionFacturacion;
+		this.usuario = usuario;
+		this.contrasena = contrasena;
+	}
+	
+	public Usuario() {
+	}
+
 	public Long getIdUsuario() {
 		return idUsuario;
 	}
@@ -60,19 +79,19 @@ public class Usuario implements Serializable {
 	}
 
 	public String getNombreUsuario() {
-		return nombreUsuario;
+		return nombre;
 	}
 
 	public void setNombreUsuario(String nombreUsuario) {
-		this.nombreUsuario = nombreUsuario;
+		this.nombre = nombreUsuario;
 	}
 
 	public String getApellidosUsuario() {
-		return apellidosUsuario;
+		return apellidos;
 	}
 
 	public void setApellidosUsuario(String apellidosUsuario) {
-		this.apellidosUsuario = apellidosUsuario;
+		this.apellidos = apellidosUsuario;
 	}
 
 	public String getEmail() {

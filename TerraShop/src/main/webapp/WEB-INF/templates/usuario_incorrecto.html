@@ -8,51 +8,45 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="../style/bootstrap.min.css">
 <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
-<link
-	href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-	rel="stylesheet" id="bootstrap-css">
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script
-	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css"
-	th:href="@{/style/login_style.css}">
+<!-- Scripts -->
+<script src="https://kit.fontawesome.com/4c9cf097a7.js"
+	crossorigin="anonymous"></script>
 </head>
 <body>
-	<!-- <a href="profesor/list"> Lista de profesores</a> -->
-	
-	<div class="wrapper fadeInDown">
-		<div id="formContent">
-			<!-- Icon -->
-			<div class="fadeIn first">
-				<i class="fas fa-user fa-5x" style="color: #871F1F"></i>
+	<div class="container h-100">
+		<div class="row h-100 justify-content-center align-items-center m-5">
+			<div class="jumbotron w-50">
+				<form th:action="@{/usuario/comprobar_usuario}" method="post">
+					<fieldset>
+						<div class="text-center mb-20">
+							<i class="fas fa-user fa-5x" style="color: #871F1F"></i>
+						</div>
+						<div class="form-group">
+							<label for="usuario">Usuario</label> <input type="text"
+								class="form-control" id="usuario" name="usuario"
+								placeholder="usuario">
+						</div>
+						<div class="form-group">
+							<label for="contrasena">Contraseña</label> <input type="password"
+								class="form-control" id="contrasena" name="contrasena"
+								placeholder="contraseña">
+						</div>
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary">Entrar</button>
+						</div>
+					</fieldset>
+				</form>
+				<hr class="my-4">
+				<div class="text-center">
+					<a class="nav-link" href="usuario/signup">Crear nueva cuenta</a>
+				</div>
 			</div>
-
-			<!-- Login Form -->
-			<form
-				th:action="@{/usuario/comprobar_usuario}"
-				method="post">
-				<input type="text" id="usuario" class="fadeIn second" name="usuario"
-					placeholder="usuario"> <input type="text"
-					id="contrasena" class="fadeIn third" name="contrasena"
-					placeholder="contraseña"> <input type="submit"
-					class="fadeIn fourth" value="Log In">
-			</form>
-
-			<!-- Remind Password -->
-			<div id="formFooter">
-				<a class="underlineHover" href="#">Crear nueva cuenta</a>
-			</div>
-
 		</div>
 	</div>
-
-	<script src="https://kit.fontawesome.com/4c9cf097a7.js"
-		crossorigin="anonymous"></script>
-
 </body>
 </html>

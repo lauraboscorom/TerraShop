@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+<head>
+<title>TerraShop | Regístrate</title>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="../style/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+</head>
+<body>
+	<div class="container h-100">
+		<div class="row h-100 justify-content-center align-items-center m-5">
+			<div class="jumbotron w-75 pt-3">
+				<h1 class="display-3 mb-4">¡Regístrate!</h1>
+				<form th:action="@{/usuario/crear_usuario}" method="post">
+					<fieldset>
+						<legend>Datos de usuario</legend>
+						<div class="form-group">
+							<label for="usuario">Usuario</label> <input type="text"
+								class="form-control" id="usuario" name="usuario"
+								placeholder="Introduce un nombre de usuario">
+						</div>
+						<div class="form-group">
+							<label for="contrasena">Contraseña</label> <input type="password"
+								class="form-control" id="contrasena" name="contrasena"
+								placeholder="Introduce una contraseña">
+						</div>
+						<legend>Datos personales</legend>
+						<div class="form-group">
+							<label for="nombre">Nombre</label> <input type="text"
+								class="form-control" id="nombre" name="nombre"
+								placeholder="Introduce tu nombre">
+						</div>
+						<div class="form-group">
+							<label for="apellidos">Apellidos</label> <input type="text"
+								class="form-control" id="apellidos" name="apellidos"
+								placeholder="Introduce tus apellidos">
+						</div>
+						<div class="form-group">
+							<label for="email">Email</label> <input type="email"
+								class="form-control" id="email" name="email"
+								placeholder="Introduce tu email"> <small id="emailHelp"
+								class="form-text text-muted">No compartiremos tu email
+								con nadie.</small>
+						</div>
+						<div class="form-group">
+							<label for="direcciónEnvio">Dirección de envío</label> <input
+								type="text" class="form-control" id="direcciónEnvio"
+								name="direcciónEnvio"
+								placeholder="Introduce tu dirección de envío">
+						</div>
+						<legend>Datos de pago</legend>
+						<div class="form-group">
+							<label for="banco">Banco</label> <input type="text"
+								class="form-control" id="banco" name="banco"
+								placeholder="Introduce tu banco">
+						</div>
+						<div class="form-group">
+							<label for="numeroTarjeta">Número de tarjeta</label> <input
+								type="text" class="form-control" id="numeroTarjeta"
+								name="numeroTarjeta"
+								placeholder="Introduce tu número de tarjeta">
+						</div>
+						<div class="form-group">
+							<label for="titular">Titular</label> <input type="text"
+								class="form-control" id="titular" name="titular"
+								placeholder="Introduce tu número de tarjeta">
+						</div>
+						<div class="form-group">
+							<label for="codigoSeguridad">Código de seguridad</label> <input
+								type="text" class="form-control" id="codigoSeguridad"
+								name="codigoSeguridad"
+								placeholder="Introduce tu código de seguridad">
+						</div>
+						<div class="form-group">
+							<label for="direccionFacturacion">Dirección de
+								facturación</label> <input type="text" class="form-control"
+								id="direccionFacturacion" name="direccionFacturacion"
+								placeholder="Introduce tu dirección de facturación">
+						</div>
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary">Crear usuario</button>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
