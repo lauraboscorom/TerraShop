@@ -41,7 +41,7 @@
 		<div class="col-sm-12 my-auto">
 			<div class="w-75 mx-auto">
 				<h1 class="display-3">
-					<span th:text="${usuario.usuario}"></span>
+					Editar: <span th:text="${usuario.usuario}"></span>
 				</h1>
 				<h2>Datos personales</h2>
 				<p>
@@ -71,9 +71,7 @@
 					Dirección de facturación: <span
 						th:text="${usuario.direccionFacturacion}"></span>
 				</p>
-				<form th:action="@{/usuario/editar_perfil}" method="get">
-					<button type="submit" class="btn btn-primary">Editar perfil</button>
-				</form>
+				<button onclick="location.href='usuario_editar_perfil'" type="button" class="btn btn-primary">Editar perfil</button>
 			</div>
 		</div>
 	</div>

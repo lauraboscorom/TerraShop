@@ -34,9 +34,9 @@ public class UsuarioController {
 			Usuario usuarioIntroducido = usuarioService.buscarUsuarioPorUsuario(usuario);
 			
 			mav.addObject("usuario", usuarioIntroducido);
-			mav.setViewName("correcto");
-		} else {
 			mav.setViewName("usuario_perfil");
+		} else {
+			mav.setViewName("usuario_incorrecto");
 		}
 		return mav;
 	}
@@ -47,6 +47,14 @@ public class UsuarioController {
 		ModelAndView mav = new ModelAndView();
 		
 		mav.setViewName("signup");
+		return mav;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/editar_perfil")
+	public ModelAndView mostrarEdicionPerfil() {
+
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("usuario_editar_perfil");
 		return mav;
 	}
 

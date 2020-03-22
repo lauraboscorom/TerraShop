@@ -78,20 +78,20 @@ public class Usuario implements Serializable {
 		this.idUsuario = idUsuario;
 	}
 
-	public String getNombreUsuario() {
+	public String getNombre() {
 		return nombre;
 	}
 
-	public void setNombreUsuario(String nombreUsuario) {
-		this.nombre = nombreUsuario;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
-	public String getApellidosUsuario() {
+	public String getApellidos() {
 		return apellidos;
 	}
 
-	public void setApellidosUsuario(String apellidosUsuario) {
-		this.apellidos = apellidosUsuario;
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
 	}
 
 	public String getEmail() {
