@@ -21,7 +21,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public Usuario crearUsuario(Usuario nuevoUsuario) {
-		return usuarioDao.crearUsuario(nuevoUsuario);
+		return usuarioDao.create(nuevoUsuario);
 	}
 
 	@Override
@@ -31,7 +31,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public Usuario obtenerUsuario(long idUsuario) {
-		return usuarioDao.obtenerUsuario(idUsuario);
+		return usuarioDao.find(idUsuario);
+	}
+
+	@Override
+	public Usuario editarUsuario(Usuario usuarioEditado) {
+		return usuarioDao.update(usuarioEditado);
 	}
 
 }

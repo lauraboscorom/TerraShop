@@ -12,4 +12,6 @@ public interface UsuarioService {
 
 	public Usuario obtenerUsuario(long idUsuario);
 
+	public Usuario editarUsuario(Usuario usuarioEditado);
+
 }

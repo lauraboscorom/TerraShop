@@ -22,7 +22,7 @@ public class UsuarioController {
 	@Autowired
 	UsuarioService usuarioService;
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/perfil")
+	@RequestMapping(method = RequestMethod.POST, value = "/perfil/{idUsuario}")
 	public ModelAndView comprobarUsuario(HttpServletRequest request) {
 		
 		ModelAndView mav = new ModelAndView();
@@ -83,6 +83,28 @@ public class UsuarioController {
 		
 		mav.setViewName("index");
 		return mav;
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/editar_perfil")
+	public String editarPerfil(@PathVariable("idUsuario") Long idUsuario, HttpServletRequest request) {
+		
+		String usuario = request.getParameter("usuario");
+		String contrasena = request.getParameter("contrasena");
+		String nombre = request.getParameter("nombre");
+		String apellidos = request.getParameter("apellidos");
+		String email = request.getParameter("email");
+		String direccionEnvio = request.getParameter("direccionEnvio");
+		String banco = request.getParameter("banco");
+		Long numeroTarjeta = Long.parseLong(request.getParameter("numeroTarjeta"));
+		String titular = request.getParameter("titular");
+		Long codigoSeguridad = Long.parseLong(request.getParameter("codigoSeguridad"));
+		String direccionFacturacion = request.getParameter("direccionFacturacion");
+		
+		Usuario usuarioEditado = new Usuario(nombre, apellidos, email, direccionEnvio, banco, numeroTarjeta, titular, codigoSeguridad, direccionFacturacion, usuario, contrasena);
+		usuarioEditado.setIdUsuario(idUsuario);
+		usuarioService.editarUsuario(usuarioEditado);
+		
+		return "redirect:/usuario/perfil/"+idUsuario;
 	}
 
 }
