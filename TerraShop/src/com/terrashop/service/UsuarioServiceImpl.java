@@ -29,4 +29,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return usuarioDao.buscarUsuarioPorUsuario(usuario);
 	}
 
+	@Override
+	public Usuario obtenerUsuario(long idUsuario) {
+		return usuarioDao.obtenerUsuario(idUsuario);
+	}
+
 }

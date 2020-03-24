@@ -22,7 +22,7 @@ public class UsuarioController {
 	@Autowired
 	UsuarioService usuarioService;
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/comprobar_usuario")
+	@RequestMapping(method = RequestMethod.POST, value = "/perfil")
 	public ModelAndView comprobarUsuario(HttpServletRequest request) {
 		
 		ModelAndView mav = new ModelAndView();
@@ -50,10 +50,13 @@ public class UsuarioController {
 		return mav;
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/editar_perfil")
-	public ModelAndView mostrarEdicionPerfil() {
+	@RequestMapping(method = RequestMethod.GET, value = "/editar_perfil/{idUsuario}")
+	public ModelAndView mostrarEdicionPerfil(@PathVariable("idUsuario") Long idUsuario) {
 
 		ModelAndView mav = new ModelAndView();
+		Usuario usuario = usuarioService.obtenerUsuario(idUsuario);
+		
+		mav.addObject("usuario",usuario);
 		mav.setViewName("usuario_editar_perfil");
 		return mav;
 	}

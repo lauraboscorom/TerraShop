@@ -38,4 +38,11 @@ public class UsuarioDaoImpl extends GenericDaoImpl<Usuario> implements UsuarioDa
 		return (Usuario) query.getSingleResult();
 	}
 
+	@Override
+	public Usuario obtenerUsuario(long idUsuario) {
+		Query query = this.em.createQuery("select u FROM Usuario u where u.idUsuario= :idUsuario");
+		query.setParameter("idUsuario", idUsuario);
+		return (Usuario) query.getSingleResult();
+	}
+
 }

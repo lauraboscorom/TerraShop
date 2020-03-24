@@ -71,7 +71,7 @@
 					Dirección de facturación: <span
 						th:text="${usuario.direccionFacturacion}"></span>
 				</p>
-				<form th:action="@{/usuario/editar_perfil}" method="get">
+				<form th:action="@{/usuario/editar_perfil/{idUsuario}(idUsuario=${usuario.idUsuario})}" method="get">
 					<button type="submit" class="btn btn-primary">Editar perfil</button>
 				</form>
 			</div>

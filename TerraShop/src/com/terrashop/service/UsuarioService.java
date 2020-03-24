@@ -10,4 +10,6 @@ public interface UsuarioService {
 
 	public Usuario buscarUsuarioPorUsuario(String usuario);
 
+	public Usuario obtenerUsuario(long idUsuario);
+
 }

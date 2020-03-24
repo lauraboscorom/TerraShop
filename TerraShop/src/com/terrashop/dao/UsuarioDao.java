@@ -10,4 +10,6 @@ public interface UsuarioDao extends GenericDao<Usuario> {
 
 	public Usuario buscarUsuarioPorUsuario(String usuario);
 
+	public Usuario obtenerUsuario(long idUsuario);
+
 }
