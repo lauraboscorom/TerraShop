@@ -1,29 +1,5 @@
+INSERT INTO usuario (APELLIDOS, BANCO, CODIGO_SEGURIDAD, CONTRASENA, DIRECCION_ENVIO, DIRECCION_FACTURACION, EMAIL, NOMBRE, NUMERO_TARJETA, TITULAR, USUARIO) VALUES ('Bosco Romero', 'ING', 8435154, 'spring', 'Calle Lobo', 'Calle canto', 'laurabosrom@gmail.com', 'Laura', 34868364, 'Laura Bosco Romero', 'lonlitay');
 
-insert into PROFESOR (NOMBRE, APELLIDOS) values ('Marcos', 'Puente');
-insert into PROFESOR (NOMBRE, APELLIDOS) values ('Roger', 'Pressman');
-insert into PROFESOR (NOMBRE, APELLIDOS) values ('Martin', 'Fawler');
-insert into PROFESOR (NOMBRE, APELLIDOS) values ('Steve', 'Wozniak');
-
-insert into MODULO (NOMBRE_MODULO) values ('Desarrollo Entono Servidor');
-insert into MODULO (NOMBRE_MODULO) values ('Entornos de desarrollo');
-insert into MODULO (NOMBRE_MODULO) values ('Sistemas Operativos');
-insert into MODULO (NOMBRE_MODULO) values ('Montaje');
-insert into MODULO (NOMBRE_MODULO) values ('Programacion');
-
-insert into EMAIL (DIRECCION_EMAIL,ID_PROFESOR) values ('marcos@des.com',1);
-insert into EMAIL (DIRECCION_EMAIL,ID_PROFESOR) values ('marcosfppf@gmail.com',1);
-insert into EMAIL (DIRECCION_EMAIL,ID_PROFESOR) values ('roger@des.com',2);
-insert into EMAIL (DIRECCION_EMAIL,ID_PROFESOR) values ('martin@des.com',3);
-insert into EMAIL (DIRECCION_EMAIL,ID_PROFESOR) values ('steve@des.com',4);
-insert into EMAIL (DIRECCION_EMAIL,ID_PROFESOR) values ('steve@apple.com',4);
-
-insert into PROFESOR_MODULO(ID_PROFESOR, ID_MODULO) values (1, 1);
-insert into PROFESOR_MODULO(ID_PROFESOR, ID_MODULO) values (1, 5);
-insert into PROFESOR_MODULO(ID_PROFESOR, ID_MODULO) values (1, 3);
-insert into PROFESOR_MODULO(ID_PROFESOR, ID_MODULO) values (2, 2);
-insert into PROFESOR_MODULO(ID_PROFESOR, ID_MODULO) values (3, 5);
-insert into PROFESOR_MODULO(ID_PROFESOR, ID_MODULO) values (3, 2);
-insert into PROFESOR_MODULO(ID_PROFESOR, ID_MODULO) values (4, 4);
-insert into PROFESOR_MODULO(ID_PROFESOR, ID_MODULO) values (4, 3);
-
-INSERT INTO `springprueba_modelo`.`usuario` (`USUARIO`, `CONTRASENA`, `NOMBRE`, `APELLIDOS`, `EMAIL`, `DIRECCION_ENVIO`, `BANCO`, `NUMERO_TARJETA`, `TITULAR`, `CODIGO_SEGURIDAD`, `DIRECCION_FACTURACION`) VALUES ('lonlitay', '1234', 'Laura', 'Bosco Romero', 'laurabosrom@gmail.com', 'Calle Sol', 'ING', '123484631', 'Laura Bosco Romero', '9876', 'Calle Luna');
+INSERT INTO producto (NOMBRE, PRECIO, STOCK) VALUES ('Camiseta', 15.0, 5);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK) VALUES ('Pantalon', 30.0, 2);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK) VALUES ('Zapatillas', 40.0, 10);

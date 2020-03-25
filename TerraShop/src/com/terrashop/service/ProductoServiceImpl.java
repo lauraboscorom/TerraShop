@@ -1,0 +1,34 @@
+package com.terrashop.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.terrashop.dao.ProductoDao;
+import com.terrashop.entity.Producto;
+
+@Transactional
+@Service
+public class ProductoServiceImpl implements ProductoService {
+
+	@Autowired
+	ProductoDao productoDao;
+	
+	@Override
+	public List<Producto> listarProductos() {
+		return productoDao.listarProductos();
+	}
+
+	@Override
+	public Producto obtenerProducto(Long idProducto) {
+		return productoDao.find(idProducto);
+	}
+
+	@Override
+	public Producto editarProducto(Producto producto) {
+		return productoDao.update(producto);
+	}
+	
+}

@@ -29,15 +29,14 @@
 				<li class="nav-item active"><a class="nav-link" href="#">Perfil
 						<span class="sr-only">(current)</span>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Item 2</a></li>
-				<!-- <a th:href="@{/profesor/list}">Profesores</a> -->
+				<li class="nav-item"><a class="nav-link" th:href="@{/producto/list/{idUsuario}(idUsuario=${usuario.idUsuario})}">Productos</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Item 3</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Item 4</a></li>
 			</ul>
 		</div>
 	</nav>
 
-	<div class="row h-100 mt-50">
+	<div class="row h-100">
 		<div class="col-sm-12 my-auto">
 			<div class="w-75 mx-auto">
 				<h1 class="display-3">

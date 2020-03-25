@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.terrashop.entity.Profesor;
 import com.terrashop.entity.Usuario;
 import com.terrashop.service.UsuarioService;
 
@@ -22,7 +21,7 @@ public class UsuarioController {
 	@Autowired
 	UsuarioService usuarioService;
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/perfil/{idUsuario}")
+	@RequestMapping(method = RequestMethod.POST, value = "/comprobar_usuario")
 	public ModelAndView comprobarUsuario(HttpServletRequest request) {
 		
 		ModelAndView mav = new ModelAndView();
@@ -73,9 +72,9 @@ public class UsuarioController {
 		String email = request.getParameter("email");
 		String direccionEnvio = request.getParameter("direccionEnvio");
 		String banco = request.getParameter("banco");
-		Long numeroTarjeta = Long.parseLong(request.getParameter("numeroTarjeta"));
+		int numeroTarjeta = Integer.parseInt(request.getParameter("numeroTarjeta"));
 		String titular = request.getParameter("titular");
-		Long codigoSeguridad = Long.parseLong(request.getParameter("codigoSeguridad"));
+		int codigoSeguridad = Integer.parseInt(request.getParameter("codigoSeguridad"));
 		String direccionFacturacion = request.getParameter("direccionFacturacion");
 		
 		Usuario nuevoUsuario = new Usuario(nombre, apellidos, email, direccionEnvio, banco, numeroTarjeta, titular, codigoSeguridad, direccionFacturacion, usuario, contrasena);
@@ -95,9 +94,9 @@ public class UsuarioController {
 		String email = request.getParameter("email");
 		String direccionEnvio = request.getParameter("direccionEnvio");
 		String banco = request.getParameter("banco");
-		Long numeroTarjeta = Long.parseLong(request.getParameter("numeroTarjeta"));
+		int numeroTarjeta = Integer.parseInt(request.getParameter("numeroTarjeta"));
 		String titular = request.getParameter("titular");
-		Long codigoSeguridad = Long.parseLong(request.getParameter("codigoSeguridad"));
+		int codigoSeguridad = Integer.parseInt(request.getParameter("codigoSeguridad"));
 		String direccionFacturacion = request.getParameter("direccionFacturacion");
 		
 		Usuario usuarioEditado = new Usuario(nombre, apellidos, email, direccionEnvio, banco, numeroTarjeta, titular, codigoSeguridad, direccionFacturacion, usuario, contrasena);

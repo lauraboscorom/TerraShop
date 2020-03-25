@@ -34,13 +34,13 @@ public class Usuario implements Serializable {
 	private String banco;
 	
 	@Column(name = "NUMERO_TARJETA")
-	private Long numeroTarjeta;
+	private int numeroTarjeta;
 	
 	@Column(name = "TITULAR")
 	private String titular;
 	
 	@Column(name = "CODIGO_SEGURIDAD")
-	private Long codigoSeguridad;
+	private int codigoSeguridad;
 	
 	@Column(name = "DIRECCION_FACTURACION")
 	private String direccionFacturacion;
@@ -50,9 +50,9 @@ public class Usuario implements Serializable {
 	
 	@Column(name = "CONTRASENA")
 	private String contrasena;
-	
+
 	public Usuario(String nombre, String apellidos, String email, String direccionEnvio, String banco,
-			Long numeroTarjeta, String titular, Long codigoSeguridad, String direccionFacturacion, String usuario,
+			int numeroTarjeta, String titular, int codigoSeguridad, String direccionFacturacion, String usuario,
 			String contrasena) {
 		this.nombre = nombre;
 		this.apellidos = apellidos;
@@ -66,7 +66,7 @@ public class Usuario implements Serializable {
 		this.usuario = usuario;
 		this.contrasena = contrasena;
 	}
-	
+
 	public Usuario() {
 	}
 
@@ -118,11 +118,11 @@ public class Usuario implements Serializable {
 		this.banco = banco;
 	}
 
-	public Long getNumeroTarjeta() {
+	public int getNumeroTarjeta() {
 		return numeroTarjeta;
 	}
 
-	public void setNumeroTarjeta(Long numeroTarjeta) {
+	public void setNumeroTarjeta(int numeroTarjeta) {
 		this.numeroTarjeta = numeroTarjeta;
 	}
 
@@ -134,11 +134,11 @@ public class Usuario implements Serializable {
 		this.titular = titular;
 	}
 
-	public Long getCodigoSeguridad() {
+	public int getCodigoSeguridad() {
 		return codigoSeguridad;
 	}
 
-	public void setCodigoSeguridad(Long codigoSeguridad) {
+	public void setCodigoSeguridad(int codigoSeguridad) {
 		this.codigoSeguridad = codigoSeguridad;
 	}
 
