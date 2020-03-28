@@ -1,66 +1,56 @@
 <!doctype html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>TerraShop | Perfil</title>
+<title>TerraShop | Productos</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
-<script src="https://kit.fontawesome.com/4c9cf097a7.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="../static/bootstrap.min.css">
-
+<script src="https://kit.fontawesome.com/4c9cf097a7.js"
+	crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-		<a class="navbar-brand" href="#">TerraShop</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarColor01" aria-controls="navbarColor01"
-			aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
 
-		<div class="collapse navbar-collapse" id="navbarColor01">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item"><a class="nav-link" href="#">Perfil </a></li>
-				<li class="nav-item active"><a class="nav-link" href="#">Productos
-						<span class="sr-only">(current)</span>
-				</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Item 3</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Item 4</a></li>
-			</ul>
-		</div>
-	</nav>
+	<nav th:replace="fragments/header_loader"></nav>
 
-	<div class="row h-100 mt-50">
+	<div class="row h-100 my-5">
 		<div class="col-sm-12 my-auto">
 			<div class="w-75 mx-auto text-center">
 				<table class="table table-hover">
 					<thead>
-						<tr class="table-secondary">
+						<tr class="table-info">
 							<th scope="col">Nombre de producto</th>
 							<th scope="col">Precio</th>
 							<th scope="col">Stock</th>
-							<th scope="col">Unidades deseadas</th>
-							<th scope="col">Comprar</th>
+							<th scope="col" sec:authorize="hasAuthority('ROL_USUARIO')">Unidades
+								deseadas</th>
+							<th scope="col" sec:authorize="hasAuthority('ROL_USUARIO')">Comprar</th>
+							<th scope="col" sec:authorize="hasAuthority('ROL_ADMIN')">Editar</th>
+							<th scope="col" sec:authorize="hasAuthority('ROL_ADMIN')">Eliminar</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:if="${productos.empty}">
-							<td colspan="2">No existen productos en el sistema</td>
+						<tr class="table-light" th:if="${productos.empty}">
+							<td sec:authorize="hasAuthority('ROL_ADMIN')" colspan="5">No
+								existen productos en el sistema</td>
+							<td sec:authorize="hasAuthority('ROL_USUARIO')" colspan="4">No
+								existen productos en el sistema</td>
 						</tr>
-						<tr th:each="producto : ${productos}">
+						<tr class="table-light" th:each="producto : ${productos}">
 							<th scope="row"><span th:text="${producto.nombre}">
 									Nombre </span>
 							</td>
 							<td><span th:text="${producto.precio}"> Precio </span></td>
 							<td><span th:text="${producto.stock}"> Stock </span></td>
-							<td><select class="form-control" id="seleccionUnidades">
+							<td sec:authorize="hasAuthority('ROL_USUARIO')"><select
+								class="form-control" id="seleccionUnidades">
 									<option>0</option>
 									<option>1</option>
 									<option>2</option>
@@ -68,13 +58,69 @@
 									<option>4</option>
 									<option>5</option>
 							</select></td>
-							<td><a class="nav-link" th:href="@{/producto/comprar/{idUsuario}/{idProducto}/{unidades}(idUsuario=${usuario.idUsuario},idProducto=${producto.idProducto},unidades=1)}"><i class="fas fa-shopping-cart"></i></a></td>
-							<!-- <td><a
-					th:href="@{/profesor/perfil/{id}(id=${profesor.idProfesor})}"
-					class="btn btn-primary"><i class="fas fa-user"></i></a></td>  -->
+							<td sec:authorize="hasAuthority('ROL_USUARIO')"><a
+								class="nav-link"><i class="fas fa-shopping-cart"></i></a></td>
+							<td sec:authorize="hasAuthority('ROL_ADMIN')"><i
+								class="fas fa-edit"></i></td>
+							<td sec:authorize="hasAuthority('ROL_ADMIN')"><a
+								class="nav-link"
+								th:href="@{/producto/eliminar/{id}(id=${producto.idProducto})}"><i
+									class="fas fa-trash-alt"></i></a></td>
 						</tr>
 					</tbody>
 				</table>
+				<div sec:authorize="hasAuthority('ROL_ADMIN')">
+					</a>
+					<button type="button" class="btn btn-info" data-toggle="modal"
+						data-target="#myModal">
+						Crear nuevo producto <i class="fas fa-plus"></i>
+					</button>
+
+					<div class="modal fade text-justify" id="myModal" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalCenterTitle"
+						aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered" role="document">
+							<div class="modal-content">
+								<form th:action="@{/producto/crear}" method="post">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLongTitle">Nuevo
+											producto</h5>
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="form-group col-md-8">
+												<label for="nombre" class="col-form-label">Nombre</label> <input
+													type="text" class="form-control" id="nombre" name="nombre"
+													placeholder="nombre">
+											</div>
+											<div class="form-group col-md-8">
+												<label for="precio" class="col-form-label">Precio</label> <input
+													type="text" class="form-control" id="precio" name="precio"
+													placeholder="precio">
+											</div>
+											<div class="form-group col-md-8">
+												<label for="stock" class="col-form-label">Stock</label> <input
+													type="text" class="form-control" id="stock" name="stock"
+													placeholder="stock">
+											</div>
+											<div class="form-group col-md-8"></div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">Cancelar</button>
+										<input type="submit" class="btn btn-primary"
+											value="Crear producto">
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

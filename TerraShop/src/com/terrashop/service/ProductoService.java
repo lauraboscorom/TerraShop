@@ -12,4 +12,8 @@ public interface ProductoService {
 
 	public Producto editarProducto(Producto producto);
 
+	public void eliminarProducto(Long idProducto);
+
+	public Producto crearProducto(Producto p);
+
 }

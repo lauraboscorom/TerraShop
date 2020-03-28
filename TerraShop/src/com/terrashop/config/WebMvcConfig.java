@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -36,9 +37,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		templateResolver.setSuffix(".html");
 		templateResolver.setCharacterEncoding("UTF-8");
 		templateResolver.setTemplateMode("HTML5");
-		
+		templateResolver.setCacheable(false);
+		templateResolver.setCacheTTLMs(0L);
 
 		return templateResolver;
+	}
+	
+	/*Permite añadir anotacones de Spring security a los ficheros html*/
+	@Bean
+	public SpringSecurityDialect securityDialect() {
+	    return new SpringSecurityDialect();
 	}
 
 	/* Establecemos Thymeleaf como motor de plantillas */
@@ -49,6 +57,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		templateEngine.setTemplateResolver(templateResolver());
 		templateEngine.setEnableSpringELCompiler(true);
 
+		templateEngine.addDialect(securityDialect());
+		
 		return templateEngine;
 	}
 
@@ -62,17 +72,22 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
 		viewResolver.setTemplateEngine(templateEngine());
 		viewResolver.setCharacterEncoding("UTF-8");
+		viewResolver.setCache(false);
 		return viewResolver;
 
 	}
 
 	@Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry
-          .addResourceHandler("/style/**")
-          .addResourceLocations("/WEB-INF/style/")
-          .setCachePeriod(3600)
-          .resourceChain(true)
-          .addResolver(new PathResourceResolver());
-    }
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler(
+				"/css/**",
+				"/js/**",
+				"/images/**"
+				).addResourceLocations(
+						"/WEB-INF/css/",
+						"/WEB-INF/js/",
+						"/WEB-INF/images/")
+				.setCachePeriod(3600);
+//				.resourceChain(true).addResolver(new PathResourceResolver());
+	}
 }

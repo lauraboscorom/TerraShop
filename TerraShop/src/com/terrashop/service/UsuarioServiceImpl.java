@@ -1,6 +1,7 @@
 package com.terrashop.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,14 +14,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 	
 	@Autowired
 	private UsuarioDao usuarioDao;
-
-	@Override
-	public boolean comprobarUsuario(String usuario, String contrasena) {
-		return usuarioDao.comprobarUsuario(usuario, contrasena);
-	}
+	
+	@Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
 	public Usuario crearUsuario(Usuario nuevoUsuario) {
+		nuevoUsuario.setPassword(bCryptPasswordEncoder.encode(nuevoUsuario.getPassword()));
 		return usuarioDao.create(nuevoUsuario);
 	}
 

@@ -3,9 +3,9 @@ package com.terrashop.dao;
 import com.terrashop.entity.Usuario;
 
 public interface UsuarioDao extends GenericDao<Usuario> {
-	
-	public boolean comprobarUsuario (String usuario, String contrasena);
 
+	public Usuario create (Usuario usuario);
+	
 	public Usuario buscarUsuarioPorUsuario(String usuario);
 
 }

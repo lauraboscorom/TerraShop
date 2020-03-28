@@ -3,78 +3,69 @@
 <head>
 <title>TerraShop | Perfil</title>
 <!-- Required meta tags -->
-<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
-<link rel="stylesheet" href="../style/bootstrap.min.css">
-
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-		<a class="navbar-brand" href="#">TerraShop</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarColor01" aria-controls="navbarColor01"
-			aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+	<nav th:replace="fragments/header_loader"></nav>
 
-		<div class="collapse navbar-collapse" id="navbarColor01">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active"><a class="nav-link" href="#">Perfil
-						<span class="sr-only">(current)</span>
-				</a></li>
-				<li class="nav-item"><a class="nav-link" th:href="@{/producto/list/{idUsuario}(idUsuario=${usuario.idUsuario})}">Productos</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Item 3</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Item 4</a></li>
-			</ul>
+	<div class="container-sm my-5">
+		<div class="text-center my-5">
+			<i class="fas fa-user fa-5x mb-2" style="color: #646464"></i></br>
+			<h1>
+				<span th:text="${usuario.usuario}"></span>
+			</h1>
 		</div>
-	</nav>
+		<div class="card">
+			<div class="card-body">
 
-	<div class="row h-100">
-		<div class="col-sm-12 my-auto">
-			<div class="w-75 mx-auto">
-				<h1 class="display-3">
-					<span th:text="${usuario.usuario}"></span>
-				</h1>
+				<p>
 				<h2>Datos personales</h2>
-				<p>
-					<span th:text="${usuario.nombre}"></span> <span
-						th:text="${usuario.apellidos}"></span>
 				</p>
 				<p>
-					E-mail: <span th:text="${usuario.email}"></span>
+					<b>Nombre:</b> <span th:text="${usuario.nombre}"></span>
 				</p>
 				<p>
-					Dirección de envío: <span th:text="${usuario.direccionEnvio}"></span>
+					<b>Apellidos:</b> <span th:text="${usuario.apellidos}"></span>
 				</p>
+				<p>
+					<b>E-mail:</b> <span th:text="${usuario.email}"></span>
+				</p>
+				<p>
+					<b>Dirección de envío:</b> <span
+						th:text="${usuario.direccionEnvio}"></span>
+				</p>
+				<p>
 				<h2>Datos de pago</h2>
-				<p>
-					Banco: <span th:text="${usuario.banco}"></span>
 				</p>
 				<p>
-					Número de tarjeta: <span th:text="${usuario.numeroTarjeta}"></span>
+					<b>Banco:</b> <span th:text="${usuario.banco}"></span>
 				</p>
 				<p>
-					Titular: <span th:text="${usuario.titular}"></span>
+					<b>Número de tarjeta:</b> <span th:text="${usuario.numeroTarjeta}"></span>
 				</p>
 				<p>
-					Código de seguridad: <span th:text="${usuario.codigoSeguridad}"></span>
+					<b>Titular:</b> <span th:text="${usuario.titular}"></span>
 				</p>
 				<p>
-					Dirección de facturación: <span
+					<b>Código de seguridad:</b> <span
+						th:text="${usuario.codigoSeguridad}"></span>
+				</p>
+				<p>
+					<b>Dirección de facturación:</b> <span
 						th:text="${usuario.direccionFacturacion}"></span>
 				</p>
-				<form th:action="@{/usuario/editar_perfil/{idUsuario}(idUsuario=${usuario.idUsuario})}" method="get">
-					<button type="submit" class="btn btn-primary">Editar perfil</button>
-				</form>
+				<div th:if="${propietario}">
+					<a
+						th:href="@{/usuario/perfil/editar/{id}(id=${session.idUsuario})}"
+						class="btn btn-info">Editar Perfil <i class="fas fa-user-edit"></i>
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
+
 </body>
 </html>

@@ -1,98 +1,101 @@
-<!doctype html>
-<html lang="es">
-<head>
-<title>TerraShop | Regístrate</title>
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 
-<!-- Bootstrap CSS -->
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
-<link rel="stylesheet" href="../static/bootstrap.min.css">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>TerraShop | Registro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
+
 <body>
-	<div class="container h-100">
-		<div class="row h-100 justify-content-center align-items-center m-5">
-			<div class="jumbotron w-75 pt-3">
-				<h1 class="display-3 mb-4">¡Regístrate!</h1>
-				<form th:action="@{/usuario/crear_usuario}" method="post">
-					<fieldset>
-						<legend>Datos de usuario</legend>
-						<div class="form-group">
-							<label for="usuario">Usuario</label> <input type="text"
-								class="form-control" id="usuario" name="usuario"
-								placeholder="Introduce un nombre de usuario">
+	<nav th:replace="fragments/header_loader"></nav>
+
+	<div class="container my-5">
+		<h3>Regístrate</h3>
+		<div class="card">
+			<div class="card-body">
+				<div class="col-md-10">
+					<form action="#" th:action="@{/signup}" method="post">
+						<div class="row">
+							<legend>Datos de usuario</legend>
+							<div class="form-group col-md-8">
+								<label for="usuario" class="col-form-label">Usuario</label> <input
+									type="text" class="form-control" id="usuario"
+									placeholder="Introduce un nombre de usuario"
+									name="usuario">
+							</div>
+							<div class="form-group col-md-8">
+								<label for="password" class="col-form-label">Contraseña</label>
+								<input type="password" class="form-control" id="password"
+									placeholder="Introduce una contraseña" name="password">
+							</div>
+							<legend>Datos personales</legend>
+
+							<div class="form-group col-md-8">
+								<label for="nombre" class="col-form-label">Nombre</label> <input
+									type="text" class="form-control" id="nombre" name="nombre"
+									placeholder="Introduce tu nombre">
+							</div>
+
+							<div class="form-group col-md-8">
+								<label for="apellidos" class="col-form-label">Apellidos</label>
+								<input type="text" class="form-control" name="apellidos"
+									id="apellidos" placeholder="Introduce tus apellidos">
+							</div>
+							<div class="form-group col-md-8">
+								<label for="email" class="col-form-label">E-mail</label> <input
+									type="text" class="form-control" id="email" name="email"
+									placeholder="Introduce tu e-mail"> <small
+									id="emailHelp" class="form-text text-muted">No
+									compartiremos tu email con nadie.</small>
+							</div>
+							<div class="form-group col-md-8">
+								<label for="direccionEnvio" class="col-form-label">Dirección
+									de envío</label> <input type="text" class="form-control"
+									id="direccionEnvio" name="direccionEnvio"
+									placeholder="Introduce tu dirección de envío">
+							</div>
+							<legend>Datos de pago</legend>
+							<div class="form-group col-md-8">
+								<label for="banco" class="col-form-label">Banco</label> <input
+									type="text" class="form-control" id="banco" name="banco"
+									placeholder="Introduce tu banco">
+							</div>
+							<div class="form-group col-md-8">
+								<label for="numeroTarjeta" class="col-form-label">Número
+									de tarjeta</label> <input type="text" class="form-control"
+									id="numeroTarjeta" name="numeroTarjeta"
+									placeholder="Introduce tu número de tarjeta">
+							</div>
+							<div class="form-group col-md-8">
+								<label for="titular" class="col-form-label">Titular</label> <input
+									type="text" class="form-control" id="titular" name="titular"
+									placeholder="Introduce tu número de tarjeta">
+							</div>
+							<div class="form-group col-md-8">
+								<label for="codigoSeguridad" class="col-form-label">Código
+									de seguridad</label> <input type="text" class="form-control"
+									id="codigoSeguridad" name="codigoSeguridad"
+									placeholder="Introduce tu código de seguridad">
+							</div>
+							<div class="form-group col-md-8">
+								<label for="direccionFacturacion" class="col-form-label">Dirección
+									de facturación</label> <input type="text" class="form-control"
+									id="direccionFacturacion" name="direccionFacturacion"
+									placeholder="Introduce tu dirección de facturación">
+							</div>
+							<div class="col-md-6">
+								<input type="submit" class="btn btn-primary" value="Sign Up">
+							</div>
+
+							<div class="form-group col-md-8"></div>
 						</div>
-						<div class="form-group">
-							<label for="contrasena">Contraseña</label> <input type="password"
-								class="form-control" id="contrasena" name="contrasena"
-								placeholder="Introduce una contraseña">
-						</div>
-						<legend>Datos personales</legend>
-						<div class="form-group">
-							<label for="nombre">Nombre</label> <input type="text"
-								class="form-control" id="nombre" name="nombre"
-								placeholder="Introduce tu nombre">
-						</div>
-						<div class="form-group">
-							<label for="apellidos">Apellidos</label> <input type="text"
-								class="form-control" id="apellidos" name="apellidos"
-								placeholder="Introduce tus apellidos">
-						</div>
-						<div class="form-group">
-							<label for="email">Email</label> <input type="email"
-								class="form-control" id="email" name="email"
-								placeholder="Introduce tu email"> <small id="emailHelp"
-								class="form-text text-muted">No compartiremos tu email
-								con nadie.</small>
-						</div>
-						<div class="form-group">
-							<label for="direcciónEnvio">Dirección de envío</label> <input
-								type="text" class="form-control" id="direcciónEnvio"
-								name="direcciónEnvio"
-								placeholder="Introduce tu dirección de envío">
-						</div>
-						<legend>Datos de pago</legend>
-						<div class="form-group">
-							<label for="banco">Banco</label> <input type="text"
-								class="form-control" id="banco" name="banco"
-								placeholder="Introduce tu banco">
-						</div>
-						<div class="form-group">
-							<label for="numeroTarjeta">Número de tarjeta</label> <input
-								type="text" class="form-control" id="numeroTarjeta"
-								name="numeroTarjeta"
-								placeholder="Introduce tu número de tarjeta">
-						</div>
-						<div class="form-group">
-							<label for="titular">Titular</label> <input type="text"
-								class="form-control" id="titular" name="titular"
-								placeholder="Introduce tu número de tarjeta">
-						</div>
-						<div class="form-group">
-							<label for="codigoSeguridad">Código de seguridad</label> <input
-								type="text" class="form-control" id="codigoSeguridad"
-								name="codigoSeguridad"
-								placeholder="Introduce tu código de seguridad">
-						</div>
-						<div class="form-group">
-							<label for="direccionFacturacion">Dirección de
-								facturación</label> <input type="text" class="form-control"
-								id="direccionFacturacion" name="direccionFacturacion"
-								placeholder="Introduce tu dirección de facturación">
-						</div>
-						<div class="text-center">
-							<button type="submit" class="btn btn-primary">Crear
-								usuario</button>
-						</div>
-					</fieldset>
-				</form>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
 </body>
+
 </html>

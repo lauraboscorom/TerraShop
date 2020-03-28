@@ -30,5 +30,15 @@ public class ProductoServiceImpl implements ProductoService {
 	public Producto editarProducto(Producto producto) {
 		return productoDao.update(producto);
 	}
+
+	@Override
+	public void eliminarProducto(Long idProducto) {
+		productoDao.delete(idProducto);
+	}
+
+	@Override
+	public Producto crearProducto(Producto p) {
+		return productoDao.create(p);
+	}
 	
 }

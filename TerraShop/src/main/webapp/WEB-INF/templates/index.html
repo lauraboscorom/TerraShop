@@ -1,49 +1,32 @@
 <!doctype html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
-<title>TerraShop | Accede a tu perfil</title>
+<title>TerraShop | Index</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<link rel="stylesheet" href="../style/bootstrap.min.css">
-<!-- Scripts -->
-<script src="https://kit.fontawesome.com/4c9cf097a7.js"
-	crossorigin="anonymous"></script>
 </head>
 <body>
-	<div class="container h-100">
-		<div class="row h-100 justify-content-center align-items-center m-5">
-			<div class="jumbotron w-50">
-				<form th:action="@{/usuario/comprobar_usuario}" method="post">
-					<fieldset>
-						<div class="text-center mb-20">
-							<i class="fas fa-user fa-5x" style="color: #646464"></i>
-						</div>
-						<div class="form-group">
-							<label for="usuario">Usuario</label> <input type="text"
-								class="form-control" id="usuario" name="usuario"
-								placeholder="usuario">
-						</div>
-						<div class="form-group">
-							<label for="contrasena">Contraseña</label> <input type="password"
-								class="form-control" id="contrasena" name="contrasena"
-								placeholder="contraseña">
-						</div>
-						<div class="text-center">
-							<button type="submit" class="btn btn-primary">Entrar</button>
-						</div>
-					</fieldset>
-				</form>
-				<hr class="my-4">
-				<div class="text-center">
-					<a class="nav-link" href="usuario/signup">Crear nueva cuenta</a>
-				</div>
-			</div>
-		</div>
+
+	<nav th:replace="fragments/header_loader"></nav>
+
+	<div class="jumbotron" sec:authorize="isAnonymous()">
+		<h1 class="display-3">TerraShop</h1>
+		<p class="lead">Esta es la tienda online de Laura Bosco.</p>
+		<hr class="my-4">
+		<p>Crea una cuenta para acceder a los distintos productos que
+			ofrecemos.</p>
+		<p class="lead">
+			<a class="btn btn-primary btn-lg" th:href="@{/login}" role="button">Acceder</a>
+		</p>
 	</div>
+	
+	<div class="jumbotron" sec:authorize="!isAnonymous()">
+		<h1 class="display-3">Bienvenido <span th:utext="${session.username}"></h1>
+		<p class="lead">Accede a todos nuestros productos.</p>
+	</div>
+
 </body>
 </html>
