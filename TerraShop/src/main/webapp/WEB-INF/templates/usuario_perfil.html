@@ -59,7 +59,7 @@
 				</p>
 				<div th:if="${propietario}">
 					<a
-						th:href="@{/usuario/perfil/editar/{id}(id=${session.idUsuario})}"
+						th:href="@{/usuario/perfil/editar/{id}(id=${usuario.idUsuario})}"
 						class="btn btn-info">Editar Perfil <i class="fas fa-user-edit"></i>
 					</a>
 				</div>

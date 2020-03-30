@@ -1,16 +1,19 @@
 package com.terrashop.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.terrashop.entity.Producto;
@@ -44,8 +47,6 @@ public class ProductoController {
 	@RequestMapping(method = RequestMethod.GET, value = "/eliminar/{id}")
 	public String eliminarProducto(@PathVariable("id") long idProducto, HttpServletRequest request) {
 
-		String direccion_email = request.getParameter("nuevoemail");
-
 		productoService.eliminarProducto(idProducto);
 
 		return "redirect:/producto/list";
@@ -68,6 +69,30 @@ public class ProductoController {
 
 		return "redirect:/producto/list";
 	}
+	
+	@RequestMapping("producto/{id}")
+	public String producto(@PathVariable("id") Long idProducto, ModelMap model) {
+		Producto producto = productoService.obtenerProducto(idProducto);
+		model.addAttribute("nombre", producto.getNombre());
+		model.addAttribute("precio",producto.getPrecio());
+		model.addAttribute("stock",producto.getStock());
+		return "modal/producto :: modalContents";
+	}
+	
+//	@PostMapping("/editar/{id}")
+//	public String editarProducto(@PathVariable("id") long idProducto, Producto productoFormulario, BindingResult bindingResult, HttpServletRequest request) {
+//
+//		if (bindingResult.hasErrors()) {
+//			return "redirect:/index";
+//		}
+//		
+//		Producto productoBD = productoService.obtenerProducto(idProducto);
+//		productoBD.setNombre("Conseguido");
+//
+//		productoService.editarProducto(productoBD);
+//
+//		return "redirect:/producto/list/";
+//	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/comprar/{idUsuario}/{idProducto}/{unidades}")
 	public ModelAndView comprarProducto(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idProducto") Long idProducto, @PathVariable("unidades") int unidades) {

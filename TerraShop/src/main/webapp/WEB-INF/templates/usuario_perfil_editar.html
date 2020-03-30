@@ -18,108 +18,105 @@
 <body>
 
 	<nav th:replace="fragments/header_loader"></nav>
-	
-	<div class="row h-100 mt-50">
-		<div class="col-sm-12 my-auto">
-			<div class="w-75 mx-auto">
-				<h1 class="display-3">Editar perfil</h1>
-				<form
-					th:action="@{/usuario/editar_perfil(idUsuario=${usuario.idUsuario})}"
-					th:object="${usuario}" method="post">
-					<fieldset>
-						<legend>Datos de usuario</legend>
-						<div class="form-group">
-							<label for="usuario">Usuario</label> <input type="text"
-								th:field="*{usuario}" class="form-control" id="usuario"
-								name="usuario" placeholder="usuario"> <span
-								th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"
-								class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label for="contrasena">Contraseña</label> <input type="password"
-								th:field="*{password}" class="form-control" id="password"
-								name="password" placeholder="contraseña"> <span
-								th:if="${#fields.hasErrors('password')}"
-								th:errors="*{password}" class="text-danger"></span>
-						</div>
-						<legend>Datos personales</legend>
-						<div class="form-group">
-							<label for="nombre">Nombre</label> <input type="text"
-								th:field="*{nombre}" class="form-control" id="nombre"
-								name="nombre" placeholder="nombre"> <span
-								th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"
-								class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label for="apellidos">Apellidos</label> <input type="text"
-								th:field="*{apellidos}" class="form-control" id="apellidos"
-								name="apellidos" placeholder="apellidos"> <span
-								th:if="${#fields.hasErrors('apellidos')}"
-								th:errors="*{apellidos}" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label for="email">Email</label> <input type="email"
-								th:field="*{email}" class="form-control" id="email" name="email"
-								placeholder="email"> <span
-								th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-								class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label for="direccionEnvio">Dirección de envío</label> <input
-								type="text" th:field="*{direccionEnvio}" class="form-control"
-								id="direccionEnvio" name="direccionEnvio"
-								placeholder="direccionEnvio"> <span
-								th:if="${#fields.hasErrors('direccionEnvio')}"
-								th:errors="*{direccionEnvio}" class="text-danger"></span>
-						</div>
-						<legend>Datos de pago</legend>
-						<div class="form-group">
-							<label for="banco">Banco</label> <input type="text"
-								th:field="*{banco}" class="form-control" id="banco" name="banco"
-								placeholder="banco"> <span
-								th:if="${#fields.hasErrors('banco')}" th:errors="*{banco}"
-								class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label for="numeroTarjeta">Número de tarjeta</label> <input
-								type="text" th:field="*{numeroTarjeta}" class="form-control"
-								id="direccionEnvio" name="numeroTarjeta"
-								placeholder="numeroTarjeta"> <span
-								th:if="${#fields.hasErrors('numeroTarjeta')}"
-								th:errors="*{numeroTarjeta}" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label for="titular">Titular</label> <input type="text"
-								th:field="*{titular}" class="form-control" id="titular"
-								name="titular" placeholder="titular"> <span
-								th:if="${#fields.hasErrors('titular')}" th:errors="*{titular}"
-								class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label for="codigoSeguridad">Código de seguridad</label> <input
-								type="text" th:field="*{codigoSeguridad}" class="form-control"
-								id="codigoSeguridad" name="codigoSeguridad"
-								placeholder="codigoSeguridad"> <span
-								th:if="${#fields.hasErrors('codigoSeguridad')}"
-								th:errors="*{codigoSeguridad}" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label for="direccionFacturacion">Dirección de
-								facturación</label> <input type="text"
-								th:field="*{direccionFacturacion}" class="form-control"
-								id="direccionFacturacion" name="direccionFacturacion"
-								placeholder="direccionFacturacion"> <span
-								th:if="${#fields.hasErrors('direccionFacturacion')}"
-								th:errors="*{direccionFacturacion}" class="text-danger"></span>
-						</div>
-						<div class="text-center">
-							<button type="submit" class="btn btn-primary">Confirmar
-								cambios</button>
-						</div>
-					</fieldset>
-				</form>
-			</div>
-		</div>
+
+	<div class="container-sm my-5">
+		<h1 class="display-3">Editar perfil</h1>
+		<form
+			th:action="@{/usuario/perfil/editar/{id}(id=${usuario.idUsuario})}"
+			th:object="${usuario}" method="post">
+			<fieldset>
+				<legend>Datos personales</legend>
+				<div class="form-group">
+					<label for="usuario">Usuario</label> <input type="text"
+						th:field="*{usuario}" class="form-control" id="usuario"
+						name="usuario" placeholder="usuario"> <span
+						th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}"
+						class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label for="nombre">Nombre</label> <input type="text"
+						th:field="*{nombre}" class="form-control" id="nombre"
+						name="nombre" placeholder="nombre"> <span
+						th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"
+						class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label for="apellidos">Apellidos</label> <input type="text"
+						th:field="*{apellidos}" class="form-control" id="apellidos"
+						name="apellidos" placeholder="apellidos"> <span
+						th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}"
+						class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label for="email">Email</label> <input type="email"
+						th:field="*{email}" class="form-control" id="email" name="email"
+						placeholder="email"> <span
+						th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+						class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label for="direccionEnvio">Dirección de envío</label> <input
+						type="text" th:field="*{direccionEnvio}" class="form-control"
+						id="direccionEnvio" name="direccionEnvio"
+						placeholder="direccionEnvio"> <span
+						th:if="${#fields.hasErrors('direccionEnvio')}"
+						th:errors="*{direccionEnvio}" class="text-danger"></span>
+				</div>
+				<legend>Datos de pago</legend>
+				<div class="form-group">
+					<label for="banco">Banco</label> <input type="text"
+						th:field="*{banco}" class="form-control" id="banco" name="banco"
+						placeholder="banco"> <span
+						th:if="${#fields.hasErrors('banco')}" th:errors="*{banco}"
+						class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label for="numeroTarjeta">Número de tarjeta</label> <input
+						type="text" th:field="*{numeroTarjeta}" class="form-control"
+						id="direccionEnvio" name="numeroTarjeta"
+						placeholder="numeroTarjeta"> <span
+						th:if="${#fields.hasErrors('numeroTarjeta')}"
+						th:errors="*{numeroTarjeta}" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label for="titular">Titular</label> <input type="text"
+						th:field="*{titular}" class="form-control" id="titular"
+						name="titular" placeholder="titular"> <span
+						th:if="${#fields.hasErrors('titular')}" th:errors="*{titular}"
+						class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label for="codigoSeguridad">Código de seguridad</label> <input
+						type="text" th:field="*{codigoSeguridad}" class="form-control"
+						id="codigoSeguridad" name="codigoSeguridad"
+						placeholder="codigoSeguridad"> <span
+						th:if="${#fields.hasErrors('codigoSeguridad')}"
+						th:errors="*{codigoSeguridad}" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label for="direccionFacturacion">Dirección de facturación</label>
+					<input type="text" th:field="*{direccionFacturacion}"
+						class="form-control" id="direccionFacturacion"
+						name="direccionFacturacion" placeholder="direccionFacturacion">
+					<span th:if="${#fields.hasErrors('direccionFacturacion')}"
+						th:errors="*{direccionFacturacion}" class="text-danger"></span>
+				</div>
+				<div class="form-group my-5">
+					<h5>Por favor, escribe tu contraseña para confirmar los
+						cambios</h5>
+					<label for="contrasena">Contraseña</label> <input type="password"
+						th:field="*{password}" class="form-control" id="password"
+						name="password" placeholder="contraseña"> <span
+						th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+						class="text-danger"></span>
+				</div>
+				<div class="text-center">
+					<button type="submit" class="btn btn-primary">Confirmar
+						cambios</button>
+				</div>
+			</fieldset>
+		</form>
 	</div>
+
 </body>
 </html>

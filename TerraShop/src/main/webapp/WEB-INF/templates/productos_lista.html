@@ -17,6 +17,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
+	<script type="text/javascript" src="../js/script.js"></script>
 
 	<nav th:replace="fragments/header_loader"></nav>
 
@@ -60,8 +61,60 @@
 							</select></td>
 							<td sec:authorize="hasAuthority('ROL_USUARIO')"><a
 								class="nav-link"><i class="fas fa-shopping-cart"></i></a></td>
-							<td sec:authorize="hasAuthority('ROL_ADMIN')"><i
-								class="fas fa-edit"></i></td>
+							<td sec:authorize="hasAuthority('ROL_ADMIN')"><div id="productoModalHolder">
+								<button type="button" class="btn btn-success"
+									th:onclick="'javascript:abrirProductoModal(\'' + ${producto.idProducto} + '\');'">
+									<i class="fas fa-edit"></i>
+								</button>
+								<!-- <a class="nav-link" data-toggle="modal"
+								th:onclick="'javascript:abrirProductoModal(\'' + ${producto.idProducto} + '\');'"
+								href=""><i class="fas fa-edit"></i></a>--></div>
+								<div class="modal fade text-justify" id="productoModal"
+									tabindex="-1" role="dialog"
+									aria-labelledby="exampleModalCenterTitle" aria-hidden="true"
+									th:fragment="modalContents">
+									<div class="modal-dialog modal-dialog-centered" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLongTitle">Editar
+													producto</h5>
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">
+												<div class="row">
+													<div class="form-group col-md-8">
+														<label for="nombre" class="col-form-label">Nombre</label>
+														<input type="text" class="form-control"
+															th:text="*{nombre}" id="nombre" name="nombre"
+															placeholder="nombre">
+													</div>
+													<div class="form-group col-md-8">
+														<label for="precio" class="col-form-label">Precio</label>
+														<input type="text" class="form-control"
+															th:text="*{precio}" id="precio" name="precio"
+															placeholder="precio">
+													</div>
+													<div class="form-group col-md-8">
+														<label for="stock" class="col-form-label">Stock</label> <input
+															type="text" class="form-control" th:text="*{stock}"
+															id="stock" name="stock" placeholder="stock">
+													</div>
+													<div class="form-group col-md-8"></div>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-dismiss="modal">Cancelar</button>
+												<input type="submit" class="btn btn-primary"
+													value="Guardar cambios">
+											</div>
+										</div>
+									</div>
+								</div>
+							</td>
 							<td sec:authorize="hasAuthority('ROL_ADMIN')"><a
 								class="nav-link"
 								th:href="@{/producto/eliminar/{id}(id=${producto.idProducto})}"><i
@@ -72,11 +125,11 @@
 				<div sec:authorize="hasAuthority('ROL_ADMIN')">
 					</a>
 					<button type="button" class="btn btn-info" data-toggle="modal"
-						data-target="#myModal">
+						data-target="#modalCrear">
 						Crear nuevo producto <i class="fas fa-plus"></i>
 					</button>
 
-					<div class="modal fade text-justify" id="myModal" tabindex="-1"
+					<div class="modal fade text-justify" id="modalCrear" tabindex="-1"
 						role="dialog" aria-labelledby="exampleModalCenterTitle"
 						aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered" role="document">
