@@ -16,4 +16,6 @@ public interface ProductoService {
 
 	public Producto crearProducto(Producto p);
 
+	public Producto obtenerProductoPorNombre(String parameter);
+
 }

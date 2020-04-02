@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -102,14 +103,16 @@ public class ProductoController {
 		return "redirect:/producto/list";
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/comprar/{idProducto}/{unidades}")
-	public ModelAndView comprarProducto(@PathVariable("idProducto") Long idProducto, @PathVariable("unidades") int unidades, HttpServletRequest request) {
-
+	@RequestMapping(value=("/comprar/{id}"), method=RequestMethod.POST)
+	public String comprarProducto(Model model, @PathVariable("id") Long idProducto, HttpServletRequest request) {
+		
 		HttpSession session = request.getSession();
 		Long idUsuario = (Long) session.getAttribute("idUsuario");
 		
-		Producto producto = productoService.obtenerProducto(idProducto);
 		Usuario usuario = usuarioService.obtenerUsuario(idUsuario);
+		Producto producto = productoService.obtenerProducto(idProducto);
+		int unidades = Integer.parseInt(request.getParameter("unidades"));
+
 		Venta venta = new Venta();
 		Set<LineaDC> lineasDC = new HashSet<>();
 		
@@ -130,9 +133,40 @@ public class ProductoController {
 		producto.setStock(producto.getStock()-unidades);
 		productoService.editarProducto(producto);
 		
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("redirect:/producto/list");
-		return mav;
+		return "redirect:/producto/list";
 	}
+	
+//	@RequestMapping(method = RequestMethod.GET, value = "/comprar/{idProducto}/{unidades}")
+//	public ModelAndView comprarProducto(@PathVariable("idProducto") Long idProducto, @PathVariable("unidades") int unidades, HttpServletRequest request) {
+//
+//		HttpSession session = request.getSession();
+//		Long idUsuario = (Long) session.getAttribute("idUsuario");
+//		
+//		Producto producto = productoService.obtenerProducto(idProducto);
+//		Usuario usuario = usuarioService.obtenerUsuario(idUsuario);
+//		Venta venta = new Venta();
+//		Set<LineaDC> lineasDC = new HashSet<>();
+//		
+//		venta.setDescuento(0);
+//		venta.setFechaVenta(new Date());
+//		venta.setUsuario(usuario);
+//		Venta ventaCreada = ventaService.crearVenta(venta);
+//		
+//		for (int i = 0; i < unidades; i++) {
+//			LineaDC lineaDC = new LineaDC();
+//			lineaDC.setProducto(producto);
+//			lineaDC.setPrecioProducto(producto.getPrecio());
+//			lineasDC.add(lineaDC);
+//			producto.addLineaDC(lineaDC);
+//			ventaCreada.addLineaDC(lineaDC);
+//		}
+//		
+//		producto.setStock(producto.getStock()-unidades);
+//		productoService.editarProducto(producto);
+//		
+//		ModelAndView mav = new ModelAndView();
+//		mav.setViewName("redirect:/producto/list");
+//		return mav;
+//	}
 
 }

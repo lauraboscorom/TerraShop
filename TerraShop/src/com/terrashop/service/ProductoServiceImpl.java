@@ -40,5 +40,10 @@ public class ProductoServiceImpl implements ProductoService {
 	public Producto crearProducto(Producto p) {
 		return productoDao.create(p);
 	}
+
+	@Override
+	public Producto obtenerProductoPorNombre(String nombre) {
+		return productoDao.obtenerProductoPorNombre(nombre);
+	}
 	
 }
