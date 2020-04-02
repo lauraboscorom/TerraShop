@@ -1,25 +1,29 @@
 package com.terrashop.controller;
 
-import java.security.Principal;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.terrashop.entity.LineaDC;
 import com.terrashop.entity.Producto;
 import com.terrashop.entity.Usuario;
+import com.terrashop.entity.Venta;
 import com.terrashop.service.ProductoService;
 import com.terrashop.service.UsuarioService;
+import com.terrashop.service.VentaService;
 
 
 @Controller
@@ -31,6 +35,9 @@ public class ProductoController {
 	
 	@Autowired
 	UsuarioService usuarioService;
+	
+	@Autowired
+	VentaService ventaService;
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/list")
 	public ModelAndView listarProductos() {
@@ -70,47 +77,61 @@ public class ProductoController {
 		return "redirect:/producto/list";
 	}
 	
-	@RequestMapping("producto/{id}")
-	public String producto(@PathVariable("id") Long idProducto, ModelMap model) {
+	@RequestMapping("/editar/{id}")
+	public String mostrarEditarProducto(@PathVariable("id") Long idProducto, ModelMap model) {
 		Producto producto = productoService.obtenerProducto(idProducto);
+		model.addAttribute("idProducto", producto.getIdProducto());
 		model.addAttribute("nombre", producto.getNombre());
 		model.addAttribute("precio",producto.getPrecio());
 		model.addAttribute("stock",producto.getStock());
-		return "modal/producto :: modalContents";
+		return "productos_lista :: modalContents";
 	}
 	
-//	@PostMapping("/editar/{id}")
-//	public String editarProducto(@PathVariable("id") long idProducto, Producto productoFormulario, BindingResult bindingResult, HttpServletRequest request) {
-//
-//		if (bindingResult.hasErrors()) {
-//			return "redirect:/index";
-//		}
-//		
-//		Producto productoBD = productoService.obtenerProducto(idProducto);
-//		productoBD.setNombre("Conseguido");
-//
-//		productoService.editarProducto(productoBD);
-//
-//		return "redirect:/producto/list/";
-//	}
-	
-	@RequestMapping(method = RequestMethod.GET, value = "/comprar/{idUsuario}/{idProducto}/{unidades}")
-	public ModelAndView comprarProducto(@PathVariable("idUsuario") Long idUsuario, @PathVariable("idProducto") Long idProducto, @PathVariable("unidades") int unidades) {
+	@PostMapping("/editar/{id}")
+	public String editarProducto(@PathVariable("id") Long idProducto, Producto productoFormulario, HttpServletRequest request) {
 
 		ModelAndView mav = new ModelAndView();
+
+		Producto productoBD = productoService.obtenerProducto(idProducto);
+		productoBD.setNombre(productoFormulario.getNombre());
+		productoBD.setPrecio(productoFormulario.getPrecio());
+		productoBD.setStock(productoFormulario.getStock());
+		
+		productoService.editarProducto(productoBD);
+		
+		return "redirect:/producto/list";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/comprar/{idProducto}/{unidades}")
+	public ModelAndView comprarProducto(@PathVariable("idProducto") Long idProducto, @PathVariable("unidades") int unidades, HttpServletRequest request) {
+
+		HttpSession session = request.getSession();
+		Long idUsuario = (Long) session.getAttribute("idUsuario");
 		
 		Producto producto = productoService.obtenerProducto(idProducto);
-		if (producto.getStock()>=unidades) {
-			producto.setStock(producto.getStock()-unidades);
-			productoService.editarProducto(producto);
+		Usuario usuario = usuarioService.obtenerUsuario(idUsuario);
+		Venta venta = new Venta();
+		Set<LineaDC> lineasDC = new HashSet<>();
+		
+		venta.setDescuento(0);
+		venta.setFechaVenta(new Date());
+		venta.setUsuario(usuario);
+		Venta ventaCreada = ventaService.crearVenta(venta);
+		
+		for (int i = 0; i < unidades; i++) {
+			LineaDC lineaDC = new LineaDC();
+			lineaDC.setProducto(producto);
+			lineaDC.setPrecioProducto(producto.getPrecio());
+			lineasDC.add(lineaDC);
+			producto.addLineaDC(lineaDC);
+			ventaCreada.addLineaDC(lineaDC);
 		}
 		
-		List<Producto> lProductos = productoService.listarProductos();
-		Usuario usuario = usuarioService.obtenerUsuario(idUsuario);
+		producto.setStock(producto.getStock()-unidades);
+		productoService.editarProducto(producto);
 		
-		mav.addObject("productos", lProductos);
-		mav.addObject("usuario", usuario);
-		mav.setViewName("productos_lista");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:/producto/list");
 		return mav;
 	}
 

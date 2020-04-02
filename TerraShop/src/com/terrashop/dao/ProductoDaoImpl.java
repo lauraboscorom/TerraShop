@@ -15,10 +15,10 @@ public class ProductoDaoImpl extends GenericDaoImpl<Producto> implements Product
 	@Override
 	public List<Producto> listarProductos() {
 		Query query = this.em.createQuery("FROM Producto");
-		List<Producto> lProducto = query.getResultList();
+		List<Producto> lProductos = query.getResultList();
 
-		if (lProducto != null) {
-			return lProducto;
+		if (lProductos != null) {
+			return lProductos;
 		}
 		return null;
 	}

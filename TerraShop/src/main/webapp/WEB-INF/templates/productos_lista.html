@@ -41,13 +41,13 @@
 						<tr class="table-light" th:if="${productos.empty}">
 							<td sec:authorize="hasAuthority('ROL_ADMIN')" colspan="5">No
 								existen productos en el sistema</td>
-							<td sec:authorize="hasAuthority('ROL_USUARIO')" colspan="4">No
+							<td sec:authorize="hasAuthority('ROL_USUARIO')" colspan="5">No
 								existen productos en el sistema</td>
 						</tr>
 						<tr class="table-light" th:each="producto : ${productos}">
 							<th scope="row"><span th:text="${producto.nombre}">
 									Nombre </span>
-							</td>
+							</th>
 							<td><span th:text="${producto.precio}"> Precio </span></td>
 							<td><span th:text="${producto.stock}"> Stock </span></td>
 							<td sec:authorize="hasAuthority('ROL_USUARIO')"><select
@@ -60,61 +60,69 @@
 									<option>5</option>
 							</select></td>
 							<td sec:authorize="hasAuthority('ROL_USUARIO')"><a
-								class="nav-link"><i class="fas fa-shopping-cart"></i></a></td>
-							<td sec:authorize="hasAuthority('ROL_ADMIN')"><div id="productoModalHolder">
-								<button type="button" class="btn btn-success"
-									th:onclick="'javascript:abrirProductoModal(\'' + ${producto.idProducto} + '\');'">
-									<i class="fas fa-edit"></i>
-								</button>
-								<!-- <a class="nav-link" data-toggle="modal"
+								class="nav-link" th:href="@{/producto/comprar/{idProducto}/{unidades}(idProducto=${producto.idProducto},unidades=3)}"><i class="fas fa-shopping-cart"></i></a></td>
+							<td sec:authorize="hasAuthority('ROL_ADMIN')"><div
+									id="productoModalHolder">
+									<button type="button" class="btn btn-success"
+										th:onclick="'javascript:abrirProductoModal(\'' + ${producto.idProducto} + '\');'">
+										<i class="fas fa-edit"></i>
+									</button>
+								</div> <!-- <a class="nav-link" data-toggle="modal"
 								th:onclick="'javascript:abrirProductoModal(\'' + ${producto.idProducto} + '\');'"
-								href=""><i class="fas fa-edit"></i></a>--></div>
+								href=""><i class="fas fa-edit"></i></a>-->
 								<div class="modal fade text-justify" id="productoModal"
 									tabindex="-1" role="dialog"
 									aria-labelledby="exampleModalCenterTitle" aria-hidden="true"
 									th:fragment="modalContents">
 									<div class="modal-dialog modal-dialog-centered" role="document">
 										<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title" id="exampleModalLongTitle">Editar
-													producto</h5>
-												<button type="button" class="close" data-dismiss="modal"
-													aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-											</div>
-											<div class="modal-body">
-												<div class="row">
-													<div class="form-group col-md-8">
-														<label for="nombre" class="col-form-label">Nombre</label>
-														<input type="text" class="form-control"
-															th:text="*{nombre}" id="nombre" name="nombre"
-															placeholder="nombre">
-													</div>
-													<div class="form-group col-md-8">
-														<label for="precio" class="col-form-label">Precio</label>
-														<input type="text" class="form-control"
-															th:text="*{precio}" id="precio" name="precio"
-															placeholder="precio">
-													</div>
-													<div class="form-group col-md-8">
-														<label for="stock" class="col-form-label">Stock</label> <input
-															type="text" class="form-control" th:text="*{stock}"
-															id="stock" name="stock" placeholder="stock">
-													</div>
-													<div class="form-group col-md-8"></div>
+											<form> <!-- th:action="@{/producto/editar/{id}(id=${producto.idProducto})}"
+												method="post" -->
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLongTitle">Editar
+														producto</h5>
+													<button type="button" class="close" data-dismiss="modal"
+														aria-label="Close">
+														<span aria-hidden="true">&times;</span>
+													</button>
 												</div>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-secondary"
-													data-dismiss="modal">Cancelar</button>
-												<input type="submit" class="btn btn-primary"
-													value="Guardar cambios">
-											</div>
+												<div class="modal-body">
+													<div class="row">
+
+														<input type="hidden" th:value="*{idProducto}"
+															id="idProducto" name="idProducto" />
+
+														<div class="form-group col-md-8">
+
+															<label for="nombre" class="col-form-label">Nombre</label>
+															<input type="text" class="form-control"
+																th:value="*{nombre}" id="nombre" name="nombre"
+																placeholder="nombre">
+														</div>
+														<div class="form-group col-md-8">
+															<label for="precio" class="col-form-label">Precio</label>
+															<input type="text" class="form-control"
+																th:value="*{precio}" id="precio" name="precio"
+																placeholder="precio">
+														</div>
+														<div class="form-group col-md-8">
+															<label for="stock" class="col-form-label">Stock</label> <input
+																type="text" class="form-control" th:value="*{stock}"
+																id="stock" name="stock" placeholder="stock">
+														</div>
+														<div class="form-group col-md-8"></div>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+														data-dismiss="modal">Cancelar</button>
+													<input type="submit" class="btn btn-primary"
+														value="Guardar cambios">
+												</div>
+											</form>
 										</div>
 									</div>
-								</div>
-							</td>
+								</div></td>
 							<td sec:authorize="hasAuthority('ROL_ADMIN')"><a
 								class="nav-link"
 								th:href="@{/producto/eliminar/{id}(id=${producto.idProducto})}"><i

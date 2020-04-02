@@ -70,16 +70,13 @@ public class UsuarioController {
 
 		long idUsuarioSession= (long) request.getSession().getAttribute("idUsuario");
 		if (idUsuarioSession != idUsuario) {
-			System.out.println(1);
 			return "redirect:/index";
 		}
 		
 		if (bindingResult.hasErrors()) {
-			System.out.println(2);
 			return "usuario_perfil_editar";
 		}
 
-		System.out.println(3);
 		Usuario usuarioBD = usuarioService.obtenerUsuario(idUsuario);
 		usuarioBD.setUsuario(usuarioFormulario.getUsuario());
 		usuarioBD.setNombre(usuarioFormulario.getNombre());

@@ -5,6 +5,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import java.util.HashSet;
@@ -62,27 +64,14 @@ public class Usuario implements Serializable {
 	@Column(name = "PASSWORD")
 	private String password;
 	
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Venta> ventas = new HashSet<>();
+	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "USUARIO_ROL", 
 	joinColumns = @JoinColumn(name = "ID_USUARIO"),
 	inverseJoinColumns = @JoinColumn(name = "ID_ROL"))
 	private Set<Rol> roles = new HashSet<>();
-	
-	public Usuario(String nombre, String apellidos, String email, String direccionEnvio, String banco,
-			int numeroTarjeta, String titular, int codigoSeguridad, String direccionFacturacion, String usuario,
-			String password) {
-		this.nombre = nombre;
-		this.apellidos = apellidos;
-		this.email = email;
-		this.direccionEnvio = direccionEnvio;
-		this.banco = banco;
-		this.numeroTarjeta = numeroTarjeta;
-		this.titular = titular;
-		this.codigoSeguridad = codigoSeguridad;
-		this.direccionFacturacion = direccionFacturacion;
-		this.usuario = usuario;
-		this.password = password;
-	}
 
 	public Usuario() {
 	}
@@ -183,6 +172,23 @@ public class Usuario implements Serializable {
 		this.password = password;
 	}
 
+	public Set<Venta> getVentas() {
+		return ventas;
+	}
+
+	public void setVentas(Set<Venta> ventas) {
+		this.ventas = ventas;
+	}
+	
+	public boolean addVenta(Venta venta) {
+		venta.setUsuario(this);
+		return getVentas().add(venta);
+	}
+
+	public void removeLineaDC(Venta venta) {
+		getVentas().remove(venta);
+	}
+
 	public Set<Rol> getRoles() {
 		return roles;
 	}
@@ -196,7 +202,7 @@ public class Usuario implements Serializable {
 		return "Usuario [idUsuario=" + idUsuario + ", nombre=" + nombre + ", apellidos=" + apellidos + ", email="
 				+ email + ", direccionEnvio=" + direccionEnvio + ", banco=" + banco + ", numeroTarjeta=" + numeroTarjeta
 				+ ", titular=" + titular + ", codigoSeguridad=" + codigoSeguridad + ", direccionFacturacion="
-				+ direccionFacturacion + ", usuario=" + usuario + ", password=" + password + ", roles=" + roles + "]";
+				+ direccionFacturacion + ", usuario=" + usuario + ", password=" + password + ", ventas=" + ventas
+				+ ", roles=" + roles + "]";
 	}
-
 }
