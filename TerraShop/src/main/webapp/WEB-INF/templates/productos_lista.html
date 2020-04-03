@@ -48,28 +48,22 @@
 							<form
 								th:action="@{/producto/comprar/{id}(id=${producto.idProducto})}"
 								method="post">
-							<th scope="row"><span th:text="${producto.nombre}">
-									Nombre </span></th>
-							<td><span th:text="${producto.precio}"> Precio </span></td>
-							<td><span th:text="${producto.stock}"> Stock </span></td>
-							<td sec:authorize="hasAuthority('ROL_USUARIO')"><select
-								class="form-control" id="seleccionUnidades" name="unidades">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
-							</select></td>
-							<td sec:authorize="hasAuthority('ROL_USUARIO')"
-								th:if="${producto.stock} == '0'"><button type="submit"
-									class="btn btn-link disabled">
-									<i class="fas fa-shopping-cart"></i>
-								</button></td>
-							<td sec:authorize="hasAuthority('ROL_USUARIO')"
-								th:if="${producto.stock} != '0'"><button type="submit"
-									class="btn btn-link">
-									<i class="fas fa-shopping-cart"></i>
-								</button></td>
+								<th scope="row"><span th:text="${producto.nombre}">
+										Nombre </span></th>
+								<td><span th:text="${producto.precio}"> Precio </span></td>
+								<td><span th:text="${producto.stock}"> Stock </span></td>
+								<td sec:authorize="hasAuthority('ROL_USUARIO')"><select
+									class="form-control" id="seleccionUnidades" name="unidades">
+										<option>1</option>
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+										<option>5</option>
+								</select></td>
+								<td sec:authorize="hasAuthority('ROL_USUARIO')"><button
+										type="submit" class="btn btn-link">
+										<i class="fas fa-shopping-cart"></i>
+									</button></td>
 							</form>
 							<td sec:authorize="hasAuthority('ROL_ADMIN')"><div
 									id="productoModalHolder">
@@ -84,9 +78,8 @@
 									th:fragment="modalContents">
 									<div class="modal-dialog modal-dialog-centered" role="document">
 										<div class="modal-content">
-											<form>
-												<!-- th:action="@{/producto/editar/{id}(id=${producto.idProducto})}"
-												method="post" -->
+											<form th:action="@{/producto/editar/{id}(id=*{idProducto})}"
+												method="post">
 												<div class="modal-header">
 													<h5 class="modal-title" id="exampleModalLongTitle">Editar
 														producto</h5>

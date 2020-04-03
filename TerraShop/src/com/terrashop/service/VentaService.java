@@ -13,5 +13,7 @@ public interface VentaService {
 	public Venta crearVenta(Venta venta);
 
 	public List<Venta> listarVentas(Long idUsuario);
+	
+	public void eliminarVenta(Long idVenta);
 
 }

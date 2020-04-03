@@ -33,4 +33,9 @@ public class VentaServiceImpl implements VentaService {
 		return ventaDao.listarVentas(idUsuario);
 	}
 
+	@Override
+	public void eliminarVenta(Long idVenta) {
+		ventaDao.delete(idVenta);
+	}
+
 }

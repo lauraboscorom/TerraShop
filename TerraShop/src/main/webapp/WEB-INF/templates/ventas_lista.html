@@ -57,15 +57,9 @@
 							<td><span
 								th:text="${venta.lineasDC[0].precioProducto}*${#sets.size(venta.lineasDC)}">
 									Precio </span></td>
-							<td sec:authorize="hasAuthority('ROL_USUARIO')"
-								th:if="@{/venta/comprobarFecha/{fechaVenta}(fechaVenta=${venta.fechaVenta})}"><a
+							<td sec:authorize="hasAuthority('ROL_USUARIO')"><a
 								class="nav-link"
-								th:href="@{/venta/devolver/{idVenta}(idVenta=${venta.idVenta})}"><i
-									class="fas fa-cart-arrow-down"></i></a></td>
-							<td sec:authorize="hasAuthority('ROL_USUARIO')"
-								th:if="!@{/venta/comprobarFecha/{fechaVenta}(fechaVenta=${venta.fechaVenta})}"><a
-								class="nav-link disabled"
-								th:href="@{/venta/devolver/{idVenta}(idVenta=${venta.idVenta})}"><i
+								th:href="@{/venta/devolver/{id}(id=${venta.idVenta})}"><i
 									class="fas fa-cart-arrow-down"></i></a></td>
 						</tr>
 					</tbody>
