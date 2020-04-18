@@ -48,7 +48,7 @@ public class ProductoController {
 		List<Producto> lProductos = productoService.listarProductos();
 		
 		mav.addObject("productos", lProductos);
-		mav.setViewName("productos_lista");
+		mav.setViewName("productos_lista2");
 		return mav;
 	}
 	
@@ -134,6 +134,18 @@ public class ProductoController {
 		productoService.editarProducto(producto);
 		
 		return "redirect:/producto/list";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/perfil/{id}")
+	public ModelAndView mostrarProducto(@PathVariable("id") long idProducto,HttpServletRequest request) {
+
+		ModelAndView mav = new ModelAndView();
+
+		Producto producto = productoService.obtenerProducto(idProducto);
+		
+		mav.addObject("producto", producto);
+		mav.setViewName("producto_perfil");
+		return mav;
 	}
 
 }
