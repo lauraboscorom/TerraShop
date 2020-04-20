@@ -44,6 +44,11 @@
 		<mysql.connector.version>8.0.19</mysql.connector.version>
 		<spring.security.version>5.3.0.RELEASE</spring.security.version>
 		<thymeleaf.spring-security.version>3.0.4.RELEASE</thymeleaf.spring-security.version>
+		<javax.api.anotacion.validation.version>3.0.0</javax.api.anotacion.validation.version>
+		<javax.api.validation.version>2.0.0.Final</javax.api.validation.version>
+		<javax.glassfish.validation.version>2.2.6</javax.glassfish.validation.version>
+     <jaction.xml.version>2.10.2</jaction.xml.version>
+
 	</properties>
 
 
@@ -118,7 +123,7 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.connector.version}</version>
 		</dependency>
-		
+
 		<!-- Spring Security -->
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
@@ -136,6 +141,53 @@
 			<version>${spring.security.version}</version>
 		</dependency>
 
+		<!-- Validacion de formularios -->
+
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>${javax.api.validation.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
+			<version>${javax.api.anotacion.validation.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>javax.el</artifactId>
+			<version>${javax.glassfish.validation.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>6.0.2.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator-annotation-processor</artifactId>
+			<version>6.0.2.Final</version>
+		</dependency>
+      <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jaction.xml.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jaction.xml.version}</version>
+        </dependency>
+        <dependency>
+    		<groupId>org.modelmapper</groupId>
+    		<artifactId>modelmapper</artifactId>
+    		<version>2.3.5</version>
+		</dependency>
+        
+        
+        
 	</dependencies>
 
 </project>

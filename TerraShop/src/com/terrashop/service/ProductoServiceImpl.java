@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.terrashop.dao.ProductoDao;
+import com.terrashop.dto.ProductoDto;
 import com.terrashop.entity.Producto;
 
 @Transactional
@@ -44,6 +45,11 @@ public class ProductoServiceImpl implements ProductoService {
 	@Override
 	public Producto obtenerProductoPorNombre(String nombre) {
 		return productoDao.obtenerProductoPorNombre(nombre);
+	}
+
+	@Override
+	public List<ProductoDto> listarProductoPorNombre(String nombreProducto) {
+		return productoDao.listarProductoPorNombre(nombreProducto);
 	}
 	
 }

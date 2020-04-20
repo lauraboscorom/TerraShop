@@ -1,18 +1,24 @@
 package com.terrashop.dao;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import javax.persistence.Query;
 
+import com.terrashop.dto.ProductoDto;
 import com.terrashop.entity.Producto;
-import com.terrashop.entity.Usuario;
 
 @Repository
 @Component("ProductoDao")
 public class ProductoDaoImpl extends GenericDaoImpl<Producto> implements ProductoDao {
 
+	@Autowired
+    private ModelMapper modelMapper;
+	
 	@Override
 	public List<Producto> listarProductos() {
 		Query query = this.em.createQuery("FROM Producto");
@@ -35,5 +41,27 @@ public class ProductoDaoImpl extends GenericDaoImpl<Producto> implements Product
 		}
 		return null;
 	}
+	
+	@Override
+	public List<ProductoDto> listarProductoPorNombre(String nombreProducto) {
+
+		String n = "%" + nombreProducto + "%";
+		Query query = this.em.createQuery("FROM Producto u where u.nombre like :n");
+		query.setParameter("n", n);
+		List<Producto> lProducto = query.getResultList();
+
+		if (lProducto == null) {
+			return null;
+		}
+		
+		return lProducto.stream()
+		          .map(this::convertToProductoDto)
+		          .collect(Collectors.toList());
+	}
+	
+	private ProductoDto convertToProductoDto(Producto producto) {
+		ProductoDto productoDto = modelMapper.map(producto, ProductoDto.class);
+        return productoDto;
+    }
 
 }

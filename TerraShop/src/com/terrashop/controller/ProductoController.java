@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.terrashop.dto.ProductoDto;
 import com.terrashop.entity.LineaDC;
+import com.terrashop.entity.Pregunta;
 import com.terrashop.entity.Producto;
 import com.terrashop.entity.Usuario;
 import com.terrashop.entity.Venta;
@@ -114,7 +117,6 @@ public class ProductoController {
 		int unidades = Integer.parseInt(request.getParameter("unidades"));
 
 		Venta venta = new Venta();
-		Set<LineaDC> lineasDC = new HashSet<>();
 		
 		venta.setDescuento(0);
 		venta.setFechaVenta(new Date());
@@ -125,7 +127,6 @@ public class ProductoController {
 			LineaDC lineaDC = new LineaDC();
 			lineaDC.setProducto(producto);
 			lineaDC.setPrecioProducto(producto.getPrecio());
-			lineasDC.add(lineaDC);
 			producto.addLineaDC(lineaDC);
 			ventaCreada.addLineaDC(lineaDC);
 		}
@@ -148,4 +149,36 @@ public class ProductoController {
 		return mav;
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/search/{nombreProducto}")
+	public @ResponseBody List<ProductoDto> buscarProductoPorNombre(
+			@PathVariable("nombreProducto") String nombreProducto) {
+	
+		List<ProductoDto> LProductos = productoService.listarProductoPorNombre(nombreProducto);
+	
+		return LProductos;
+	}
+	
+	@RequestMapping(value=("/enviarPregunta/{id}"), method=RequestMethod.POST)
+	public String enviarPregunta(Model model, @PathVariable("id") Long idProducto, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		Long idUsuario = (Long) session.getAttribute("idUsuario");
+		
+		Usuario usuario = usuarioService.obtenerUsuario(idUsuario);
+		Producto producto = productoService.obtenerProducto(idProducto);
+		String texto = request.getParameter("texto"); 
+
+		Pregunta pregunta = new Pregunta();
+		pregunta.setProducto(producto);
+		pregunta.setUsuario(usuario);
+		pregunta.setTexto(texto);
+		
+//		Pregunta preguntaCreada = preguntaService.crearPregunta(pregunta);
+		producto.addPregunta(pregunta);
+
+		productoService.editarProducto(producto);
+		
+		return "redirect:/producto/perfil/"+idProducto;
+	}
+	
 }

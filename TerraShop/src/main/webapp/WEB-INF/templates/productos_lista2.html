@@ -25,10 +25,17 @@
 		<div class="col-sm-12 my-auto">
 			<div class="w-75 mx-auto">
 				<h1 class="display-5 mb-3">Productos</h1>
+
 				<form class="form-inline mb-5">
-					<input class="form-control mr-sm-2" type="text"
-						placeholder="Busca un producto">
-					<button class="btn btn-secondary my-2 my-sm-0" type="submit">Buscar</button>
+					<input class="form-control mr-sm-2"
+						sec:authorize="hasAuthority('ROL_ADMIN')" type="text"
+						id="buscarproducto" name="buscarproducto"
+						placeholder="Busca un producto" autocomplete="off"
+						spellcheck="false" dir="auto"
+						style="position: relative; vertical-align: top; background-color: transparent;">
+
+					<div id="aviso"></div>
+					<script th:src="@{/js/search.js}"></script>
 				</form>
 
 				<div class="card-columns">

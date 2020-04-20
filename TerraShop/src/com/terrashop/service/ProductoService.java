@@ -2,6 +2,7 @@ package com.terrashop.service;
 
 import java.util.List;
 
+import com.terrashop.dto.ProductoDto;
 import com.terrashop.entity.Producto;
 
 public interface ProductoService {
@@ -17,5 +18,7 @@ public interface ProductoService {
 	public Producto crearProducto(Producto p);
 
 	public Producto obtenerProductoPorNombre(String parameter);
+
+	public List<ProductoDto> listarProductoPorNombre(String nombreProducto);
 
 }

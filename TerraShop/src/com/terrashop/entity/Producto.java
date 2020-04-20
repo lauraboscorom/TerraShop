@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -35,6 +36,13 @@ public class Producto implements Serializable {
 	
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<LineaDC> lineasDC = new HashSet<>();
+	
+	@Lob
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Imagen> imagenes;
+	
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Pregunta> preguntas = new HashSet<>();
 	
 	public Producto() {
 	}
@@ -86,6 +94,31 @@ public class Producto implements Serializable {
 
 	public void removeLineaDC(LineaDC lineaDC) {
 		getLineasDC().remove(lineaDC);
+	}
+
+	public Set<Imagen> getImagenes() {
+		return imagenes;
+	}
+
+	public void setImagenes(Set<Imagen> imagenes) {
+		this.imagenes = imagenes;
+	}
+
+	public Set<Pregunta> getPreguntas() {
+		return preguntas;
+	}
+
+	public void setPreguntas(Set<Pregunta> preguntas) {
+		this.preguntas = preguntas;
+	}
+	
+	public boolean addPregunta(Pregunta pregunta) {
+		pregunta.setProducto(this);
+		return getPreguntas().add(pregunta);
+	}
+
+	public void removePregunta(Pregunta pregunta) {
+		getPreguntas().remove(pregunta);
 	}
 
 }

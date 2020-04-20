@@ -10,3 +10,9 @@ INSERT INTO usuario_rol (ID_USUARIO, ID_ROL) VALUES (2, 1);
 INSERT INTO producto (NOMBRE, PRECIO, STOCK) VALUES ('Camiseta', 15.0, 5);
 INSERT INTO producto (NOMBRE, PRECIO, STOCK) VALUES ('Pantalon', 30.0, 2);
 INSERT INTO producto (NOMBRE, PRECIO, STOCK) VALUES ('Zapatillas', 40.0, 10);
+
+//INSERT INTO imagen (DATA, ID_PRODUCTO) VALUES (CAST('classpath:../webapp/WEB-INF/images/camiseta.jpg' AS VARBINARY(100)), 1);
+
+INSERT INTO pregunta (ID_USUARIO, ID_PRODUCTO, TEXTO) VALUES (2, 1, 'Es suave o rugosa?');
+INSERT INTO pregunta (ID_USUARIO, ID_PRODUCTO, TEXTO) VALUES (1, 1, '¿Qué colores tenéis disponibles?');
+INSERT INTO pregunta (ID_USUARIO, ID_PRODUCTO, TEXTO) VALUES (2, 1, '¿Es de algodón?');

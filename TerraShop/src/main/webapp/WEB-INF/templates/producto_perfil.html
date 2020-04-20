@@ -6,28 +6,120 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
 </head>
 <body>
 	<nav th:replace="fragments/header_loader"></nav>
 
-	<div class="container-sm my-5">
-		<div class="text-center my-5">
-			<i class="fas fa-user fa-5x mb-2" style="color: #646464"></i></br>
-			<h1>
-				<span th:text="${producto.nombre}"></span>
-			</h1>
-		</div>
-		<div class="card">
-			<div class="card-body">
-				<img src="../images/producto.jpg" class="card-img-top">
-
-				<p>
-					<strong><span th:text="${producto.precio}"></span></strong>
+	<div class="container my-5">
+		<div class="row">
+			<div class="col">
+				<div class="row">
+					<!-- 
+					<div class="col-2" th:each="imagen : ${producto.imagenes}">
+						<img src="data:image/jpg;base64,${imagenes.imagen.data}" class="w-100 p-1"></img>
+					</div>
+					 -->
+					<div class="col-2">
+						<img src="../../images/camiseta2.jpg" class="w-100 p-1"> <img
+							src="../../images/camiseta3.jpg" class="w-100 p-1"> <img
+							src="../../images/camiseta4.jpg" class="w-100 p-1">
+					</div>
+					<div class="col-10">
+						<!-- 
+							<img src="data:image/jpg;base64,${producto.imagenes.imagen.data}" class="w-100 p-1"></img>
+				 		-->
+						<img src="../../images/camiseta2.jpg" class="w-100 p-1">
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<p class="mb-1">
+					TERRASHOP <span th:text="${producto.nombre}"></span>
 				</p>
+				<p class="mb-2">
+					<div class="x-star-rating"><span class="fa fa-star checked"></span> <span
+						class="fa fa-star checked"></span> <span
+						class="fa fa-star checked"></span> <span class="fa fa-star"></span>
+					<span class="fa fa-star"></span></p>
+			</div>
+			<script src="../../js/StarRating.js"></script>
+			<a href="#preguntas">Preguntas</a>
+
+
+				<h2 class="pb-2">
+					<span th:text="${producto.precio}"></span> €
+				</h2>
+				<hr class="pb-3" />
+				<div class="jumbotron p-3">
+					<p>
+						<strong>Devoluciones</strong>
+					</p>
+					<p>1. Esperamos que nuestros clientes, siempre queden
+						satisfechos con nuestros productos, pero si deseas realizar una
+						devolución, puedes hacerlo en los siguientes 15 días a la fecha de
+						compra.</p>
+					<p>2. Debes comprobar que los artículos que devuelvas se
+						encuentren en perfecto estado, sin uso y en su embalaje original.</p>
+					<p>3. Se deben abonar los gastos de devolución.</p>
+				</div>
+				<form
+					th:action="@{/producto/comprar/{id}(id=${producto.idProducto})}"
+					method="post">
+					<td sec:authorize="hasAuthority('ROL_USUARIO')"><select
+						class="form-control" id="seleccionUnidades" name="unidades">
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+					</select></td>
+					<td sec:authorize="hasAuthority('ROL_USUARIO')">
+						<button type="submit" class="btn btn-primary w-100 mt-3">
+							<strong>COMPRAR</strong> <i class="fas fa-shopping-cart"></i>
+						</button>
+					</td>
+
+				</form>
 			</div>
 		</div>
 	</div>
 
+	<div class="container my-5 pb-5" id="preguntas">
+		<h2 class="pb-3">
+			<strong>Preguntas y respuestas</strong>
+		</h2>
+		<div class="jumbotron p-4 mb-3">
+			<h6>Valoración media</h6>
+			<p>*estrellas*</p>
+		</div>
+		<p class="mb-5">
+			<a href="#pregunta" class="card-link"><i class="fas fa-comment"></i>
+				Dejar una pregunta</a>
+		</p>
+		<div th:each="pregunta : ${producto.preguntas}">
+			<hr>
+			<a href="@{/perfil/{id}(id=${pregunta.idUsuario})" class="card-link"><strong><span
+					th:text="${pregunta.usuario.usuario}"></span></strong></a>
+			<p>
+				"<span th:text="${pregunta.texto}"></span>"
+			</p>
+			<p>
+				<a href="" class="card-link"><i class="fas fa-reply"></i>
+					Responder</a>
+			</p>
+		</div>
+		<hr>
+		<form
+			th:action="@{/producto/enviarPregunta/{id}(id=${producto.idProducto})}"
+			method="post">
+			<fieldset>
+				<div class="form-group">
+					<label for="exampleTextarea">Deja aquí tu pregunta</label>
+					<textarea class="form-control" id="pregunta" rows="3" name="texto"></textarea>
+				</div>
+				<button type="submit" class="btn btn-primary">Enviar</button>
+			</fieldset>
+		</form>
+	</div>
 </body>
 </html>
