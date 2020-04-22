@@ -59,7 +59,7 @@
 									Precio </span></td>
 							<td sec:authorize="hasAuthority('ROL_USUARIO')"><a
 								class="nav-link"
-								th:href="@{/venta/devolver/{id}(id=${venta.idVenta})}"><i
+								th:href="@{/venta/devolver/{idVenta}/{idProducto}(idVenta=${venta.idVenta},idProducto=${venta.lineasDC[0].producto.idProducto})}"><i
 									class="fas fa-cart-arrow-down"></i></a></td>
 						</tr>
 					</tbody>

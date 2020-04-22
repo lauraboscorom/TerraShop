@@ -1,6 +1,7 @@
 package com.terrashop.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.terrashop.dao.ProductoDao;
 import com.terrashop.dto.ProductoDto;
+import com.terrashop.entity.LineaDC;
 import com.terrashop.entity.Producto;
 
 @Transactional
@@ -50,6 +52,11 @@ public class ProductoServiceImpl implements ProductoService {
 	@Override
 	public List<ProductoDto> listarProductoPorNombre(String nombreProducto) {
 		return productoDao.listarProductoPorNombre(nombreProducto);
+	}
+
+	@Override
+	public void eliminarLineasDC(Producto producto, Set<LineaDC> lineasDC) {
+		productoDao.eliminarLineasDC(producto, lineasDC);
 	}
 	
 }

@@ -1,6 +1,8 @@
 package com.terrashop.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.Query;
 
 import com.terrashop.dto.ProductoDto;
+import com.terrashop.entity.LineaDC;
 import com.terrashop.entity.Producto;
 
 @Repository
@@ -63,5 +66,13 @@ public class ProductoDaoImpl extends GenericDaoImpl<Producto> implements Product
 		ProductoDto productoDto = modelMapper.map(producto, ProductoDto.class);
         return productoDto;
     }
+
+	@Override
+	public void eliminarLineasDC(Producto producto, Set<LineaDC> lineasDC) {
+		ArrayList<LineaDC> lineasDCList = new ArrayList<LineaDC>(lineasDC);
+		for (int i = 0; i < lineasDCList.size(); i++) {
+			producto.removeLineaDC(lineasDCList.get(i));
+		}
+	}
 
 }

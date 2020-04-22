@@ -173,7 +173,6 @@ public class ProductoController {
 		pregunta.setUsuario(usuario);
 		pregunta.setTexto(texto);
 		
-//		Pregunta preguntaCreada = preguntaService.crearPregunta(pregunta);
 		producto.addPregunta(pregunta);
 
 		productoService.editarProducto(producto);

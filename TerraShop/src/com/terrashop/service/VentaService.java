@@ -16,4 +16,6 @@ public interface VentaService {
 	
 	public void eliminarVenta(Long idVenta);
 
+	public Venta obtenerVenta(long idVenta);
+
 }
