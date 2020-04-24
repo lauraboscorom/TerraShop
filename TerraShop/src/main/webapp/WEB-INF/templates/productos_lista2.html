@@ -6,7 +6,13 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- AJAX -->
+<script th:src="@{/js/jquery-3.5.0.js}"></script>
+<script th:src="@{/js/jquery-ui.min.js}"></script>
+<script th:src="@{/js/typeahead.bundle.min.js}"></script>
 
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <!-- Bootstrap CSS -->
 <script src="https://kit.fontawesome.com/4c9cf097a7.js"
 	crossorigin="anonymous"></script>
@@ -26,17 +32,22 @@
 			<div class="w-75 mx-auto">
 				<h1 class="display-5 mb-3">Productos</h1>
 
-				<form class="form-inline mb-5">
+				<form>
 					<input class="form-control mr-sm-2"
 						sec:authorize="hasAuthority('ROL_ADMIN')" type="text"
 						id="buscarproducto" name="buscarproducto"
 						placeholder="Busca un producto" autocomplete="off"
 						spellcheck="false" dir="auto"
 						style="position: relative; vertical-align: top; background-color: transparent;">
-
-					<div id="aviso"></div>
-					<script th:src="@{/js/search.js}"></script>
 				</form>
+
+				<form class="form-inline mb-5">
+					<input class="form-control mr-sm-2" type="text"
+						placeholder="Busca un producto">
+					<button class="btn btn-secondary my-2 my-sm-0" type="submit">Buscar</button>
+				</form>
+				<div id="aviso"></div>
+				<script th:src="@{/js/search.js}"></script>
 
 				<div class="card-columns">
 					<div class="card" th:each="producto : ${productos}">
@@ -59,6 +70,114 @@
 						</div>
 					</div>
 
+					<div class="card">
+						<img src="../images/producto.jpg" class="card-img-top">
+
+						<div class="card-body">
+							<h5 class="card-title">Nombre</h5>
+							<strong>Precio</strong>
+						</div>
+
+						<div class="card-footer">
+							<small class="text-danger">¡Quedan Stock unidades! </small>
+						</div>
+					</div>
+					<div class="card">
+						<img src="../images/producto.jpg" class="card-img-top">
+
+						<div class="card-body">
+							<h5 class="card-title">Nombre</h5>
+							<strong>Precio</strong>
+						</div>
+
+						<div class="card-footer">
+							<small class="text-danger">¡Quedan Stock unidades! </small>
+						</div>
+					</div>
+					<div class="card">
+						<img src="../images/producto.jpg" class="card-img-top">
+
+						<div class="card-body">
+							<h5 class="card-title">Nombre</h5>
+							<strong>Precio</strong>
+						</div>
+
+						<div class="card-footer">
+							<small class="text-danger">¡Quedan Stock unidades! </small>
+						</div>
+					</div>
+					<div class="card">
+						<img src="../images/producto.jpg" class="card-img-top">
+
+						<div class="card-body">
+							<h5 class="card-title">Nombre</h5>
+							<strong>Precio</strong>
+						</div>
+
+						<div class="card-footer">
+							<small class="text-danger">¡Quedan Stock unidades! </small>
+						</div>
+					</div>
+					<div class="card">
+						<img src="../images/producto.jpg" class="card-img-top">
+
+						<div class="card-body">
+							<h5 class="card-title">Nombre</h5>
+							<strong>Precio</strong>
+						</div>
+
+						<div class="card-footer">
+							<small class="text-danger">¡Quedan Stock unidades! </small>
+						</div>
+					</div>
+					<div class="card">
+						<img src="../images/producto.jpg" class="card-img-top">
+
+						<div class="card-body">
+							<h5 class="card-title">Nombre</h5>
+							<strong>Precio</strong>
+						</div>
+
+						<div class="card-footer">
+							<small class="text-danger">¡Quedan Stock unidades! </small>
+						</div>
+					</div>
+					<div class="card">
+						<img src="../images/producto.jpg" class="card-img-top">
+
+						<div class="card-body">
+							<h5 class="card-title">Nombre</h5>
+							<strong>Precio</strong>
+						</div>
+
+						<div class="card-footer">
+							<small class="text-danger">¡Quedan Stock unidades! </small>
+						</div>
+					</div>
+					<div class="card">
+						<img src="../images/producto.jpg" class="card-img-top">
+
+						<div class="card-body">
+							<h5 class="card-title">Nombre</h5>
+							<strong>Precio</strong>
+						</div>
+
+						<div class="card-footer">
+							<small class="text-danger">¡Quedan Stock unidades! </small>
+						</div>
+					</div>
+					<div class="card">
+						<img src="../images/producto.jpg" class="card-img-top">
+
+						<div class="card-body">
+							<h5 class="card-title">Nombre</h5>
+							<strong>Precio</strong>
+						</div>
+
+						<div class="card-footer">
+							<small class="text-danger">¡Quedan Stock unidades! </small>
+						</div>
+					</div>
 					<div class="card">
 						<img src="../images/producto.jpg" class="card-img-top">
 
