@@ -22309,3 +22309,8 @@ legend {
 	.list-group-item h4, .list-group-item h5, .list-group-item h6 {
 	color: inherit
 }
+
+.grid {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+}

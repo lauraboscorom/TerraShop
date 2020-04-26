@@ -103,6 +103,15 @@ public class Producto implements Serializable {
 	public void setImagenes(Set<Imagen> imagenes) {
 		this.imagenes = imagenes;
 	}
+	
+	public boolean addImagen(Imagen imagen) {
+		imagen.setProducto(this);
+		return getImagenes().add(imagen);
+	}
+
+	public void removeImagen(Imagen imagen) {
+		getImagenes().remove(imagen);
+	}
 
 	public Set<Pregunta> getPreguntas() {
 		return preguntas;

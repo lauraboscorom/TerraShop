@@ -58,5 +58,10 @@ public class ProductoServiceImpl implements ProductoService {
 	public void eliminarLineasDC(Producto producto, Set<LineaDC> lineasDC) {
 		productoDao.eliminarLineasDC(producto, lineasDC);
 	}
+
+	@Override
+	public List<Producto> listarProductosPorNombre(String nombreProducto) {
+		return productoDao.listarProductosPorNombre(nombreProducto);
+	}
 	
 }

@@ -21,6 +21,8 @@ public interface ProductoService {
 
 	public Producto obtenerProductoPorNombre(String parameter);
 
+	public List<Producto> listarProductosPorNombre(String nombreProducto);
+	
 	public List<ProductoDto> listarProductoPorNombre(String nombreProducto);
 
 	public void eliminarLineasDC(Producto producto, Set<LineaDC> lineasDC);

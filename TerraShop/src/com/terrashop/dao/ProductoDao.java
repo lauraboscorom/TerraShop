@@ -17,4 +17,6 @@ public interface ProductoDao extends GenericDao<Producto> {
 
 	public void eliminarLineasDC(Producto producto, Set<LineaDC> lineasDC);
 
+	public List<Producto> listarProductosPorNombre(String nombreProducto);
+
 }

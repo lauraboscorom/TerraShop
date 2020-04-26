@@ -2,10 +2,12 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>TerraShop | Productos</title>
+
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 <!-- AJAX -->
 <script th:src="@{/js/jquery-3.5.0.js}"></script>
 <script th:src="@{/js/jquery-ui.min.js}"></script>
@@ -13,15 +15,15 @@
 
 <meta name="_csrf" th:content="${_csrf.token}" />
 <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
 <!-- Bootstrap CSS -->
 <script src="https://kit.fontawesome.com/4c9cf097a7.js"
 	crossorigin="anonymous"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
+
 <body>
 	<script type="text/javascript" src="../js/script.js"></script>
 
@@ -31,26 +33,72 @@
 		<div class="col-sm-12 my-auto">
 			<div class="w-75 mx-auto">
 				<h1 class="display-5 mb-3">Productos</h1>
-
-				<form>
-					<input class="form-control mr-sm-2"
-						sec:authorize="hasAuthority('ROL_ADMIN')" type="text"
-						id="buscarproducto" name="buscarproducto"
-						placeholder="Busca un producto" autocomplete="off"
-						spellcheck="false" dir="auto"
-						style="position: relative; vertical-align: top; background-color: transparent;">
-				</form>
-
-				<form class="form-inline mb-5">
-					<input class="form-control mr-sm-2" type="text"
-						placeholder="Busca un producto">
+				<form class="form-inline mb-3" th:action="@{/producto/buscarProducto}">
+					<input class="form-control mr-sm-2 typeahead tt-input" type="text"
+						id="nombre" name="nombre" autocomplete="off"
+						spellcheck="false" dir="auto" placeholder="Busca un producto">
 					<button class="btn btn-secondary my-2 my-sm-0" type="submit">Buscar</button>
 				</form>
+
+				<div sec:authorize="hasAuthority('ROL_ADMIN')" class="mb-3 text-center">
+					<button type="button" class="btn btn-info" data-toggle="modal"
+						data-target="#modalCrear">
+						Crear nuevo producto <i class="fas fa-plus"></i>
+					</button>
+
+					<div class="modal fade text-justify" id="modalCrear" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalCenterTitle"
+						aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered" role="document">
+							<div class="modal-content">
+								<form th:action="@{/producto/crear}" method="post">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLongTitle">Nuevo
+											producto</h5>
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="form-group col-md-8">
+												<label for="nombre" class="col-form-label">Nombre</label> <input
+													type="text" class="form-control" id="nombre" name="nombre"
+													placeholder="nombre">
+											</div>
+											<div class="form-group col-md-8">
+												<label for="precio" class="col-form-label">Precio</label> <input
+													type="text" class="form-control" id="precio" name="precio"
+													placeholder="precio">
+											</div>
+											<div class="form-group col-md-8">
+												<label for="stock" class="col-form-label">Stock</label> <input
+													type="text" class="form-control" id="stock" name="stock"
+													placeholder="stock">
+											</div>
+											<div class="form-group col-md-8"></div>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">Cancelar</button>
+										<input type="submit" class="btn btn-primary"
+											value="Crear producto">
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div th:if="${productos.empty}" class="text-center my-3">No
+					existen productos en el sistema</div>
 				<div id="aviso"></div>
 				<script th:src="@{/js/search.js}"></script>
 
-				<div class="card-columns">
-					<div class="card" th:each="producto : ${productos}">
+				<div class="grid">
+					<div class="card m-2" th:each="producto : ${productos}">
 						<img src="../images/producto.jpg" class="card-img-top">
 
 						<div class="card-body">
@@ -67,127 +115,6 @@
 							<small class="text-danger">¡Quedan <span
 								th:text="${producto.stock}"> Stock </span> unidades!
 							</small>
-						</div>
-					</div>
-
-					<div class="card">
-						<img src="../images/producto.jpg" class="card-img-top">
-
-						<div class="card-body">
-							<h5 class="card-title">Nombre</h5>
-							<strong>Precio</strong>
-						</div>
-
-						<div class="card-footer">
-							<small class="text-danger">¡Quedan Stock unidades! </small>
-						</div>
-					</div>
-					<div class="card">
-						<img src="../images/producto.jpg" class="card-img-top">
-
-						<div class="card-body">
-							<h5 class="card-title">Nombre</h5>
-							<strong>Precio</strong>
-						</div>
-
-						<div class="card-footer">
-							<small class="text-danger">¡Quedan Stock unidades! </small>
-						</div>
-					</div>
-					<div class="card">
-						<img src="../images/producto.jpg" class="card-img-top">
-
-						<div class="card-body">
-							<h5 class="card-title">Nombre</h5>
-							<strong>Precio</strong>
-						</div>
-
-						<div class="card-footer">
-							<small class="text-danger">¡Quedan Stock unidades! </small>
-						</div>
-					</div>
-					<div class="card">
-						<img src="../images/producto.jpg" class="card-img-top">
-
-						<div class="card-body">
-							<h5 class="card-title">Nombre</h5>
-							<strong>Precio</strong>
-						</div>
-
-						<div class="card-footer">
-							<small class="text-danger">¡Quedan Stock unidades! </small>
-						</div>
-					</div>
-					<div class="card">
-						<img src="../images/producto.jpg" class="card-img-top">
-
-						<div class="card-body">
-							<h5 class="card-title">Nombre</h5>
-							<strong>Precio</strong>
-						</div>
-
-						<div class="card-footer">
-							<small class="text-danger">¡Quedan Stock unidades! </small>
-						</div>
-					</div>
-					<div class="card">
-						<img src="../images/producto.jpg" class="card-img-top">
-
-						<div class="card-body">
-							<h5 class="card-title">Nombre</h5>
-							<strong>Precio</strong>
-						</div>
-
-						<div class="card-footer">
-							<small class="text-danger">¡Quedan Stock unidades! </small>
-						</div>
-					</div>
-					<div class="card">
-						<img src="../images/producto.jpg" class="card-img-top">
-
-						<div class="card-body">
-							<h5 class="card-title">Nombre</h5>
-							<strong>Precio</strong>
-						</div>
-
-						<div class="card-footer">
-							<small class="text-danger">¡Quedan Stock unidades! </small>
-						</div>
-					</div>
-					<div class="card">
-						<img src="../images/producto.jpg" class="card-img-top">
-
-						<div class="card-body">
-							<h5 class="card-title">Nombre</h5>
-							<strong>Precio</strong>
-						</div>
-
-						<div class="card-footer">
-							<small class="text-danger">¡Quedan Stock unidades! </small>
-						</div>
-					</div>
-					<div class="card">
-						<img src="../images/producto.jpg" class="card-img-top">
-
-						<div class="card-body">
-							<h5 class="card-title">Nombre</h5>
-							<strong>Precio</strong>
-						</div>
-
-						<div class="card-footer">
-							<small class="text-danger">¡Quedan Stock unidades! </small>
-						</div>
-					</div>
-					<div class="card">
-						<img src="../images/producto.jpg" class="card-img-top">
-
-						<div class="card-body">
-							<h5 class="card-title">Nombre</h5>
-							<strong>Precio</strong>
-						</div>
-
-						<div class="card-footer">
-							<small class="text-danger">¡Quedan Stock unidades! </small>
 						</div>
 					</div>
 				</div>

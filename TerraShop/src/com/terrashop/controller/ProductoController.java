@@ -18,13 +18,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.terrashop.dto.ProductoDto;
+import com.terrashop.entity.Imagen;
 import com.terrashop.entity.LineaDC;
 import com.terrashop.entity.Pregunta;
 import com.terrashop.entity.Producto;
+import com.terrashop.entity.Respuesta;
 import com.terrashop.entity.Usuario;
 import com.terrashop.entity.Venta;
+import com.terrashop.service.PreguntaService;
 import com.terrashop.service.ProductoService;
 import com.terrashop.service.UsuarioService;
 import com.terrashop.service.VentaService;
@@ -43,12 +48,27 @@ public class ProductoController {
 	@Autowired
 	VentaService ventaService;
 	
+	@Autowired
+	PreguntaService preguntaService;
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/list")
 	public ModelAndView listarProductos() {
 
 		ModelAndView mav = new ModelAndView();
 
 		List<Producto> lProductos = productoService.listarProductos();
+		
+		mav.addObject("productos", lProductos);
+		mav.setViewName("productos_lista2");
+		return mav;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarProducto")
+	public ModelAndView buscarProducto(HttpServletRequest request) {
+
+		ModelAndView mav = new ModelAndView();
+		String nombre = request.getParameter("nombre");
+		List<Producto> lProductos = productoService.listarProductosPorNombre(nombre);
 		
 		mav.addObject("productos", lProductos);
 		mav.setViewName("productos_lista2");
@@ -88,7 +108,7 @@ public class ProductoController {
 		model.addAttribute("nombre", producto.getNombre());
 		model.addAttribute("precio",producto.getPrecio());
 		model.addAttribute("stock",producto.getStock());
-		return "productos_lista :: modalContents";
+		return "producto_perfil :: modalContents";
 	}
 	
 	@PostMapping("/editar/{id}")
@@ -180,4 +200,44 @@ public class ProductoController {
 		return "redirect:/producto/perfil/"+idProducto;
 	}
 	
+	@RequestMapping(value=("/enviarRespuesta/{idProducto}/{idPregunta}"), method=RequestMethod.POST)
+	public String enviarRespuesta(Model model, @PathVariable("idProducto") Long idProducto, @PathVariable("idPregunta") Long idPregunta, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		Long idUsuario = (Long) session.getAttribute("idUsuario");
+		
+		Usuario usuario = usuarioService.obtenerUsuario(idUsuario);
+		Pregunta pregunta = preguntaService.obtenerPregunta(idPregunta);
+		String texto = request.getParameter("texto"); 
+
+		Respuesta respuesta = new Respuesta();
+		respuesta.setPregunta(pregunta);
+		respuesta.setUsuario(usuario);
+		respuesta.setTexto(texto);
+		
+		pregunta.addRespuesta(respuesta);
+
+		preguntaService.editarPregunta(pregunta);
+		
+		return "redirect:/producto/perfil/"+idProducto;
+	}
+	
+	@PostMapping("/fileupload/{id}")
+    public String fileUpload(@RequestParam("file") MultipartFile file, @PathVariable("id") Long idProducto) {
+        try {
+            byte[] data = file.getBytes();
+            Producto producto = productoService.obtenerProducto(idProducto);
+            
+            Imagen imagen = new Imagen();            
+            imagen.setData(data);
+            imagen.setProducto(producto);
+            
+            producto.addImagen(imagen);
+            productoService.editarProducto(producto);
+            
+            return "success";
+        } catch (Exception e) {
+            return "error";
+        }
+    }
 }

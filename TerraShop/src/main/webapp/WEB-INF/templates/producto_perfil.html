@@ -3,11 +3,21 @@
 <head>
 <title>TerraShop | Producto</title>
 <!-- Required meta tags -->
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<script src="https://kit.fontawesome.com/4c9cf097a7.js"
+	crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
+	<script type="text/javascript" src="../../js/script.js"></script>
 	<nav th:replace="fragments/header_loader"></nav>
 
 	<div class="container my-5">
@@ -30,6 +40,23 @@
 				 		-->
 						<img src="../../images/camiseta2.jpg" class="w-100 p-1">
 					</div>
+					<div class="mt-5 ml-3 w-100"
+						sec:authorize="hasAuthority('ROL_ADMIN')">
+						<label>Sube una imagen del producto</label>
+						<form
+							th:action="@{/producto/fileupload/{id}(id=${producto.idProducto})}"
+							method="POST" enctype="multipart/form-data">
+							<table>
+								<tr>
+									<td><input type="file" name="file" required></td>
+								</tr>
+								<tr>
+									<td><input type="submit"></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+
 				</div>
 			</div>
 			<div class="col">
@@ -37,19 +64,21 @@
 					TERRASHOP <span th:text="${producto.nombre}"></span>
 				</p>
 				<p class="mb-2">
-					<div class="x-star-rating"><span class="fa fa-star checked"></span> <span
+				<div class="x-star-rating">
+					<span class="fa fa-star checked"></span> <span
 						class="fa fa-star checked"></span> <span
 						class="fa fa-star checked"></span> <span class="fa fa-star"></span>
-					<span class="fa fa-star"></span></p>
-			</div>
-			<script src="../../js/StarRating.js"></script>
-			<a href="#preguntas">Preguntas</a>
+					<span class="fa fa-star"></span>
+					</p>
+				</div>
+				<script src="../../js/StarRating.js"></script>
+				<a href="#preguntas">Preguntas</a>
 
 
 				<h2 class="pb-2">
 					<span th:text="${producto.precio}"></span> €
 				</h2>
-				<hr class="pb-3" />
+				<hr class="pb-2" />
 				<div class="jumbotron p-3">
 					<p>
 						<strong>Devoluciones</strong>
@@ -64,22 +93,88 @@
 				</div>
 				<form
 					th:action="@{/producto/comprar/{id}(id=${producto.idProducto})}"
-					method="post">
-					<td sec:authorize="hasAuthority('ROL_USUARIO')"><select
-						class="form-control" id="seleccionUnidades" name="unidades">
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
-							<option>5</option>
-					</select></td>
-					<td sec:authorize="hasAuthority('ROL_USUARIO')">
-						<button type="submit" class="btn btn-primary w-100 mt-3">
-							<strong>COMPRAR</strong> <i class="fas fa-shopping-cart"></i>
-						</button>
-					</td>
+					method="post" sec:authorize="hasAuthority('ROL_USUARIO')">
+					<select class="form-control" id="seleccionUnidades" name="unidades">
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+					</select> <small class="text-danger mb-2">¡Solo quedan <span
+						th:text="${producto.stock}"> Stock </span> unidades!
+					</small>
+
+					<button type="submit" class="btn btn-primary w-100 mt-3">
+						<strong>COMPRAR</strong> <i class="fas fa-shopping-cart"></i>
+					</button>
 
 				</form>
+				<div id="productoModalHolder"
+					sec:authorize="hasAuthority('ROL_ADMIN')">
+					<button type="button" class="btn btn-info w-100 mt-3"
+						th:onclick="'javascript:abrirProductoModal(\'' + ${producto.idProducto} + '\');'">
+						EDITAR <i class="fas fa-edit"></i>
+					</button>
+				</div>
+				<div class="modal fade text-justify" id="productoModal"
+					tabindex="-1" role="dialog"
+					aria-labelledby="exampleModalCenterTitle" aria-hidden="true"
+					th:fragment="modalContents"
+					sec:authorize="hasAuthority('ROL_ADMIN')">
+					<div class="modal-dialog modal-dialog-centered" role="document">
+						<div class="modal-content">
+							<form th:action="@{/producto/editar/{id}(id=*{idProducto})}"
+								method="post">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLongTitle">Editar
+										producto</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<div class="row">
+
+										<input type="hidden" th:value="*{idProducto}" id="idProducto"
+											name="idProducto" />
+
+										<div class="form-group col-md-8">
+
+											<label for="nombre" class="col-form-label">Nombre</label> <input
+												type="text" class="form-control" th:value="*{nombre}"
+												id="nombre" name="nombre" placeholder="nombre">
+										</div>
+										<div class="form-group col-md-8">
+											<label for="precio" class="col-form-label">Precio</label> <input
+												type="text" class="form-control" th:value="*{precio}"
+												id="precio" name="precio" placeholder="precio">
+										</div>
+										<div class="form-group col-md-8">
+											<label for="stock" class="col-form-label">Stock</label> <input
+												type="text" class="form-control" th:value="*{stock}"
+												id="stock" name="stock" placeholder="stock">
+										</div>
+										<div class="form-group col-md-8"></div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-dismiss="modal">Cancelar</button>
+									<input type="submit" class="btn btn-primary"
+										value="Guardar cambios">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- aqui -->
+				<div sec:authorize="hasAuthority('ROL_ADMIN')">
+					<a class="btn btn-danger w-100 mt-3"
+						th:href="@{/producto/eliminar/{id}(id=${producto.idProducto})}">BORRAR
+						<i class="fas fa-trash-alt"></i>
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -93,8 +188,9 @@
 			<p>*estrellas*</p>
 		</div>
 		<p class="mb-5">
-			<a href="#pregunta" class="card-link"><i class="fas fa-comment"></i>
-				Dejar una pregunta</a>
+			<a href="#pregunta" class="card-link"
+				sec:authorize="hasAuthority('ROL_USUARIO')"><i
+				class="fas fa-comment"></i> Dejar una pregunta</a>
 		</p>
 		<div th:each="pregunta : ${producto.preguntas}">
 			<hr>
@@ -103,15 +199,37 @@
 			<p>
 				"<span th:text="${pregunta.texto}"></span>"
 			</p>
-			<p>
-				<a href="" class="card-link"><i class="fas fa-reply"></i>
-					Responder</a>
-			</p>
+			<div th:each="respuesta : ${pregunta.respuestas}" class="ml-5">
+
+				<a href="@{/perfil/{id}(id=${respuesta.idUsuario})"
+					class="card-link"><strong><span
+						th:text="${respuesta.usuario.usuario}"></span></strong></a>
+				<p>
+					"<span th:text="${respuesta.texto}"></span>"
+				</p>
+			</div>
+			<form
+				th:action="@{/producto/enviarRespuesta/{idProducto}/{idPregunta}(idProducto=${producto.idProducto},idPregunta=${pregunta.idPregunta})}"
+				method="post">
+				<fieldset>
+					<div class="form-group">
+						<div class="input-group mb-3">
+							<textarea type="text" class="form-control mr-3" rows="1"
+								name="texto" id="respuesta"></textarea>
+							<div class="input-group-append">
+								<button type="submit" class="btn btn-info">
+									Responder <i class="fas fa-reply"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</fieldset>
+			</form>
 		</div>
 		<hr>
 		<form
 			th:action="@{/producto/enviarPregunta/{id}(id=${producto.idProducto})}"
-			method="post">
+			method="post" sec:authorize="hasAuthority('ROL_USUARIO')">
 			<fieldset>
 				<div class="form-group">
 					<label for="exampleTextarea">Deja aquí tu pregunta</label>
