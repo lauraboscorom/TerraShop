@@ -50,7 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                     .logoutUrl("/logout")
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                     .logoutSuccessUrl("/login?logout")
-                    .permitAll();
+                    .permitAll()
+                .and()
+                .csrf()
+                	.ignoringAntMatchers("/producto/fileupload/**");
     }
 
     @Autowired

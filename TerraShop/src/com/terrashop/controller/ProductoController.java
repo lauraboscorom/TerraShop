@@ -9,9 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.terrashop.dto.ProductoDto;
@@ -29,6 +36,7 @@ import com.terrashop.entity.Producto;
 import com.terrashop.entity.Respuesta;
 import com.terrashop.entity.Usuario;
 import com.terrashop.entity.Venta;
+import com.terrashop.service.ImagenService;
 import com.terrashop.service.PreguntaService;
 import com.terrashop.service.ProductoService;
 import com.terrashop.service.UsuarioService;
@@ -50,6 +58,9 @@ public class ProductoController {
 	
 	@Autowired
 	PreguntaService preguntaService;
+	
+	@Autowired
+	ImagenService imagenService;
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/list")
 	public ModelAndView listarProductos() {
@@ -166,6 +177,7 @@ public class ProductoController {
 		
 		mav.addObject("producto", producto);
 		mav.setViewName("producto_perfil");
+		
 		return mav;
 	}
 
@@ -224,7 +236,7 @@ public class ProductoController {
 	
 	@PostMapping("/fileupload/{id}")
     public String fileUpload(@RequestParam("file") MultipartFile file, @PathVariable("id") Long idProducto) {
-        try {
+		try {
             byte[] data = file.getBytes();
             Producto producto = productoService.obtenerProducto(idProducto);
             
@@ -232,12 +244,30 @@ public class ProductoController {
             imagen.setData(data);
             imagen.setProducto(producto);
             
-            producto.addImagen(imagen);
-            productoService.editarProducto(producto);
+            imagenService.crearImagen(imagen);
             
             return "success";
         } catch (Exception e) {
             return "error";
         }
     }
+	
+	@RequestMapping(value = "/imagenes/{id}", method = RequestMethod.GET)
+    public @ResponseBody ResponseEntity getImageAsResponseEntity(@PathVariable("id") Long idImagen) {
+
+        try {
+            Imagen imagesObj = imagenService.getImagen(idImagen);
+            byte[] media = imagesObj.getData();
+            HttpHeaders headers = new HttpHeaders();
+            headers.setCacheControl(CacheControl.noCache().getHeaderValue());
+
+            ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(media, headers, HttpStatus.OK);
+            return responseEntity;
+
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+    }
+	
 }

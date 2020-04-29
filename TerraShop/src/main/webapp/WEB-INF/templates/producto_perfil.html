@@ -24,22 +24,17 @@
 		<div class="row">
 			<div class="col">
 				<div class="row">
-					<!-- 
-					<div class="col-2" th:each="imagen : ${producto.imagenes}">
-						<img src="data:image/jpg;base64,${imagenes.imagen.data}" class="w-100 p-1"></img>
-					</div>
-					 -->
 					<div class="col-2">
-						<img src="../../images/camiseta2.jpg" class="w-100 p-1"> <img
-							src="../../images/camiseta3.jpg" class="w-100 p-1"> <img
-							src="../../images/camiseta4.jpg" class="w-100 p-1">
+						<img th:src="@{/producto/imagenes/1}" class="w-100 p-1"></img>
 					</div>
 					<div class="col-10">
-						<!-- 
-							<img src="data:image/jpg;base64,${producto.imagenes.imagen.data}" class="w-100 p-1"></img>
-				 		-->
-						<img src="../../images/camiseta2.jpg" class="w-100 p-1">
+						<img th:src="@{/producto/imagenes/2}" class="w-100 p-1"></img>
+						<img th:src="@{/producto/imagenes/3}" class="w-100 p-1"></img>
+						<img th:src="@{/producto/imagenes/4}" class="w-100 p-1"></img>
 					</div>
+					<!-- 
+					<div class="col-2" th:each="imagen : ${producto.imagenes}">
+					-->
 					<div class="mt-5 ml-3 w-100"
 						sec:authorize="hasAuthority('ROL_ADMIN')">
 						<label>Sube una imagen del producto</label>

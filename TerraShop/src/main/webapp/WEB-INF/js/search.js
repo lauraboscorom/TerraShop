@@ -30,7 +30,7 @@ function mostrarProducto (productoDto){
 	$.ajax({
       url: "http://localhost:8080/TerraShop/producto/mostrarProducto/"+productoDto.idProducto,
       contentType: "application/json; charset=utf-8",
-      data: JSON.stringify(profesorDto),
+      data: JSON.stringify(productoDto),
       type: "POST"
   });
 	

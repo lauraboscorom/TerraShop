@@ -7,12 +7,19 @@ INSERT INTO usuario (APELLIDOS, BANCO, CODIGO_SEGURIDAD, PASSWORD, DIRECCION_ENV
 INSERT INTO usuario_rol (ID_USUARIO, ID_ROL) VALUES (1, 2);
 INSERT INTO usuario_rol (ID_USUARIO, ID_ROL) VALUES (2, 1);
 
-INSERT INTO producto (NOMBRE, PRECIO, STOCK) VALUES ('Camiseta', 15.0, 5);
-INSERT INTO producto (NOMBRE, PRECIO, STOCK) VALUES ('Pantalon', 30.0, 2);
-INSERT INTO producto (NOMBRE, PRECIO, STOCK) VALUES ('Zapatillas', 40.0, 10);
+INSERT INTO categoria (NOMBRE) VALUES ('Camisetas');
+INSERT INTO categoria (NOMBRE) VALUES ('Pantalones');
+INSERT INTO categoria (NOMBRE) VALUES ('Zapatillas');
 
-//INSERT INTO imagen (DATA, ID_PRODUCTO) VALUES (CAST('classpath:../webapp/WEB-INF/images/camiseta.jpg' AS VARBINARY(100)), 1);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Top', 15.0, 5, 1);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Shorts', 30.0, 2, 2);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Chanclas', 40.0, 10, 3);
 
 INSERT INTO pregunta (ID_USUARIO, ID_PRODUCTO, TEXTO) VALUES (2, 1, 'Es suave o rugosa?');
 INSERT INTO pregunta (ID_USUARIO, ID_PRODUCTO, TEXTO) VALUES (1, 1, '¿Qué colores tenéis disponibles?');
 INSERT INTO pregunta (ID_USUARIO, ID_PRODUCTO, TEXTO) VALUES (2, 1, '¿Es de algodón?');
+
+INSERT INTO imagen (DATA, ID_PRODUCTO) VALUES (LOAD_FILE('/src/main/resources/top1.JPG'), 1);
+INSERT INTO imagen (DATA, ID_PRODUCTO) VALUES (LOAD_FILE('../webapp/WEB-INF/images/top2.JPG'), 1);
+INSERT INTO imagen (DATA, ID_PRODUCTO) VALUES (LOAD_FILE('../webapp/WEB-INF/images/top3.JPG'), 1);
+INSERT INTO imagen (DATA, ID_PRODUCTO) VALUES (LOAD_FILE('../webapp/WEB-INF/images/top4.JPG'), 1);

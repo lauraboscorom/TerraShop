@@ -1,8 +1,11 @@
 package com.terrashop.config;
 
+
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletRegistration;
+
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.terrashop.config.PersistenceJPAHibernateConfig;
 import com.terrashop.config.WebMvcConfig;
 
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {

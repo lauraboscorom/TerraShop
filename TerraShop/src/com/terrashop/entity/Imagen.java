@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -21,6 +22,7 @@ public class Imagen implements Serializable {
 	@Column(name = "ID_IMAGEN")
 	private Long idImagen;
 	
+	@Lob
 	@Column(name = "DATA")
 	private byte[] data;
 	
