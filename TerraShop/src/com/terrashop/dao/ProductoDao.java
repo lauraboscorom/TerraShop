@@ -9,7 +9,7 @@ import com.terrashop.entity.Producto;
 
 public interface ProductoDao extends GenericDao<Producto> {
 
-	public List<Producto> listarProductos();
+	public List<Producto> listarProductos2();
 
 	public Producto obtenerProductoPorNombre(String nombre);
 
@@ -18,5 +18,9 @@ public interface ProductoDao extends GenericDao<Producto> {
 	public void eliminarLineasDC(Producto producto, Set<LineaDC> lineasDC);
 
 	public List<Producto> listarProductosPorNombre(String nombreProducto);
+	
+	public ProductoDto recogerProducto(Long idProducto);
+
+	public List<ProductoDto> listarProductos();
 
 }

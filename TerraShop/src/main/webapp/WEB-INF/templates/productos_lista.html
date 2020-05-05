@@ -2,20 +2,28 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>TerraShop | Productos</title>
+
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- AJAX -->
+<script th:src="@{/js/jquery-3.5.0.js}"></script>
+<script th:src="@{/js/jquery-ui.min.js}"></script>
+<script th:src="@{/js/typeahead.bundle.min.js}"></script>
+
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 
 <!-- Bootstrap CSS -->
 <script src="https://kit.fontawesome.com/4c9cf097a7.js"
 	crossorigin="anonymous"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
+
 <body>
 	<script type="text/javascript" src="../js/script.js"></script>
 
@@ -23,117 +31,18 @@
 
 	<div class="row h-100 my-5">
 		<div class="col-sm-12 my-auto">
-			<div class="w-75 mx-auto text-center">
-				<table class="table table-hover">
-					<thead>
-						<tr class="table-info">
-							<th scope="col">Nombre de producto</th>
-							<th scope="col">Precio</th>
-							<th scope="col">Stock</th>
-							<th scope="col" sec:authorize="hasAuthority('ROL_USUARIO')">Unidades
-								deseadas</th>
-							<th scope="col" sec:authorize="hasAuthority('ROL_USUARIO')">Comprar</th>
-							<th scope="col" sec:authorize="hasAuthority('ROL_ADMIN')">Editar</th>
-							<th scope="col" sec:authorize="hasAuthority('ROL_ADMIN')">Eliminar</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr class="table-light" th:if="${productos.empty}">
-							<td sec:authorize="hasAuthority('ROL_ADMIN')" colspan="5">No
-								existen productos en el sistema</td>
-							<td sec:authorize="hasAuthority('ROL_USUARIO')" colspan="5">No
-								existen productos en el sistema</td>
-						</tr>
-						<tr class="table-light" th:each="producto : ${productos}">
-							<form
-								th:action="@{/producto/comprar/{id}(id=${producto.idProducto})}"
-								method="post">
-								<th scope="row"><span th:text="${producto.nombre}">
-										Nombre </span></th>
-								<td><span th:text="${producto.precio}"> Precio </span></td>
-								<td><span th:text="${producto.stock}"> Stock </span></td>
-								<td sec:authorize="hasAuthority('ROL_USUARIO')"><select
-									class="form-control" id="seleccionUnidades" name="unidades">
-										<option>1</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
-										<option>5</option>
-								</select></td>
-								<td sec:authorize="hasAuthority('ROL_USUARIO')"><button
-										type="submit" class="btn btn-link">
-										<i class="fas fa-shopping-cart"></i>
-									</button></td>
-							</form>
-							<td sec:authorize="hasAuthority('ROL_ADMIN')"><div
-									id="productoModalHolder">
-									<button type="button" class="btn btn-success"
-										th:onclick="'javascript:abrirProductoModal(\'' + ${producto.idProducto} + '\');'">
-										<i class="fas fa-edit"></i>
-									</button>
-								</div>
-								<div class="modal fade text-justify" id="productoModal"
-									tabindex="-1" role="dialog"
-									aria-labelledby="exampleModalCenterTitle" aria-hidden="true"
-									th:fragment="modalContents">
-									<div class="modal-dialog modal-dialog-centered" role="document">
-										<div class="modal-content">
-											<form th:action="@{/producto/editar/{id}(id=*{idProducto})}"
-												method="post">
-												<div class="modal-header">
-													<h5 class="modal-title" id="exampleModalLongTitle">Editar
-														producto</h5>
-													<button type="button" class="close" data-dismiss="modal"
-														aria-label="Close">
-														<span aria-hidden="true">&times;</span>
-													</button>
-												</div>
-												<div class="modal-body">
-													<div class="row">
+			<div class="w-75 mx-auto">
+				<h1 class="display-5 mb-3">Productos</h1>
+				<form class="form-inline mb-3"
+					th:action="@{/producto/buscarProducto}">
+					<input class="form-control mr-sm-2 typeahead tt-input" type="text"
+						id="nombre" name="nombre" autocomplete="off" spellcheck="false"
+						dir="auto" placeholder="Busca un producto">
+					<button class="btn btn-secondary my-2 my-sm-0" type="submit">Buscar</button>
+				</form>
 
-														<input type="hidden" th:value="*{idProducto}"
-															id="idProducto" name="idProducto" />
-
-														<div class="form-group col-md-8">
-
-															<label for="nombre" class="col-form-label">Nombre</label>
-															<input type="text" class="form-control"
-																th:value="*{nombre}" id="nombre" name="nombre"
-																placeholder="nombre">
-														</div>
-														<div class="form-group col-md-8">
-															<label for="precio" class="col-form-label">Precio</label>
-															<input type="text" class="form-control"
-																th:value="*{precio}" id="precio" name="precio"
-																placeholder="precio">
-														</div>
-														<div class="form-group col-md-8">
-															<label for="stock" class="col-form-label">Stock</label> <input
-																type="text" class="form-control" th:value="*{stock}"
-																id="stock" name="stock" placeholder="stock">
-														</div>
-														<div class="form-group col-md-8"></div>
-													</div>
-												</div>
-												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary"
-														data-dismiss="modal">Cancelar</button>
-													<input type="submit" class="btn btn-primary"
-														value="Guardar cambios">
-												</div>
-											</form>
-										</div>
-									</div>
-								</div></td>
-							<td sec:authorize="hasAuthority('ROL_ADMIN')"><a
-								class="nav-link"
-								th:href="@{/producto/eliminar/{id}(id=${producto.idProducto})}"><i
-									class="fas fa-trash-alt"></i></a></td>
-						</tr>
-					</tbody>
-				</table>
-				<div sec:authorize="hasAuthority('ROL_ADMIN')">
-					</a>
+				<div sec:authorize="hasAuthority('ROL_ADMIN')"
+					class="mb-3 text-center">
 					<button type="button" class="btn btn-info" data-toggle="modal"
 						data-target="#modalCrear">
 						Crear nuevo producto <i class="fas fa-plus"></i>
@@ -158,19 +67,28 @@
 											<div class="form-group col-md-8">
 												<label for="nombre" class="col-form-label">Nombre</label> <input
 													type="text" class="form-control" id="nombre" name="nombre"
-													placeholder="nombre">
+													placeholder="Escribe su nombre">
 											</div>
 											<div class="form-group col-md-8">
 												<label for="precio" class="col-form-label">Precio</label> <input
 													type="text" class="form-control" id="precio" name="precio"
-													placeholder="precio">
+													placeholder="Indica el precio">
 											</div>
 											<div class="form-group col-md-8">
 												<label for="stock" class="col-form-label">Stock</label> <input
 													type="text" class="form-control" id="stock" name="stock"
-													placeholder="stock">
+													placeholder="Escribe el stock">
 											</div>
-											<div class="form-group col-md-8"></div>
+											<div class="form-group col-md-8">
+												<label for="stock" class="col-form-label">Categoría</label> <select
+													class="custom-select">
+													<option selected="">Escoge una categoría</option>
+													<option value="1">One</option>
+													<option value="2">Two</option>
+													<option value="3">Three</option>
+												</select>
+												
+											</div>
 										</div>
 									</div>
 									<div class="modal-footer">
@@ -184,6 +102,34 @@
 						</div>
 					</div>
 				</div>
+
+				<div th:if="${productos.empty}" class="text-center my-3">No
+					existen productos en el sistema</div>
+				<div id="aviso"></div>
+				<script th:src="@{/js/search.js}"></script>
+
+				<div class="grid">
+					<div class="card m-2" th:each="producto : ${productos}">
+						<img th:if="${producto.idImagenes.empty}" src="../images/producto.jpg" class="card-img-top">
+						<img th:unless="${producto.idImagenes.empty}" th:src="@{/producto/imagen/{id}(id=${producto.idImagenes[0]})}" class="card-img-top">
+						<div class="card-body">
+							<h5 class="card-title">
+								<a th:href="@{/producto/perfil/{id}(id=${producto.idProducto})}"
+									class="card-link"><span th:text="${producto.nombre}">
+										Nombre </span></a>
+							</h5>
+							<strong><span th:text="${producto.precio}">
+									Precio </span>€</strong>
+						</div>
+
+						<div class="card-footer">
+							<small class="text-danger">¡Quedan <span
+								th:text="${producto.stock}"> Stock </span> unidades!
+							</small>
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>

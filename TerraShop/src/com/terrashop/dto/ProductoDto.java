@@ -1,5 +1,13 @@
 package com.terrashop.dto;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.terrashop.entity.Imagen;
+import com.terrashop.entity.Pregunta;
+
 public class ProductoDto {
 	
 	private Long idProducto;
@@ -9,6 +17,10 @@ public class ProductoDto {
 	private float precio;
 	
 	private int stock;
+	
+	private List<Long> idImagenes = new ArrayList<Long>();
+	
+	private Set<Pregunta> preguntas = new HashSet<>();
 	
 	public Long getIdProducto() {
 		return idProducto;
@@ -40,6 +52,22 @@ public class ProductoDto {
 	
 	public void setStock(int stock) {
 		this.stock = stock;
+	}
+
+	public List<Long> getIdImagenes() {
+		return idImagenes;
+	}
+
+	public void setIdImagenes(List<Long> idImagenes) {
+		this.idImagenes = idImagenes;
+	}
+
+	public Set<Pregunta> getPreguntas() {
+		return preguntas;
+	}
+
+	public void setPreguntas(Set<Pregunta> preguntas) {
+		this.preguntas = preguntas;
 	}
 
 }

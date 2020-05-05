@@ -19,22 +19,24 @@
 <body>
 	<script type="text/javascript" src="../../js/script.js"></script>
 	<nav th:replace="fragments/header_loader"></nav>
-
+ 
 	<div class="container my-5">
 		<div class="row">
 			<div class="col">
 				<div class="row">
+					<div th:if="${producto.idImagenes.empty}" class="text-center my-3">
+						<img src="../../images/producto.jpg" class="w-100 p-1"></img>
+					</div>
 					<div class="col-2">
-						<img th:src="@{/producto/imagenes/1}" class="w-100 p-1"></img>
+						<div th:each="idImagen : ${producto.idImagenes}">
+							<img th:src="@{/producto/imagen/{id}(id=${idImagen})}"
+								class="w-100 p-1"></img>
+						</div>
 					</div>
-					<div class="col-10">
-						<img th:src="@{/producto/imagenes/2}" class="w-100 p-1"></img>
-						<img th:src="@{/producto/imagenes/3}" class="w-100 p-1"></img>
-						<img th:src="@{/producto/imagenes/4}" class="w-100 p-1"></img>
+					<div th:unless="${producto.idImagenes.empty}" class="col-10">
+						<img th:src="@{/producto/imagen/{id}(id=${producto.idImagenes[0]})}" class="w-100 p-1"></img>
 					</div>
-					<!-- 
-					<div class="col-2" th:each="imagen : ${producto.imagenes}">
-					-->
+					
 					<div class="mt-5 ml-3 w-100"
 						sec:authorize="hasAuthority('ROL_ADMIN')">
 						<label>Sube una imagen del producto</label>

@@ -9,7 +9,8 @@ import com.terrashop.entity.Producto;
 
 public interface ProductoService {
 
-	public List<Producto> listarProductos();
+	public List<Producto> listarProductos2();
+	public List<ProductoDto> listarProductos();
 
 	public Producto obtenerProducto(Long idProducto);
 
@@ -26,5 +27,7 @@ public interface ProductoService {
 	public List<ProductoDto> listarProductoPorNombre(String nombreProducto);
 
 	public void eliminarLineasDC(Producto producto, Set<LineaDC> lineasDC);
+	
+	public ProductoDto recogerProducto(Long idProducto);
 
 }

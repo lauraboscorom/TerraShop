@@ -62,15 +62,15 @@ public class ProductoController {
 	@Autowired
 	ImagenService imagenService;
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/list")
-	public ModelAndView listarProductos() {
+	@RequestMapping(method = RequestMethod.GET, value = "/list2")
+	public ModelAndView listarProductos2() {
 
 		ModelAndView mav = new ModelAndView();
 
-		List<Producto> lProductos = productoService.listarProductos();
-		
+		List<Producto> lProductos = productoService.listarProductos2();
+
 		mav.addObject("productos", lProductos);
-		mav.setViewName("productos_lista2");
+		mav.setViewName("productos_lista");
 		return mav;
 	}
 	
@@ -173,9 +173,10 @@ public class ProductoController {
 
 		ModelAndView mav = new ModelAndView();
 
-		Producto producto = productoService.obtenerProducto(idProducto);
+		ProductoDto producto = productoService.recogerProducto(idProducto);
 		
 		mav.addObject("producto", producto);
+		
 		mav.setViewName("producto_perfil");
 		
 		return mav;
@@ -188,6 +189,18 @@ public class ProductoController {
 		List<ProductoDto> LProductos = productoService.listarProductoPorNombre(nombreProducto);
 	
 		return LProductos;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/list")
+	public ModelAndView listarProductos() {
+
+		ModelAndView mav = new ModelAndView();
+		
+		List<ProductoDto> lProductos = productoService.listarProductos();
+	
+		mav.addObject("productos", lProductos);
+		mav.setViewName("productos_lista");
+		return mav;
 	}
 	
 	@RequestMapping(value=("/enviarPregunta/{id}"), method=RequestMethod.POST)
@@ -246,13 +259,13 @@ public class ProductoController {
             
             imagenService.crearImagen(imagen);
             
-            return "success";
+            return "redirect:/producto/perfil/"+idProducto;
         } catch (Exception e) {
             return "error";
         }
     }
 	
-	@RequestMapping(value = "/imagenes/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/imagen/{id}", method = RequestMethod.GET)
     public @ResponseBody ResponseEntity getImageAsResponseEntity(@PathVariable("id") Long idImagen) {
 
         try {

@@ -40,8 +40,7 @@ public class Producto implements Serializable {
 	private Set<LineaDC> lineasDC = new HashSet<>();
 	
 	@Lob
-	@OneToMany(fetch = FetchType.LAZY,mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Imagen> imagenes;
+	private Set<Imagen> imagenes = new HashSet<>();
 	
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Pregunta> preguntas = new HashSet<>();
@@ -102,6 +101,7 @@ public class Producto implements Serializable {
 		getLineasDC().remove(lineaDC);
 	}
 
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<Imagen> getImagenes() {
 		return imagenes;
 	}

@@ -20,8 +20,8 @@ public class ProductoServiceImpl implements ProductoService {
 	ProductoDao productoDao;
 	
 	@Override
-	public List<Producto> listarProductos() {
-		return productoDao.listarProductos();
+	public List<Producto> listarProductos2() {
+		return productoDao.listarProductos2();
 	}
 
 	@Override
@@ -62,6 +62,16 @@ public class ProductoServiceImpl implements ProductoService {
 	@Override
 	public List<Producto> listarProductosPorNombre(String nombreProducto) {
 		return productoDao.listarProductosPorNombre(nombreProducto);
+	}
+
+	@Override
+	public ProductoDto recogerProducto(Long idProducto) {
+		return productoDao.recogerProducto(idProducto);
+	}
+
+	@Override
+	public List<ProductoDto> listarProductos() {
+		return productoDao.listarProductos();
 	}
 	
 }
