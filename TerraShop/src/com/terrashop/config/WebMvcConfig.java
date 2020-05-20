@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -22,6 +24,15 @@ import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.springframework.context.MessageSource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 @Configuration
 @EnableWebMvc
@@ -100,36 +111,88 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	
 	@Bean
 	public ModelMapper modelMapper() {
-	    return new ModelMapper();
+		return new ModelMapper();
 	}
+
 	
 	@Bean
-    public MultipartResolver multipartResolver(){
-        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
-        commonsMultipartResolver.setDefaultEncoding("utf-8");
-        commonsMultipartResolver.setMaxUploadSize(20000000);
-        commonsMultipartResolver.setResolveLazily(false);
-        return commonsMultipartResolver;
-    }
-	
-	@Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(byteArrayHttpMessageConverter());
+    public Jackson2ObjectMapperFactoryBean jsonMapper() {
+        Jackson2ObjectMapperFactoryBean objectMapper = new Jackson2ObjectMapperFactoryBean();
+        objectMapper.setSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        return objectMapper;
     }
 
     @Bean
-    public ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {
-        ByteArrayHttpMessageConverter arrayHttpMessageConverter = new ByteArrayHttpMessageConverter();
-        arrayHttpMessageConverter.setSupportedMediaTypes(getSupportedMediaTypes());
-        return arrayHttpMessageConverter;
+    public ObjectMapper objectMapper(){
+        return jsonMapper().getObject();
     }
 
-    private List<MediaType> getSupportedMediaTypes() {
-        List<MediaType> list = new ArrayList<MediaType>();
-        list.add(MediaType.IMAGE_JPEG);
-        list.add(MediaType.IMAGE_PNG);
-        list.add(MediaType.IMAGE_GIF);
-        list.add(MediaType.APPLICATION_OCTET_STREAM);
-        return list;
+    @Bean
+    public MappingJackson2HttpMessageConverter mappingJackson2Converter() {
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.setObjectMapper(objectMapper());
+        return converter;
+    }
+	
+	
+	@Bean
+	public MultipartResolver multipartResolver() {
+		CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+		commonsMultipartResolver.setDefaultEncoding("utf-8");
+		commonsMultipartResolver.setMaxUploadSize(20000000);
+		commonsMultipartResolver.setResolveLazily(false);
+		return commonsMultipartResolver;
+	}
+
+	@Override
+	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+		converters.add(byteArrayHttpMessageConverter());
+        converters.add(mappingJackson2Converter());
+
+	}
+
+	@Bean
+	public ByteArrayHttpMessageConverter byteArrayHttpMessageConverter() {
+		ByteArrayHttpMessageConverter arrayHttpMessageConverter = new ByteArrayHttpMessageConverter();
+		arrayHttpMessageConverter.setSupportedMediaTypes(getSupportedMediaTypes());
+		return arrayHttpMessageConverter;
+	}
+
+	private List<MediaType> getSupportedMediaTypes() {
+		List<MediaType> list = new ArrayList<MediaType>();
+		list.add(MediaType.IMAGE_JPEG);
+		list.add(MediaType.IMAGE_PNG);
+		list.add(MediaType.IMAGE_GIF);
+		list.add(MediaType.APPLICATION_OCTET_STREAM);
+		return list;
+	}
+    
+    @Bean(name = "localeResolver")
+    public LocaleResolver getLocaleResolver()  {
+        CookieLocaleResolver resolver= new CookieLocaleResolver();
+        resolver.setCookieDomain("myAppLocaleCookie");
+        // 60 minutes 
+        resolver.setCookieMaxAge(60*60); 
+        return resolver;
+    } 
+     
+    @Bean(name = "messageSource")
+    public MessageSource getMessageResource()  {
+        ReloadableResourceBundleMessageSource messageResource= new ReloadableResourceBundleMessageSource();
+         
+        // Read i18n/messages_xxx.properties file.
+        // For example: i18n/messages_en.properties
+        messageResource.setBasename("classpath:i18n/messages");
+        messageResource.setDefaultEncoding("UTF-8");
+        return messageResource;
+    }
+    
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
+        localeInterceptor.setParamName("lang");
+         
+         
+        registry.addInterceptor(localeInterceptor).addPathPatterns("/*");
     }
 }

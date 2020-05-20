@@ -21,17 +21,6 @@ public class ProductoDaoImpl extends GenericDaoImpl<Producto> implements Product
 
 	@Autowired
     private ModelMapper modelMapper;
-	
-	@Override
-	public List<Producto> listarProductos2() {
-		Query query = this.em.createQuery("FROM Producto");
-		List<Producto> lProductos = query.getResultList();
-
-		if (lProductos != null) {
-			return lProductos;
-		}
-		return null;
-	}
 
 	@Override
 	public Producto obtenerProductoPorNombre(String nombre) {

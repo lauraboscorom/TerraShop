@@ -9,8 +9,6 @@ import com.terrashop.entity.Producto;
 
 public interface ProductoDao extends GenericDao<Producto> {
 
-	public List<Producto> listarProductos2();
-
 	public Producto obtenerProductoPorNombre(String nombre);
 
 	public List<ProductoDto> listarProductoPorNombre(String nombreProducto);

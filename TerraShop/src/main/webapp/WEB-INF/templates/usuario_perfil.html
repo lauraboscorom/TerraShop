@@ -13,7 +13,7 @@
 
 	<div class="container-sm my-5">
 		<div class="text-center my-5">
-			<i class="fas fa-user fa-5x mb-2" style="color: #646464"></i></br>
+			<i class="fas fa-user fa-5x mb-2" style="color: #646464"></i><br/>
 			<h1>
 				<span th:text="${usuario.usuario}"></span>
 			</h1>
@@ -22,19 +22,19 @@
 			<div class="card-body">
 
 				<p>
-				<h2>Datos personales</h2>
+				<h2 th:utext="#{label.personalDetails}"></h2>
 				</p>
 				<p>
-					<b>Nombre:</b> <span th:text="${usuario.nombre}"></span>
+					<b><span th:utext="#{label.user_name}"></span>:</b> <span th:text="${usuario.nombre}"></span>
 				</p>
 				<p>
-					<b>Apellidos:</b> <span th:text="${usuario.apellidos}"></span>
+					<b><span th:utext="#{label.user_surname}"></span>:</b> <span th:text="${usuario.apellidos}"></span>
 				</p>
 				<p>
-					<b>E-mail:</b> <span th:text="${usuario.email}"></span>
+					<b><span th:utext="#{label.user_email}"></span>:</b> <span th:text="${usuario.email}"></span>
 				</p>
 				<p>
-					<b>Dirección de envío:</b> <span
+					<b><span th:utext="#{label.user_shippingAddress}"></span>:</b> <span
 						th:text="${usuario.direccionEnvio}"></span>
 				</p>
 				<p>

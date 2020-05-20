@@ -25,7 +25,7 @@
 </head>
 
 <body>
-	<script type="text/javascript" src="../js/script.js"></script>
+	<script type="text/javascript" src="../js/modal.js"></script>
 
 	<nav th:replace="fragments/header_loader"></nav>
 
@@ -33,13 +33,15 @@
 		<div class="col-sm-12 my-auto">
 			<div class="w-75 mx-auto">
 				<h1 class="display-5 mb-3">Productos</h1>
-				<form class="form-inline mb-3"
-					th:action="@{/producto/buscarProducto}">
-					<input class="form-control mr-sm-2 typeahead tt-input" type="text"
-						id="nombre" name="nombre" autocomplete="off" spellcheck="false"
-						dir="auto" placeholder="Busca un producto">
+
+				<form class="form-inline my-2 mb-4">
+					<input class="form-control mr-sm-2 typeahead" type="text"
+						placeholder="Busca un producto">
 					<button class="btn btn-secondary my-2 my-sm-0" type="submit">Buscar</button>
 				</form>
+				<div id="aviso"></div>
+				<script th:src="@{/js/search.js}"></script>
+
 
 				<div sec:authorize="hasAuthority('ROL_ADMIN')"
 					class="mb-3 text-center">
@@ -80,14 +82,14 @@
 													placeholder="Escribe el stock">
 											</div>
 											<div class="form-group col-md-8">
-												<label for="stock" class="col-form-label">Categoría</label> <select
-													class="custom-select">
+												<label for="stock" class="col-form-label">Categoría</label>
+												<select class="custom-select">
 													<option selected="">Escoge una categoría</option>
 													<option value="1">One</option>
 													<option value="2">Two</option>
 													<option value="3">Three</option>
 												</select>
-												
+
 											</div>
 										</div>
 									</div>
@@ -105,13 +107,14 @@
 
 				<div th:if="${productos.empty}" class="text-center my-3">No
 					existen productos en el sistema</div>
-				<div id="aviso"></div>
-				<script th:src="@{/js/search.js}"></script>
 
 				<div class="grid">
 					<div class="card m-2" th:each="producto : ${productos}">
-						<img th:if="${producto.idImagenes.empty}" src="../images/producto.jpg" class="card-img-top">
-						<img th:unless="${producto.idImagenes.empty}" th:src="@{/producto/imagen/{id}(id=${producto.idImagenes[0]})}" class="card-img-top">
+						<img th:if="${producto.idImagenes.empty}"
+							src="../images/producto.jpg" class="card-img-top"> <img
+							th:unless="${producto.idImagenes.empty}"
+							th:src="@{/producto/imagen/{id}(id=${producto.idImagenes[0]})}"
+							class="card-img-top">
 						<div class="card-body">
 							<h5 class="card-title">
 								<a th:href="@{/producto/perfil/{id}(id=${producto.idProducto})}"

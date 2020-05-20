@@ -33,12 +33,14 @@ import com.terrashop.entity.Imagen;
 import com.terrashop.entity.LineaDC;
 import com.terrashop.entity.Pregunta;
 import com.terrashop.entity.Producto;
+import com.terrashop.entity.Puntuacion;
 import com.terrashop.entity.Respuesta;
 import com.terrashop.entity.Usuario;
 import com.terrashop.entity.Venta;
 import com.terrashop.service.ImagenService;
 import com.terrashop.service.PreguntaService;
 import com.terrashop.service.ProductoService;
+import com.terrashop.service.PuntuacionService;
 import com.terrashop.service.UsuarioService;
 import com.terrashop.service.VentaService;
 
@@ -62,27 +64,17 @@ public class ProductoController {
 	@Autowired
 	ImagenService imagenService;
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/list2")
-	public ModelAndView listarProductos2() {
-
-		ModelAndView mav = new ModelAndView();
-
-		List<Producto> lProductos = productoService.listarProductos2();
-
-		mav.addObject("productos", lProductos);
-		mav.setViewName("productos_lista");
-		return mav;
-	}
+	@Autowired
+	PuntuacionService puntuacionService;
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarProducto")
 	public ModelAndView buscarProducto(HttpServletRequest request) {
-
 		ModelAndView mav = new ModelAndView();
 		String nombre = request.getParameter("nombre");
 		List<Producto> lProductos = productoService.listarProductosPorNombre(nombre);
 		
 		mav.addObject("productos", lProductos);
-		mav.setViewName("productos_lista2");
+		mav.setViewName("productos_lista");
 		return mav;
 	}
 	
@@ -170,16 +162,59 @@ public class ProductoController {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/perfil/{id}")
 	public ModelAndView mostrarProducto(@PathVariable("id") long idProducto,HttpServletRequest request) {
-
+		
 		ModelAndView mav = new ModelAndView();
 
 		ProductoDto producto = productoService.recogerProducto(idProducto);
 		
+		//Get media de puntuaciones
+		int media = 0;
+		List<Puntuacion> LPuntuaciones = puntuacionService.listarPuntuacionPorProducto(producto);
+		
+		if(LPuntuaciones.size()>0) {
+			int cincoEstrellas=0;
+			int cuatroEstrellas=0;
+			int tresEstrellas=0;
+			int dosEstrellas=0;
+			int unaEstrella=0;
+			for (int i = 0; i < LPuntuaciones.size(); i++) {
+				switch (LPuntuaciones.get(i).getValor()) {
+				case 5:
+					cincoEstrellas += 1;
+					break;
+				case 4:
+					cuatroEstrellas += 1;
+					break;
+				case 3:
+					tresEstrellas += 1;
+					break;
+				case 2:
+					dosEstrellas += 1;
+					break;
+				case 1:
+					unaEstrella += 1;
+					break;
+				default:
+					break;
+				}
+			}
+			
+			int f1 = 5*cincoEstrellas + 4*cuatroEstrellas + 3*tresEstrellas + 2*dosEstrellas + 1*unaEstrella;
+			media = f1/LPuntuaciones.size();
+		
+		}
 		mav.addObject("producto", producto);
 		
 		mav.setViewName("producto_perfil");
 		
+		mav.addObject("media",media);
+		
 		return mav;
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/perfilAjax/{id}")
+	public String perfilAjax(@PathVariable("id") long idProducto,HttpServletRequest request) {
+		return "redirect:/producto/perfil/" + idProducto;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/search/{nombreProducto}")
@@ -190,6 +225,49 @@ public class ProductoController {
 	
 		return LProductos;
 	}
+	
+//	@RequestMapping(method = RequestMethod.GET, value = "/getPuntuacionMedia/{idProducto}")
+//	public @ResponseBody int buscarPuntuacionPorProducto(
+//			@PathVariable("idProducto") long idProducto) {
+//	
+//		Producto producto = productoService.obtenerProducto(idProducto);
+//		List<Puntuacion> LPuntuaciones = puntuacionService.listarPuntuacionPorProducto(producto);
+//		
+//		if(LPuntuaciones.size()>0) {
+//			int cincoEstrellas=0;
+//			int cuatroEstrellas=0;
+//			int tresEstrellas=0;
+//			int dosEstrellas=0;
+//			int unaEstrella=0;
+//			for (int i = 0; i < LPuntuaciones.size(); i++) {
+//				switch (LPuntuaciones.get(i).getValor()) {
+//				case 5:
+//					cincoEstrellas += 1;
+//					break;
+//				case 4:
+//					cuatroEstrellas += 1;
+//					break;
+//				case 3:
+//					tresEstrellas += 1;
+//					break;
+//				case 2:
+//					dosEstrellas += 1;
+//					break;
+//				case 1:
+//					unaEstrella += 1;
+//					break;
+//				default:
+//					break;
+//				}
+//			}
+//			
+//			int f1 = 5*cincoEstrellas + 4*cuatroEstrellas + 3*tresEstrellas + 2*dosEstrellas + 1*unaEstrella;
+//			return f1/LPuntuaciones.size();
+//			
+//		}
+//		
+//		return 0;
+//	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/list")
 	public ModelAndView listarProductos() {
@@ -221,6 +299,25 @@ public class ProductoController {
 		producto.addPregunta(pregunta);
 
 		productoService.editarProducto(producto);
+		
+		return "redirect:/producto/perfil/"+idProducto;
+	}
+	
+	@RequestMapping(value=("/enviarPuntuacion/{id}/{valorPuntuacion}"), method=RequestMethod.POST)
+	public String enviarPuntuacion(Model model, @PathVariable("id") Long idProducto, @PathVariable("valorPuntuacion") int valorPuntuacion, HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		Long idUsuario = (Long) session.getAttribute("idUsuario");
+		
+		Usuario usuario = usuarioService.obtenerUsuario(idUsuario);
+		Producto producto = productoService.obtenerProducto(idProducto);
+
+		Puntuacion puntuacion = new Puntuacion();
+		puntuacion.setProducto(producto);
+		puntuacion.setUsuario(usuario);
+		puntuacion.setValor(valorPuntuacion);
+		
+		puntuacionService.crearPuntuacion(puntuacion);
 		
 		return "redirect:/producto/perfil/"+idProducto;
 	}

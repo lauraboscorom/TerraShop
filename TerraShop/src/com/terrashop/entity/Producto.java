@@ -18,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "PRODUCTO")
 public class Producto implements Serializable {
@@ -44,6 +46,9 @@ public class Producto implements Serializable {
 	
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Pregunta> preguntas = new HashSet<>();
+	
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Puntuacion> puntuaciones = new HashSet<>();
 	
 	@ManyToOne
 	@JoinColumn(name = "ID_CATEGORIA")
@@ -142,6 +147,23 @@ public class Producto implements Serializable {
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+
+	public Set<Puntuacion> getPuntuaciones() {
+		return puntuaciones;
+	}
+
+	public void setPuntuaciones(Set<Puntuacion> puntuaciones) {
+		this.puntuaciones = puntuaciones;
+	}
+	
+	public boolean addPuntuacion(Puntuacion puntuacion) {
+		puntuacion.setProducto(this);
+		return getPuntuaciones().add(puntuacion);
+	}
+
+	public void removePuntuacion(Puntuacion puntuacion) {
+		getPuntuaciones().remove(puntuacion);
 	}
 
 }

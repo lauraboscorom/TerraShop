@@ -18,11 +18,6 @@ public class ProductoServiceImpl implements ProductoService {
 
 	@Autowired
 	ProductoDao productoDao;
-	
-	@Override
-	public List<Producto> listarProductos2() {
-		return productoDao.listarProductos2();
-	}
 
 	@Override
 	public Producto obtenerProducto(Long idProducto) {

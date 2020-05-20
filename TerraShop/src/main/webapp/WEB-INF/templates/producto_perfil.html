@@ -15,11 +15,22 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- AJAX -->
+<script src="http://malsup.github.com/jquery.form.js"></script>
+
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
 </head>
 <body>
-	<script type="text/javascript" src="../../js/script.js"></script>
+	<script type="text/javascript" src="../../js/modal.js"></script>
 	<nav th:replace="fragments/header_loader"></nav>
- 
+
+	<input type="hidden" id="idProducto" th:value="${producto.idProducto}">
+	<input type="hidden" id="idUsuario" th:value="${session.idUsuario}">
+	<input type="hidden" id="usuario" th:value="${session.usuario}">
+	<input type="hidden" id="media" th:value="${media}">
+
 	<div class="container my-5">
 		<div class="row">
 			<div class="col">
@@ -34,9 +45,11 @@
 						</div>
 					</div>
 					<div th:unless="${producto.idImagenes.empty}" class="col-10">
-						<img th:src="@{/producto/imagen/{id}(id=${producto.idImagenes[0]})}" class="w-100 p-1"></img>
+						<img
+							th:src="@{/producto/imagen/{id}(id=${producto.idImagenes[0]})}"
+							class="w-100 p-1"></img>
 					</div>
-					
+
 					<div class="mt-5 ml-3 w-100"
 						sec:authorize="hasAuthority('ROL_ADMIN')">
 						<label>Sube una imagen del producto</label>
@@ -61,17 +74,9 @@
 					TERRASHOP <span th:text="${producto.nombre}"></span>
 				</p>
 				<p class="mb-2">
-				<div class="x-star-rating">
-					<span class="fa fa-star checked"></span> <span
-						class="fa fa-star checked"></span> <span
-						class="fa fa-star checked"></span> <span class="fa fa-star"></span>
-					<span class="fa fa-star"></span>
-					</p>
-				</div>
-				<script src="../../js/StarRating.js"></script>
-				<a href="#preguntas">Preguntas</a>
 
-
+					<x-star-rating value="3" number="5" id="puntuacion"></x-star-rating>
+					<a href="#preguntas">Preguntas</a>
 				<h2 class="pb-2">
 					<span th:text="${producto.precio}"></span> €
 				</h2>
@@ -176,20 +181,22 @@
 		</div>
 	</div>
 
-	<div class="container my-5 pb-5" id="preguntas">
+	<div class="container my-5 pb-5">
 		<h2 class="pb-3">
 			<strong>Preguntas y respuestas</strong>
 		</h2>
 		<div class="jumbotron p-4 mb-3">
 			<h6>Valoración media</h6>
-			<p>*estrellas*</p>
+			<p>
+				<x-star-average number="5" value="0"></x-star-average>
+			</p>
 		</div>
 		<p class="mb-5">
 			<a href="#pregunta" class="card-link"
 				sec:authorize="hasAuthority('ROL_USUARIO')"><i
 				class="fas fa-comment"></i> Dejar una pregunta</a>
 		</p>
-		<div th:each="pregunta : ${producto.preguntas}">
+		<div th:each="pregunta : ${producto.preguntas}" id="preguntas">
 			<hr>
 			<a href="@{/perfil/{id}(id=${pregunta.idUsuario})" class="card-link"><strong><span
 					th:text="${pregunta.usuario.usuario}"></span></strong></a>
@@ -224,9 +231,7 @@
 			</form>
 		</div>
 		<hr>
-		<form
-			th:action="@{/producto/enviarPregunta/{id}(id=${producto.idProducto})}"
-			method="post" sec:authorize="hasAuthority('ROL_USUARIO')">
+		<form sec:authorize="hasAuthority('ROL_USUARIO')" id="preguntaForm">
 			<fieldset>
 				<div class="form-group">
 					<label for="exampleTextarea">Deja aquí tu pregunta</label>
@@ -235,6 +240,15 @@
 				<button type="submit" class="btn btn-primary">Enviar</button>
 			</fieldset>
 		</form>
+		<script th:src="@{/js/preguntas.js}"></script>
 	</div>
+
+	<script src="../../js/StarRating.js"></script>
+	<script src="../../js/StarAverage.js"></script>
+
+	<script type="module"
+		src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"></script>
+	<script nomodule=""
+		src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

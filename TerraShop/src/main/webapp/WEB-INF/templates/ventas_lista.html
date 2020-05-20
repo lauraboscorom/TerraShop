@@ -48,8 +48,9 @@
 						<tr class="table-light" th:each="venta : ${ventas}">
 							<th scope="row"><span th:text="${venta.idVenta}">
 									Numero de seguimiento </span></th>
-							<td><span th:text="${venta.lineasDC[0].producto.nombre}">
-									Producto </span></td>
+							<td><a th:href="@{/producto/perfil/{id}(id=${venta.lineasDC[0].producto.idProducto})}"
+									class="card-link"><span th:text="${venta.lineasDC[0].producto.nombre}">
+									Producto </span></a></td>
 							<td><span th:text="${#sets.size(venta.lineasDC)}">
 									Unidades </span></td>
 							<td><span th:text="${venta.fechaVenta}"> Fecha </span></td>
@@ -58,8 +59,7 @@
 								th:text="${venta.lineasDC[0].precioProducto}*${#sets.size(venta.lineasDC)}">
 									Precio </span></td>
 							<td sec:authorize="hasAuthority('ROL_USUARIO')"><a
-								class="nav-link"
-								th:href="@{/venta/devolver/{idVenta}/{idProducto}(idVenta=${venta.idVenta},idProducto=${venta.lineasDC[0].producto.idProducto})}"><i
+								class="nav-link" id="devolverEnlace"><i
 									class="fas fa-cart-arrow-down"></i></a></td>
 						</tr>
 					</tbody>
@@ -67,5 +67,6 @@
 			</div>
 		</div>
 	</div>
+	<script th:src="@{/js/ventas.js}"></script>
 </body>
 </html>

@@ -9,7 +9,6 @@ import com.terrashop.entity.Producto;
 
 public interface ProductoService {
 
-	public List<Producto> listarProductos2();
 	public List<ProductoDto> listarProductos();
 
 	public Producto obtenerProducto(Long idProducto);

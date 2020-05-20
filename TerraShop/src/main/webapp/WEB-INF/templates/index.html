@@ -11,10 +11,10 @@
 <body>
 
 	<nav th:replace="fragments/header_loader"></nav>
-
+	
 	<div class="jumbotron" sec:authorize="isAnonymous()">
 		<h1 class="display-3">TerraShop</h1>
-		<p class="lead">Esta es la tienda online de Laura Bosco.</p>
+		<p class="lead" th:utext="#{label.description}"></p>
 		<hr class="my-4">
 		<p>Crea una cuenta para acceder a los distintos productos que
 			ofrecemos.</p>
@@ -24,8 +24,8 @@
 	</div>
 	
 	<div class="jumbotron" sec:authorize="!isAnonymous()">
-		<h1 class="display-3">Bienvenido <span th:utext="${session.username}"></h1>
-		<p class="lead">Accede a todos nuestros productos.</p>
+		<h1 class="display-3"><span th:utext="#{label.welcome}"></span>, <span th:utext="${session.usuario}"></span></h1>
+		<p class="lead"><span th:utext="#{label.welcomeDescription}"></span></p>
 	</div>
 
 </body>

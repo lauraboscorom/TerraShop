@@ -23,7 +23,6 @@ import javax.persistence.JoinColumn;
 @Table(name = "USUARIO")
 public class Usuario implements Serializable {
 
-	
 	private static final long serialVersionUID = -8668594760203621162L;
 	
 	@Id
@@ -66,6 +65,12 @@ public class Usuario implements Serializable {
 	
 	@OneToMany(fetch = FetchType.EAGER,mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Venta> ventas = new HashSet<>();
+	
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Pregunta> preguntas = new HashSet<>();
+	
+	@OneToMany(fetch = FetchType.EAGER,mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Puntuacion> puntuaciones = new HashSet<>();
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "USUARIO_ROL", 
@@ -195,6 +200,40 @@ public class Usuario implements Serializable {
 
 	public void setRoles(Set<Rol> roles) {
 		this.roles = roles;
+	}
+
+	public Set<Pregunta> getPreguntas() {
+		return preguntas;
+	}
+
+	public void setPreguntas(Set<Pregunta> preguntas) {
+		this.preguntas = preguntas;
+	}
+	
+	public boolean addPregunta(Pregunta pregunta) {
+		pregunta.setUsuario(this);
+		return getPreguntas().add(pregunta);
+	}
+
+	public void removePregunta(Pregunta pregunta) {
+		getPreguntas().remove(pregunta);
+	}
+
+	public Set<Puntuacion> getPuntuaciones() {
+		return puntuaciones;
+	}
+
+	public void setPuntuaciones(Set<Puntuacion> puntuaciones) {
+		this.puntuaciones = puntuaciones;
+	}
+	
+	public boolean addPuntuacion(Puntuacion puntuacion) {
+		puntuacion.setUsuario(this);
+		return getPuntuaciones().add(puntuacion);
+	}
+
+	public void removePuntuacion(Puntuacion puntuacion) {
+		getPuntuaciones().remove(puntuacion);
 	}
 
 	@Override
