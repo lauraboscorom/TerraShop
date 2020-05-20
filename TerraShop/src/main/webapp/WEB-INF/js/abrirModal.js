@@ -1,9 +1,11 @@
-function abrirProductoModal(id) {
+function abrirEditarProductoModal(id) {
 	$.ajax({
-		url: "/TerraShop/producto/editar/" + id,
+		url: "/TerraShop/producto/mostrarEditar/" + id,
 		success: function(data) {
 			$("#productoModalHolder").html(data);
 			$("#productoModal").modal("show");
 		}
 	})
 }
+
+

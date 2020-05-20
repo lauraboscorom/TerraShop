@@ -104,7 +104,7 @@ public class ProductoController {
 		return "redirect:/producto/list";
 	}
 	
-	@RequestMapping("/editar/{id}")
+	@RequestMapping("/mostrarEditar/{id}")
 	public String mostrarEditarProducto(@PathVariable("id") Long idProducto, ModelMap model) {
 		Producto producto = productoService.obtenerProducto(idProducto);
 		model.addAttribute("idProducto", producto.getIdProducto());
@@ -115,7 +115,7 @@ public class ProductoController {
 	}
 	
 	@PostMapping("/editar/{id}")
-	public String editarProducto(@PathVariable("id") Long idProducto, Producto productoFormulario, HttpServletRequest request) {
+	public void editarProducto(@PathVariable("id") Long idProducto, Producto productoFormulario, HttpServletRequest request) {
 
 		ModelAndView mav = new ModelAndView();
 
@@ -126,7 +126,6 @@ public class ProductoController {
 		
 		productoService.editarProducto(productoBD);
 		
-		return "redirect:/producto/list";
 	}
 	
 	@RequestMapping(value=("/comprar/{id}"), method=RequestMethod.POST)

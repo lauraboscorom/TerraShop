@@ -23,7 +23,6 @@
 
 </head>
 <body>
-	<script type="text/javascript" src="../../js/modal.js"></script>
 	<nav th:replace="fragments/header_loader"></nav>
 
 	<input type="hidden" id="idProducto" th:value="${producto.idProducto}">
@@ -114,7 +113,7 @@
 				<div id="productoModalHolder"
 					sec:authorize="hasAuthority('ROL_ADMIN')">
 					<button type="button" class="btn btn-info w-100 mt-3"
-						th:onclick="'javascript:abrirProductoModal(\'' + ${producto.idProducto} + '\');'">
+						th:onclick="'javascript:abrirEditarProductoModal(\'' + ${producto.idProducto} + '\');'">
 						EDITAR <i class="fas fa-edit"></i>
 					</button>
 				</div>
@@ -125,8 +124,7 @@
 					sec:authorize="hasAuthority('ROL_ADMIN')">
 					<div class="modal-dialog modal-dialog-centered" role="document">
 						<div class="modal-content">
-							<form th:action="@{/producto/editar/{id}(id=*{idProducto})}"
-								method="post">
+							<form id="editarForm">
 								<div class="modal-header">
 									<h5 class="modal-title" id="exampleModalLongTitle">Editar
 										producto</h5>
@@ -240,12 +238,14 @@
 				<button type="submit" class="btn btn-primary">Enviar</button>
 			</fieldset>
 		</form>
-		<script th:src="@{/js/preguntas.js}"></script>
 	</div>
 
-	<script src="../../js/StarRating.js"></script>
-	<script src="../../js/StarAverage.js"></script>
-
+	<script type="text/javascript" src="../../js/preguntas.js"></script>
+	<script type="text/javascript" src="../../js/starRating.js"></script>
+	<script type="text/javascript" src="../../js/starAverage.js"></script>
+	<script type="text/javascript" src="../../js/abrirModal.js"></script>
+	<script type="text/javascript" src="../../js/editarProducto.js"></script>
+	
 	<script type="module"
 		src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"></script>
 	<script nomodule=""
