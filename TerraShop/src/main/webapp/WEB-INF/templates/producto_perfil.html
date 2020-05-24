@@ -177,10 +177,11 @@
 				</div>
 				<!-- aqui -->
 				<div sec:authorize="hasAuthority('ROL_ADMIN')">
-					<a class="btn btn-danger w-100 mt-3"
+					<a class="btn btn-danger w-100 mt-3" th:classappend="${producto.hasLineasDC} ? '' : disabled"
 						th:href="@{/producto/eliminar/{id}(id=${producto.idProducto})}">BORRAR
 						<i class="fas fa-trash-alt"></i>
 					</a>
+					<p class="text-danger" th:unless="${producto.hasLineasDC}">Este producto tiene lineas de compra relacionadas.</p>
 				</div>
 			</div>
 		</div>

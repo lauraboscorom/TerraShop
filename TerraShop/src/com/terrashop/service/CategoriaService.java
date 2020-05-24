@@ -12,4 +12,8 @@ public interface CategoriaService {
 
 	public Categoria obtenerCategoria(Long idCategoria);
 
+	public void eliminarCategoria(Long idCategoria);
+
+	public void crearCategoria(Categoria c);
+
 }

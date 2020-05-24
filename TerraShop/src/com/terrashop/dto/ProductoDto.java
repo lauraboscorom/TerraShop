@@ -19,6 +19,8 @@ public class ProductoDto {
 	
 	private Set<PreguntaDto> preguntas = new HashSet<>();
 	
+	private boolean hasLineasDC;
+	
 	public Long getIdProducto() {
 		return idProducto;
 	}
@@ -65,6 +67,14 @@ public class ProductoDto {
 
 	public void setPreguntas(Set<PreguntaDto> preguntas) {
 		this.preguntas = preguntas;
+	}
+
+	public boolean getHasLineasDC() {
+		return hasLineasDC;
+	}
+
+	public void setHasLineasDC(boolean hasLineasDC) {
+		this.hasLineasDC = hasLineasDC;
 	}
 
 }

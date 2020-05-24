@@ -47,12 +47,14 @@ public class VentaDaoImpl extends GenericDaoImpl<Venta> implements VentaDao {
 	}
 
 	@Override
-	public void eliminarLineasDC(Venta venta) {
-//		Iterator<LineaDC> lineaDC = venta.getLineasDC().iterator();
-//		while (lineaDC.hasNext()) {
-//			venta.removeLineaDC((LineaDC) lineaDC);
-//		}
-		venta.setLineasDC(new HashSet<>());
+	public void eliminarVenta(Long idVenta) {
+		Venta venta = this.find(idVenta);
+		Query query = this.em.createQuery("DELETE FROM LineaDC WHERE venta = :venta");
+		query.setParameter("venta", venta);
+		query.executeUpdate();
+		query = this.em.createQuery("DELETE FROM Venta WHERE idVenta = :idVenta");
+		query.setParameter("idVenta", idVenta);
+		query.executeUpdate();
 	}
 
 }

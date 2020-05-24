@@ -32,4 +32,6 @@ public interface ProductoDao extends GenericDao<Producto> {
 
 	public Page<ProductoDto> findPaginatedByCategory(Pageable pageable, Categoria categoria);
 
+	public void eliminarProducto(Long idProducto);
+
 }

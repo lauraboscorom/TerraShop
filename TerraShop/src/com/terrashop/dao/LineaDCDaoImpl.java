@@ -13,4 +13,13 @@ import com.terrashop.entity.Venta;
 @Component("LineaDCDao")
 public class LineaDCDaoImpl extends GenericDaoImpl<LineaDC> implements LineaDCDao {
 
+	@Override
+	public void eliminarLineasDC(Venta venta) {
+		for (LineaDC lineaDC : venta.getLineasDC()) {
+			Query query = this.em.createQuery("DELETE FROM LineaDC WHERE idLineaDC = :idLineaDC");
+			query.setParameter("idLineaDC", lineaDC.getIdLineaDC());
+			query.executeUpdate();
+		}
+	}
+
 }

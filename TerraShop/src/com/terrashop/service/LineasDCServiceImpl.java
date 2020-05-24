@@ -14,4 +14,9 @@ public class LineasDCServiceImpl implements LineasDCService {
 	@Autowired
 	LineaDCDao lineaDCDao;
 	
+	@Override
+	public void eliminarLineasDC(Venta venta) {
+		lineaDCDao.eliminarLineasDC(venta);
+	}
+	
 }

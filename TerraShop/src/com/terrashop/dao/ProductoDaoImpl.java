@@ -19,7 +19,9 @@ import javax.persistence.Query;
 
 import com.terrashop.dto.ProductoDto;
 import com.terrashop.entity.Categoria;
+import com.terrashop.entity.Imagen;
 import com.terrashop.entity.LineaDC;
+import com.terrashop.entity.Pregunta;
 import com.terrashop.entity.Producto;
 import com.terrashop.entity.Venta;
 
@@ -82,7 +84,11 @@ public class ProductoDaoImpl extends GenericDaoImpl<Producto> implements Product
 		query.setParameter("p", producto);
 		List<Long> lIdImagenes = query.getResultList();
 		productoDto.setIdImagenes(lIdImagenes);
-
+		query = this.em.createQuery("FROM LineaDC u where u.producto = :p");
+		query.setParameter("p", producto);
+		List<Long> lLineasDC = query.getResultList();
+		productoDto.setHasLineasDC(lLineasDC.isEmpty());
+		
 		return productoDto;
 	}
 
@@ -122,48 +128,81 @@ public class ProductoDaoImpl extends GenericDaoImpl<Producto> implements Product
 	@Override
 	public Page<ProductoDto> findPaginated(Pageable pageable) {
 		int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-        int startItem = currentPage * pageSize;
-        List<ProductoDto> list;
-        Query query = this.em.createQuery("FROM Producto");
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+		List<ProductoDto> list;
+		Query query = this.em.createQuery("FROM Producto");
 		List<Producto> productos = query.getResultList();
-		List<ProductoDto> productosDto = productos.stream().map(this::convertToProductoDto).collect(Collectors.toList());
- 
-        if (productosDto.size() < startItem) {
-            list = Collections.emptyList();
-        } else {
-            int toIndex = Math.min(startItem + pageSize, productos.size());
-            list = productosDto.subList(startItem, toIndex);
-        }
- 
-        Page<ProductoDto> productoPage
-          = new PageImpl<ProductoDto>(list, PageRequest.of(currentPage, pageSize), productosDto.size());
- 
-        return productoPage;
+		List<ProductoDto> productosDto = productos.stream().map(this::convertToProductoDto)
+				.collect(Collectors.toList());
+
+		if (productosDto.size() < startItem) {
+			list = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, productos.size());
+			list = productosDto.subList(startItem, toIndex);
+		}
+
+		Page<ProductoDto> productoPage = new PageImpl<ProductoDto>(list, PageRequest.of(currentPage, pageSize),
+				productosDto.size());
+
+		return productoPage;
 	}
 
 	@Override
 	public Page<ProductoDto> findPaginatedByCategory(Pageable pageable, Categoria categoria) {
 		int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-        int startItem = currentPage * pageSize;
-        List<ProductoDto> list;
-        Query query = this.em.createQuery("FROM Producto u where u.categoria = :categoria");
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+		List<ProductoDto> list;
+		Query query = this.em.createQuery("FROM Producto u where u.categoria = :categoria");
 		query.setParameter("categoria", categoria);
 		List<Producto> productos = query.getResultList();
-		List<ProductoDto> productosDto = productos.stream().map(this::convertToProductoDto).collect(Collectors.toList());
- 
-        if (productosDto.size() < startItem) {
-            list = Collections.emptyList();
-        } else {
-            int toIndex = Math.min(startItem + pageSize, productos.size());
-            list = productosDto.subList(startItem, toIndex);
-        }
- 
-        Page<ProductoDto> productoPage
-          = new PageImpl<ProductoDto>(list, PageRequest.of(currentPage, pageSize), productosDto.size());
- 
-        return productoPage;
+		List<ProductoDto> productosDto = productos.stream().map(this::convertToProductoDto)
+				.collect(Collectors.toList());
+
+		if (productosDto.size() < startItem) {
+			list = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, productos.size());
+			list = productosDto.subList(startItem, toIndex);
+		}
+
+		Page<ProductoDto> productoPage = new PageImpl<ProductoDto>(list, PageRequest.of(currentPage, pageSize),
+				productosDto.size());
+
+		return productoPage;
+	}
+
+	@Override
+	public void eliminarProducto(Long idProducto) {
+		Producto producto = this.find(idProducto);
+		//Borrar imagenes
+		Query query = this.em.createQuery("DELETE FROM Imagen WHERE producto = :producto");
+		query.setParameter("producto", producto);
+		query.executeUpdate();
+		//Recuperar preguntas
+		query = this.em.createQuery("FROM Pregunta u where producto = :producto");
+		query.setParameter("producto", producto);
+		List<Pregunta> preguntas = query.getResultList();
+		//Borrar respuestas de preguntas
+		for (int i = 0; i < preguntas.size(); i++) {
+			query = this.em.createQuery("DELETE FROM Respuesta WHERE pregunta = :pregunta");
+			query.setParameter("pregunta", preguntas.get(i));
+			query.executeUpdate();
+		}
+		//Borrar preguntas
+		query = this.em.createQuery("DELETE FROM Pregunta WHERE producto = :producto");
+		query.setParameter("producto", producto);
+		query.executeUpdate();
+		//Borrar puntuaciones
+		query = this.em.createQuery("DELETE FROM Puntuacion WHERE producto = :producto");
+		query.setParameter("producto", producto);
+		query.executeUpdate();
+		// Borrar producto
+		query = this.em.createQuery("DELETE FROM Producto WHERE idProducto = :idProducto");
+		query.setParameter("idProducto", idProducto);
+		query.executeUpdate();
 	}
 
 }

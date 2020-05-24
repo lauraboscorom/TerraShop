@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.terrashop.entity.LineaDC;
 import com.terrashop.entity.Producto;
+import com.terrashop.entity.Rol;
 import com.terrashop.entity.Venta;
 import com.terrashop.service.LineasDCService;
 import com.terrashop.service.ProductoService;
@@ -67,53 +68,22 @@ public class VentaController {
 		return mav;
 	}
 
-	@GetMapping("/comprobarFecha/{fechaVenta}")
-	public boolean comprobarFecha(@PathVariable("id") Date fechaVenta) {
-
-		long diferencia;
-		try {
-			diferencia = new SimpleDateFormat("yyyy-MM-dd").parse("2014-02-14").getTime() - fechaVenta.getTime();
-			float diasEntre = (diferencia / (1000 * 60 * 60 * 24));
-
-			if (diasEntre <= 15) {
-				return true;
-			}
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return false;
-
-	}
-
-	@GetMapping("/devolver2/{idVenta}/{idProducto}")
-	public String devolverProducto2(@PathVariable("idVenta") long idVenta,
-			@PathVariable("idProducto") long idProducto) {
-
-		// Intento de borrar unicamente las lineas de compra del producto (no funciona)
-		Venta venta = ventaService.obtenerVenta(idVenta);
-		Producto producto = productoService.obtenerProducto(idProducto);
-
-		ArrayList<LineaDC> lineasDC = new ArrayList<LineaDC>(venta.getLineasDC());
-
-		for (int i = 0; i < lineasDC.size(); i++) {
-			producto.removeLineaDC(lineasDC.get(i));
-		}
-
-		productoService.editarProducto(producto);
-
-		return "redirect:/venta/list";
-	}
-
-	@RequestMapping(method = RequestMethod.DELETE, value = "/devolver/{idVenta}/{idProducto}")
-	public @ResponseBody ResponseEntity devolverProducto(@PathVariable("idVenta") long idVenta,
-			@PathVariable("idProducto") long idProducto) {
-
-		Venta venta = ventaService.obtenerVenta(idVenta);
-		Set<LineaDC> lineasDC = venta.getLineasDC();
-		productoService.eliminarLineasDC(idProducto, lineasDC);
-		ventaService.eliminarLineasDC(venta);
+	@GetMapping("/eliminar/{idVenta}")
+	public String eliminarVenta(@PathVariable("idVenta") long idVenta) {
 		
-		return new ResponseEntity(HttpStatus.OK);
+		Venta venta = ventaService.obtenerVenta(idVenta);
+		lineasDCService.eliminarLineasDC(venta);
+		ventaService.eliminarVenta(idVenta);
+
+		return "redirect:/venta/listAdmin";
+	}
+	
+	@GetMapping("/devolver/{idVenta}")
+	public String devolverProducto(@PathVariable("idVenta") long idVenta) {
+		
+		ventaService.eliminarVenta(idVenta);
+
+		return "redirect:/venta/listUsuario";
 	}
 
 }

@@ -70,7 +70,7 @@ public class Usuario implements Serializable {
 	@Column(name = "DIRECCION_FACTURACION")
 	private String direccionFacturacion;
 
-	@NotNull @Size(min=6, max=15)
+	@NotNull @Size(min=5, max=15)
 	@Column(name = "USUARIO")
 	private String usuario;
 	

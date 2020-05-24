@@ -14,6 +14,6 @@ public interface VentaDao extends GenericDao<Venta> {
 
 	public List<Venta> listarVentas();
 
-	public void eliminarLineasDC(Venta venta);
+	public void eliminarVenta(Long idVenta);
 	
 }

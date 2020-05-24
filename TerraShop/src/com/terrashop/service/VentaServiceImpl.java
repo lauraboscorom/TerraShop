@@ -35,7 +35,7 @@ public class VentaServiceImpl implements VentaService {
 
 	@Override
 	public void eliminarVenta(Long idVenta) {
-		ventaDao.delete(idVenta);
+		ventaDao.eliminarVenta(idVenta);
 	}
 
 	@Override
@@ -47,10 +47,5 @@ public class VentaServiceImpl implements VentaService {
 	public List<Venta> listarVentas() {
 		return ventaDao.listarVentas();
 	}
-
-	@Override
-	public void eliminarLineasDC(Venta venta) {
-		ventaDao.eliminarLineasDC(venta);
-	}
-
+	
 }

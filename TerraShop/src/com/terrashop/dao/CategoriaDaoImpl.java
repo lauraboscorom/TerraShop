@@ -37,5 +37,12 @@ public class CategoriaDaoImpl extends GenericDaoImpl<Categoria> implements Categ
 		return null;
 	}
 
+	@Override
+	public void eliminarCategoria(Long idCategoria) {
+		Query query = this.em.createQuery("DELETE FROM Categoria WHERE idCategoria= :idCategoria");
+		query.setParameter("idCategoria", idCategoria);
+		query.executeUpdate();
+	}
+
 
 }

@@ -20,6 +20,4 @@ public interface VentaService {
 
 	public List<Venta> listarVentas();
 
-	public void eliminarLineasDC(Venta venta);
-
 }

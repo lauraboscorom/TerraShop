@@ -10,4 +10,6 @@ public interface CategoriaDao extends GenericDao<Categoria> {
 
 	public Categoria obtenerProductoPorNombre(String categoria);
 
+	public void eliminarCategoria(Long idCategoria);
+
 }

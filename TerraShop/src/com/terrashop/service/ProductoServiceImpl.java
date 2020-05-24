@@ -35,7 +35,7 @@ public class ProductoServiceImpl implements ProductoService {
 
 	@Override
 	public void eliminarProducto(Long idProducto) {
-		productoDao.delete(idProducto);
+		productoDao.eliminarProducto(idProducto);
 	}
 
 	@Override

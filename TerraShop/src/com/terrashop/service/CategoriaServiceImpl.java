@@ -31,4 +31,14 @@ public class CategoriaServiceImpl implements CategoriaService {
 		return categoriaDao.find(idCategoria);
 	}
 
+	@Override
+	public void eliminarCategoria(Long idCategoria) {
+		categoriaDao.eliminarCategoria(idCategoria);
+	}
+
+	@Override
+	public void crearCategoria(Categoria c) {
+		categoriaDao.create(c);
+	}
+
 }

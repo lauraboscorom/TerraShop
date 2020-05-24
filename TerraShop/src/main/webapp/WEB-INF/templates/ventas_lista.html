@@ -66,10 +66,12 @@
 									Precio </span></td>
 							<td sec:authorize="hasAuthority('ROL_USUARIO')"><a
 								class="nav-link"
-								th:onclick="'javascript:devolverVenta(\'' + ${venta.idVenta} + '\', \'' + ${venta.lineasDC[0].producto.idProducto} + '\');'"><i
+								th:href="@{/venta/devolver/{idVenta}(idVenta=${venta.idVenta})}"><i
 									class="fas fa-cart-arrow-down"></i></a></td>
 							<td sec:authorize="hasAuthority('ROL_ADMIN')"><a
-								class="nav-link"><i class="fas fa-trash-alt"></i></a></td>
+								class="nav-link"
+								th:href="@{/venta/eliminar/{idVenta}(idVenta=${venta.idVenta})}"><i
+									class="fas fa-trash-alt"></i></a></td>
 						</tr>
 					</tbody>
 				</table>
