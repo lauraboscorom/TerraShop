@@ -4,13 +4,17 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.terrashop.dao.ProductoDao;
 import com.terrashop.dto.ProductoDto;
+import com.terrashop.entity.Categoria;
 import com.terrashop.entity.LineaDC;
 import com.terrashop.entity.Producto;
+import com.terrashop.entity.Venta;
 
 @Transactional
 @Service
@@ -50,11 +54,6 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 
 	@Override
-	public void eliminarLineasDC(Producto producto, Set<LineaDC> lineasDC) {
-		productoDao.eliminarLineasDC(producto, lineasDC);
-	}
-
-	@Override
 	public List<Producto> listarProductosPorNombre(String nombreProducto) {
 		return productoDao.listarProductosPorNombre(nombreProducto);
 	}
@@ -68,5 +67,25 @@ public class ProductoServiceImpl implements ProductoService {
 	public List<ProductoDto> listarProductos() {
 		return productoDao.listarProductos();
 	}
-	
+
+	@Override
+	public List<ProductoDto> listarProductosPorCategoria(Categoria categoria) {
+		return productoDao.listarProductosPorCategoria(categoria);
+	}
+
+	@Override
+	public void eliminarLineasDC(Long idProducto, Set<LineaDC> lineasDC) {
+		productoDao.eliminarLineasDC(idProducto, lineasDC);
+	}
+
+	@Override
+	public Page<ProductoDto> findPaginated(Pageable pageable) {
+		return productoDao.findPaginated(pageable);
+	}
+
+	@Override
+	public Page<ProductoDto> findPaginatedByCategory(Pageable pageable, Categoria categoria) {
+		return productoDao.findPaginatedByCategory(pageable, categoria);
+	}
+
 }

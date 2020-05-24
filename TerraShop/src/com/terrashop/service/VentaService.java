@@ -18,4 +18,8 @@ public interface VentaService {
 
 	public Venta obtenerVenta(long idVenta);
 
+	public List<Venta> listarVentas();
+
+	public void eliminarLineasDC(Venta venta);
+
 }

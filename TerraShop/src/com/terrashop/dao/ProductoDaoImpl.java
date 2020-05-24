@@ -1,45 +1,45 @@
 package com.terrashop.dao;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import javax.persistence.Query;
 
 import com.terrashop.dto.ProductoDto;
+import com.terrashop.entity.Categoria;
 import com.terrashop.entity.LineaDC;
 import com.terrashop.entity.Producto;
+import com.terrashop.entity.Venta;
 
 @Repository
 @Component("ProductoDao")
 public class ProductoDaoImpl extends GenericDaoImpl<Producto> implements ProductoDao {
 
 	@Autowired
-    private ModelMapper modelMapper;
+	private ModelMapper modelMapper;
 
 	@Override
 	public Producto obtenerProductoPorNombre(String nombre) {
 		Query query = this.em.createQuery("select u FROM Producto u where u.nombre= :nombre");
 		query.setParameter("nombre", nombre);
 		Producto p = (Producto) query.getSingleResult();
-		
+
 		if (p != null) {
 			return p;
 		}
 		return null;
-	}
-
-	@Override
-	public void eliminarLineasDC(Producto producto, Set<LineaDC> lineasDC) {
-		ArrayList<LineaDC> lineasDCList = new ArrayList<LineaDC>(lineasDC);
-		for (int i = 0; i < lineasDCList.size(); i++) {
-			producto.removeLineaDC(lineasDCList.get(i));
-		}
 	}
 
 	@Override
@@ -53,19 +53,17 @@ public class ProductoDaoImpl extends GenericDaoImpl<Producto> implements Product
 
 	@Override
 	public List<ProductoDto> listarProductoPorNombre(String nombreProducto) {
-		
+
 		String n = "%" + nombreProducto + "%";
 		Query query = this.em.createQuery("FROM Producto u where u.nombre like :n");
 		query.setParameter("n", n);
 		List<Producto> lProducto = query.getResultList();
-		
+
 		if (lProducto == null) {
 			return null;
 		}
-		
-		return lProducto.stream()
-				.map(this::convertToProductoDto)
-				.collect(Collectors.toList());
+
+		return lProducto.stream().map(this::convertToProductoDto).collect(Collectors.toList());
 	}
 
 	@Override
@@ -74,32 +72,98 @@ public class ProductoDaoImpl extends GenericDaoImpl<Producto> implements Product
 		if (p == null) {
 			return null;
 		}
-		
+
 		return convertToProductoDto(p);
 	}
-	
+
 	private ProductoDto convertToProductoDto(Producto producto) {
 		ProductoDto productoDto = modelMapper.map(producto, ProductoDto.class);
 		Query query = this.em.createQuery("SELECT idImagen FROM Imagen u where u.producto = :p");
 		query.setParameter("p", producto);
 		List<Long> lIdImagenes = query.getResultList();
 		productoDto.setIdImagenes(lIdImagenes);
-		
+
 		return productoDto;
-    }
+	}
 
 	@Override
 	public List<ProductoDto> listarProductos() {
 		Query query = this.em.createQuery("FROM Producto");
 		List<Producto> lProductos = query.getResultList();
-		
+
 		if (lProductos == null) {
 			return null;
 		}
-		
-		return lProductos.stream()
-				.map(this::convertToProductoDto)
-				.collect(Collectors.toList());
+
+		return lProductos.stream().map(this::convertToProductoDto).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ProductoDto> listarProductosPorCategoria(Categoria categoria) {
+		Query query = this.em.createQuery("FROM Producto u where u.categoria = :categoria");
+		query.setParameter("categoria", categoria);
+		List<Producto> lProductos = query.getResultList();
+
+		if (lProductos == null) {
+			return null;
+		}
+
+		return lProductos.stream().map(this::convertToProductoDto).collect(Collectors.toList());
+	}
+
+	@Override
+	public void eliminarLineasDC(Long idProducto, Set<LineaDC> lineasDC) {
+		Producto producto = this.find(idProducto);
+		for (LineaDC lineaDC : lineasDC) {
+			producto.removeLineaDC(lineaDC);
+		}
+	}
+
+	@Override
+	public Page<ProductoDto> findPaginated(Pageable pageable) {
+		int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<ProductoDto> list;
+        Query query = this.em.createQuery("FROM Producto");
+		List<Producto> productos = query.getResultList();
+		List<ProductoDto> productosDto = productos.stream().map(this::convertToProductoDto).collect(Collectors.toList());
+ 
+        if (productosDto.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, productos.size());
+            list = productosDto.subList(startItem, toIndex);
+        }
+ 
+        Page<ProductoDto> productoPage
+          = new PageImpl<ProductoDto>(list, PageRequest.of(currentPage, pageSize), productosDto.size());
+ 
+        return productoPage;
+	}
+
+	@Override
+	public Page<ProductoDto> findPaginatedByCategory(Pageable pageable, Categoria categoria) {
+		int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int startItem = currentPage * pageSize;
+        List<ProductoDto> list;
+        Query query = this.em.createQuery("FROM Producto u where u.categoria = :categoria");
+		query.setParameter("categoria", categoria);
+		List<Producto> productos = query.getResultList();
+		List<ProductoDto> productosDto = productos.stream().map(this::convertToProductoDto).collect(Collectors.toList());
+ 
+        if (productosDto.size() < startItem) {
+            list = Collections.emptyList();
+        } else {
+            int toIndex = Math.min(startItem + pageSize, productos.size());
+            list = productosDto.subList(startItem, toIndex);
+        }
+ 
+        Page<ProductoDto> productoPage
+          = new PageImpl<ProductoDto>(list, PageRequest.of(currentPage, pageSize), productosDto.size());
+ 
+        return productoPage;
 	}
 
 }

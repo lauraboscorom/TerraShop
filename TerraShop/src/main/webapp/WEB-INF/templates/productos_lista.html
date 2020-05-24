@@ -25,7 +25,6 @@
 </head>
 
 <body>
-	<script type="text/javascript" src="../js/modal.js"></script>
 
 	<nav th:replace="fragments/header_loader"></nav>
 
@@ -34,14 +33,24 @@
 			<div class="w-75 mx-auto">
 				<h1 class="display-5 mb-3">Productos</h1>
 
-				<form class="form-inline my-2 mb-4">
-					<input class="form-control mr-sm-2 typeahead" type="text"
-						placeholder="Busca un producto">
-					<button class="btn btn-secondary my-2 my-sm-0" type="submit">Buscar</button>
-				</form>
-				<div id="aviso"></div>
-				<script th:src="@{/js/search.js}"></script>
-
+				<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+					<div class="collapse navbar-collapse" id="navbarColor03">
+						<ul class="navbar-nav mr-auto">
+							<li class="nav-item"><a class="nav-link"
+								th:href="@{/producto/list}">Todos <span class="sr-only">(current)</span>
+							</a></li>
+							<li class="nav-item" th:each="categoria : ${categorias}"><a
+								th:href="@{/producto/list/{idCategoria}(idCategoria=${categoria.idCategoria})}"
+								class="nav-link"><span th:text="${categoria.nombre}"></span></a></li>
+						</ul>
+						<form class="form-inline my-2 my-lg-0">
+							<input class="form-control mr-sm-2 typeahead" type="text"
+								placeholder="Busca un producto">
+							<button class="btn btn-secondary my-2 my-sm-0" type="submit">Buscar</button>
+						</form>
+						<div id="aviso"></div>
+					</div>
+				</nav>
 
 				<div sec:authorize="hasAuthority('ROL_ADMIN')"
 					class="mb-3 text-center">
@@ -83,13 +92,12 @@
 											</div>
 											<div class="form-group col-md-8">
 												<label for="stock" class="col-form-label">Categoría</label>
-												<select class="custom-select">
-													<option selected="">Escoge una categoría</option>
-													<option value="1">One</option>
-													<option value="2">Two</option>
-													<option value="3">Three</option>
+												<select class="custom-select" id="categoria"
+													name="categoria">
+													<option th:each="categoria : ${categorias}"
+														th:value="${categoria.nombre}"
+														th:text="${categoria.nombre}"></option>
 												</select>
-
 											</div>
 										</div>
 									</div>
@@ -105,13 +113,14 @@
 					</div>
 				</div>
 
-				<div th:if="${productos.empty}" class="text-center my-3">No
-					existen productos en el sistema</div>
+				<!-- 				<div th:if="${productos.empty}" class="text-center my-3">No -->
+				<!-- 					existen productos en el sistema</div> -->
 
 				<div class="grid">
-					<div class="card m-2" th:each="producto : ${productos}">
+					<div class="card m-2"
+						th:each="producto, iStat : ${productoPage.content}">
 						<img th:if="${producto.idImagenes.empty}"
-							src="../images/producto.jpg" class="card-img-top"> <img
+							th:src="@{/images/producto.jpg}" class="card-img-top"> <img
 							th:unless="${producto.idImagenes.empty}"
 							th:src="@{/producto/imagen/{id}(id=${producto.idImagenes[0]})}"
 							class="card-img-top">
@@ -133,8 +142,30 @@
 					</div>
 				</div>
 
+				<div>
+					<ul class="pagination justify-content-center mt-3"
+						th:if="${productoPage.totalPages > 0}">
+						<li class="page-item disabled"><a class="page-link" href="#">&laquo;</a>
+						</li>
+						<li class="page-item" th:each="pageNumber : ${pageNumbers}"><a
+							class="page-link" th:href="@{/producto/list(page=${pageNumber})}"
+							th:text=${pageNumber}></a>
+						<li class="page-item"><a class="page-link" href="#">&raquo;</a>
+						</li>
+					</ul>
+				</div>
+
+<!-- 				<div th:if="${productoPage.totalPages > 0}" class="pagination" -->
+<!-- 					th:each="pageNumber : ${pageNumbers}"> -->
+<!-- 					<a th:href="@{/producto/list(page=${pageNumber})}" -->
+<!-- 						th:text=${pageNumber} -->
+<!-- 						th:class="${pageNumber==productoPage.number + 1} ? active"></a> -->
+<!-- 				</div> -->
 			</div>
 		</div>
 	</div>
+
+	<script type="text/javascript" src="../js/search.js"></script>
+	<script type="text/javascript" src="../js/modal.js"></script>
 </body>
 </html>

@@ -51,22 +51,4 @@ class StarAverage extends HTMLElement {
 	}
 }
 
-//function getPuntuacionMedia() {
-//
-//	var idProducto = document.getElementById('idProducto').value;
-//
-//	var token = $("meta[name='_csrf']").attr("content");
-//	var header = $("meta[name='_csrf_header']").attr("content");
-//	$(document).ajaxSend(function(e, xhr, options) {
-//		xhr.setRequestHeader(header, token);
-//	});
-//	
-//	$.get('http://localhost:8080/TerraShop/producto/getPuntuacionMedia/'
-//			+ idProducto).done(function(data){
-//	    console.log(data);
-//		return data;
-//	});
-//
-//}
-
 customElements.define('x-star-average', StarAverage);

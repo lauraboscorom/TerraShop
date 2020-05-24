@@ -43,4 +43,14 @@ public class VentaServiceImpl implements VentaService {
 		return ventaDao.find(idVenta);
 	}
 
+	@Override
+	public List<Venta> listarVentas() {
+		return ventaDao.listarVentas();
+	}
+
+	@Override
+	public void eliminarLineasDC(Venta venta) {
+		ventaDao.eliminarLineasDC(venta);
+	}
+
 }

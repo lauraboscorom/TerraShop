@@ -24,15 +24,15 @@ function enviarPregunta() {
 				type : "POST",
 				data : $("#preguntaForm").serialize(),
 				success : function(response) {
-					var fila = "<hr>"
+					var fila = "<div><hr>"
 							+ "<a href='/TerraShop/usuario/perfil/" + idUsuario + "' class='card-link'>"
 							+ "<strong><span>" + usuario + "</span></strong></a>"
 							+ "<p><span>\"" + pregunta + "\"</span></p>"
 							+ "<form><fieldset><div class='form-group'><div class='input-group mb-3'>"
 							+ "<textarea type='text' class='form-control mr-3' rows='1'	name='texto' id='respuesta'></textarea>"
-							+ "<div class='input-group-append'><button type='submit' class='btn btn-info'>"
+							+ "<div class='input-group-append'><button type='button' class='btn btn-info'>"
 							+ "Responder <i class='fas fa-reply'></i></button></div>"
-							+ "</div></div></fieldset></form>"
+							+ "</div></div></fieldset></form></div>"
 							
 					$('#preguntas').append(fila);
 				}

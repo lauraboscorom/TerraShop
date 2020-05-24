@@ -15,6 +15,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import java.util.HashSet;
 import javax.persistence.JoinColumn;
@@ -30,36 +33,48 @@ public class Usuario implements Serializable {
 	@Column(name = "ID_USUARIO")
 	private Long idUsuario;
 
+	@NotNull @Size(min=4, max=15)
 	@Column(name = "NOMBRE")
 	private String nombre;
 
+	@NotNull @Size(min=4, max=15)
 	@Column(name = "APELLIDOS")
 	private String apellidos;
-
+	
+	@Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"+"(?:[a-z0-9](?:[a-z0-9-]*"+
+	        "[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",message="La dirección debe tener la forma email@email.com")
 	@Column(name = "EMAIL")
 	private String email;
 
+	@NotNull @Size(min=4, max=30)
 	@Column(name = "DIRECCION_ENVIO")
 	private String direccionEnvio;
-	
+
+	@NotNull @Size(min=3, max=10)
 	@Column(name = "BANCO")
 	private String banco;
 	
+	@NotNull
 	@Column(name = "NUMERO_TARJETA")
 	private int numeroTarjeta;
-	
+
+	@NotNull @Size(min=6, max=30)
 	@Column(name = "TITULAR")
 	private String titular;
 	
+	@NotNull
 	@Column(name = "CODIGO_SEGURIDAD")
 	private int codigoSeguridad;
-	
+
+	@NotNull @Size(min=4, max=30)
 	@Column(name = "DIRECCION_FACTURACION")
 	private String direccionFacturacion;
-	
+
+	@NotNull @Size(min=6, max=15)
 	@Column(name = "USUARIO")
 	private String usuario;
 	
+	@NotNull
 	@Column(name = "PASSWORD")
 	private String password;
 	

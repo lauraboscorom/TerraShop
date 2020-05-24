@@ -44,7 +44,8 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
 
 	@Override
 	public void delete(final Object id) {
-		this.em.remove(this.em.getReference(type, id));
+		Object getReferenceObject = this.em.find(type, id);
+		this.em.remove(getReferenceObject);
 	}
 
 	@Override

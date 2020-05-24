@@ -1,5 +1,7 @@
 package com.terrashop.dao;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -31,6 +33,26 @@ public class VentaDaoImpl extends GenericDaoImpl<Venta> implements VentaDao {
 			return lVentas;
 		}
 		return null;
+	}
+
+	@Override
+	public List<Venta> listarVentas() {
+		Query query = this.em.createQuery("FROM Venta");
+		List<Venta> lVentas = query.getResultList();
+
+		if (lVentas != null) {
+			return lVentas;
+		}
+		return null;
+	}
+
+	@Override
+	public void eliminarLineasDC(Venta venta) {
+//		Iterator<LineaDC> lineaDC = venta.getLineasDC().iterator();
+//		while (lineaDC.hasNext()) {
+//			venta.removeLineaDC((LineaDC) lineaDC);
+//		}
+		venta.setLineasDC(new HashSet<>());
 	}
 
 }

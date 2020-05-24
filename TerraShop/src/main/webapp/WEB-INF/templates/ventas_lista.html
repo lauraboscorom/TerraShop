@@ -15,10 +15,11 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 </head>
 <body>
-	<script type="text/javascript" src="../js/script.js"></script>
-
 	<nav th:replace="fragments/header_loader"></nav>
 
 	<div class="row h-100 my-5">
@@ -28,29 +29,34 @@
 					<thead>
 						<tr class="table-info">
 							<th scope="col">Numero de seguimiento</th>
+							<th sec:authorize="hasAuthority('ROL_ADMIN')" scope="col">Comprador</th>
 							<th scope="col">Producto</th>
 							<th scope="col">Unidades adquiridas</th>
 							<th scope="col">Fecha</th>
 							<th scope="col">Descuento</th>
 							<th scope="col">Precio total</th>
 							<th sec:authorize="hasAuthority('ROL_USUARIO')" scope="col">Devolver</th>
+							<th sec:authorize="hasAuthority('ROL_ADMIN')" scope="col">Eliminar</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr class="table-light" th:if="${ventas.empty}">
-							<!-- 
-							<td sec:authorize="hasAuthority('ROL_ADMIN')" colspan="5">No
-								existen productos en el sistema</td>
-							-->
 							<td sec:authorize="hasAuthority('ROL_USUARIO')" colspan="7">No
 								has realizado ninguna compra</td>
+							<td sec:authorize="hasAuthority('ROL_ADMIN')" colspan="8">No
+								existe ninguna compra registrada</td>
 						</tr>
 						<tr class="table-light" th:each="venta : ${ventas}">
 							<th scope="row"><span th:text="${venta.idVenta}">
 									Numero de seguimiento </span></th>
-							<td><a th:href="@{/producto/perfil/{id}(id=${venta.lineasDC[0].producto.idProducto})}"
-									class="card-link"><span th:text="${venta.lineasDC[0].producto.nombre}">
-									Producto </span></a></td>
+							<td sec:authorize="hasAuthority('ROL_ADMIN')"><a
+								th:href="@{/usuario/perfil/{id}(id=${venta.usuario.idUsuario})}"
+								class="card-link"><span th:text="${venta.usuario.usuario}"></span></a></td>
+							<td><a
+								th:href="@{/producto/perfil/{id}(id=${venta.lineasDC[0].producto.idProducto})}"
+								class="card-link"><span
+									th:text="${venta.lineasDC[0].producto.nombre}"> Producto
+								</span></a></td>
 							<td><span th:text="${#sets.size(venta.lineasDC)}">
 									Unidades </span></td>
 							<td><span th:text="${venta.fechaVenta}"> Fecha </span></td>
@@ -59,14 +65,17 @@
 								th:text="${venta.lineasDC[0].precioProducto}*${#sets.size(venta.lineasDC)}">
 									Precio </span></td>
 							<td sec:authorize="hasAuthority('ROL_USUARIO')"><a
-								class="nav-link" id="devolverEnlace"><i
+								class="nav-link"
+								th:onclick="'javascript:devolverVenta(\'' + ${venta.idVenta} + '\', \'' + ${venta.lineasDC[0].producto.idProducto} + '\');'"><i
 									class="fas fa-cart-arrow-down"></i></a></td>
+							<td sec:authorize="hasAuthority('ROL_ADMIN')"><a
+								class="nav-link"><i class="fas fa-trash-alt"></i></a></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
-	<script th:src="@{/js/ventas.js}"></script>
+	<script th:src="@{/js/devolverVenta.js}"></script>
 </body>
 </html>

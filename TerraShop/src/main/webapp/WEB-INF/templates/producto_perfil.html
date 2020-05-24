@@ -29,6 +29,7 @@
 	<input type="hidden" id="idUsuario" th:value="${session.idUsuario}">
 	<input type="hidden" id="usuario" th:value="${session.usuario}">
 	<input type="hidden" id="media" th:value="${media}">
+	<input type="hidden" id="stock" th:value="${producto.stock}">
 
 	<div class="container my-5">
 		<div class="row">
@@ -70,14 +71,16 @@
 			</div>
 			<div class="col">
 				<p class="mb-1">
-					TERRASHOP <span th:text="${producto.nombre}"></span>
+					TERRASHOP <span th:text="${producto.nombre}"
+						id="spanNombreProducto"></span>
 				</p>
 				<p class="mb-2">
 
 					<x-star-rating value="3" number="5" id="puntuacion"></x-star-rating>
 					<a href="#preguntas">Preguntas</a>
 				<h2 class="pb-2">
-					<span th:text="${producto.precio}"></span> €
+					<span th:text="${producto.precio}" id="spanPrecioProducto"></span>
+					€
 				</h2>
 				<hr class="pb-2" />
 				<div class="jumbotron p-3">
@@ -92,9 +95,8 @@
 						encuentren en perfecto estado, sin uso y en su embalaje original.</p>
 					<p>3. Se deben abonar los gastos de devolución.</p>
 				</div>
-				<form
-					th:action="@{/producto/comprar/{id}(id=${producto.idProducto})}"
-					method="post" sec:authorize="hasAuthority('ROL_USUARIO')">
+
+				<form id="comprarForm" sec:authorize="hasAuthority('ROL_USUARIO')">
 					<select class="form-control" id="seleccionUnidades" name="unidades">
 						<option>1</option>
 						<option>2</option>
@@ -102,7 +104,7 @@
 						<option>4</option>
 						<option>5</option>
 					</select> <small class="text-danger mb-2">¡Solo quedan <span
-						th:text="${producto.stock}"> Stock </span> unidades!
+						id="spanStockProducto" th:text="${producto.stock}"> Stock </span> unidades!
 					</small>
 
 					<button type="submit" class="btn btn-primary w-100 mt-3">
@@ -110,6 +112,11 @@
 					</button>
 
 				</form>
+				<div class="text-info mb-2"
+					sec:authorize="hasAuthority('ROL_ADMIN')">
+					Stock: <span id="spanStockProducto" th:text="${producto.stock}">
+						Stock </span>
+				</div>
 				<div id="productoModalHolder"
 					sec:authorize="hasAuthority('ROL_ADMIN')">
 					<button type="button" class="btn btn-info w-100 mt-3"
@@ -143,17 +150,17 @@
 
 											<label for="nombre" class="col-form-label">Nombre</label> <input
 												type="text" class="form-control" th:value="*{nombre}"
-												id="nombre" name="nombre" placeholder="nombre">
+												id="nuevoNombre" name="nombre" placeholder="nombre">
 										</div>
 										<div class="form-group col-md-8">
 											<label for="precio" class="col-form-label">Precio</label> <input
 												type="text" class="form-control" th:value="*{precio}"
-												id="precio" name="precio" placeholder="precio">
+												id="nuevoPrecio" name="precio" placeholder="precio">
 										</div>
 										<div class="form-group col-md-8">
 											<label for="stock" class="col-form-label">Stock</label> <input
 												type="text" class="form-control" th:value="*{stock}"
-												id="stock" name="stock" placeholder="stock">
+												id="nuevoStock" name="stock" placeholder="stock">
 										</div>
 										<div class="form-group col-md-8"></div>
 									</div>
@@ -186,7 +193,10 @@
 		<div class="jumbotron p-4 mb-3">
 			<h6>Valoración media</h6>
 			<p>
+			<h4>
 				<x-star-average number="5" value="0"></x-star-average>
+				&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${media}"></span>
+			</h4>
 			</p>
 		</div>
 		<p class="mb-5">
@@ -194,42 +204,46 @@
 				sec:authorize="hasAuthority('ROL_USUARIO')"><i
 				class="fas fa-comment"></i> Dejar una pregunta</a>
 		</p>
-		<div th:each="pregunta : ${producto.preguntas}" id="preguntas">
-			<hr>
-			<a href="@{/perfil/{id}(id=${pregunta.idUsuario})" class="card-link"><strong><span
-					th:text="${pregunta.usuario.usuario}"></span></strong></a>
-			<p>
-				"<span th:text="${pregunta.texto}"></span>"
-			</p>
-			<div th:each="respuesta : ${pregunta.respuestas}" class="ml-5">
+		<div id="preguntas">
+			<div th:each="pregunta : ${producto.preguntas}">
 
-				<a href="@{/perfil/{id}(id=${respuesta.idUsuario})"
-					class="card-link"><strong><span
-						th:text="${respuesta.usuario.usuario}"></span></strong></a>
+				<hr>
+				<a href="@{/perfil/{id}(id=${pregunta.idUsuario})" class="card-link"><strong><span
+						th:text="${pregunta.usuario.usuario}"></span></strong></a>
 				<p>
-					"<span th:text="${respuesta.texto}"></span>"
+					"<span th:text="${pregunta.texto}"></span>"
 				</p>
-			</div>
-			<form
-				th:action="@{/producto/enviarRespuesta/{idProducto}/{idPregunta}(idProducto=${producto.idProducto},idPregunta=${pregunta.idPregunta})}"
-				method="post">
-				<fieldset>
-					<div class="form-group">
-						<div class="input-group mb-3">
-							<textarea type="text" class="form-control mr-3" rows="1"
-								name="texto" id="respuesta"></textarea>
-							<div class="input-group-append">
-								<button type="submit" class="btn btn-info">
-									Responder <i class="fas fa-reply"></i>
-								</button>
+				<div th:id="${'respuestas' + pregunta.idPregunta}">
+					<div th:each="respuesta : ${pregunta.respuestas}" class="ml-5">
+						<a href="@{/perfil/{id}(id=${respuesta.idUsuario})"
+							class="card-link"><strong><span
+								th:text="${respuesta.usuario.usuario}"></span></strong></a>
+						<p>
+							"<span th:text="${respuesta.texto}"></span>"
+						</p>
+					</div>
+				</div>
+				<form th:id="${'respuestaForm' + pregunta.idPregunta}">
+					<fieldset>
+						<div class="form-group">
+							<div class="input-group mb-3">
+								<textarea type="text" class="form-control mr-3" rows="1"
+									name="texto" th:id="${'respuesta' + pregunta.idPregunta}"></textarea>
+								<div class="input-group-append">
+									<button type="button"
+										th:onclick="'javascript:enviarRespuesta(\'' + ${pregunta.idPregunta} + '\');'"
+										class="btn btn-info">
+										Responder <i class="fas fa-reply"></i>
+									</button>
+								</div>
 							</div>
 						</div>
-					</div>
-				</fieldset>
-			</form>
+					</fieldset>
+				</form>
+			</div>
 		</div>
 		<hr>
-		<form sec:authorize="hasAuthority('ROL_USUARIO')" id="preguntaForm">
+		<form id="preguntaForm">
 			<fieldset>
 				<div class="form-group">
 					<label for="exampleTextarea">Deja aquí tu pregunta</label>
@@ -240,12 +254,14 @@
 		</form>
 	</div>
 
+	<script src="../../js/StarRating.js"></script>
+	<script src="../../js/StarAverage.js"></script>
 	<script type="text/javascript" src="../../js/preguntas.js"></script>
-	<script type="text/javascript" src="../../js/starRating.js"></script>
-	<script type="text/javascript" src="../../js/starAverage.js"></script>
-	<script type="text/javascript" src="../../js/abrirModal.js"></script>
+	<script type="text/javascript" src="../../js/respuestas.js"></script>
+	<script type="text/javascript" src="../../js/modal.js"></script>
 	<script type="text/javascript" src="../../js/editarProducto.js"></script>
-	
+	<script type="text/javascript" src="../../js/comprarProducto.js"></script>
+
 	<script type="module"
 		src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"></script>
 	<script nomodule=""

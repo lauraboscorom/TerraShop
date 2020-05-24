@@ -11,9 +11,21 @@ INSERT INTO categoria (NOMBRE) VALUES ('Camisetas');
 INSERT INTO categoria (NOMBRE) VALUES ('Pantalones');
 INSERT INTO categoria (NOMBRE) VALUES ('Zapatillas');
 
-INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Top', 15.0, 5, 1);
-INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Shorts', 30.0, 2, 2);
-INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Chanclas', 40.0, 10, 3);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Camiseta corta de rayas', 6.0, 5, 1);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Chancletas de punta abierta con diseño de lazo', 6.0, 15, 3);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Camiseta de manga corta con estampado de corazon', 8.0, 10, 1);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Pantalones de doblez con cinturón de cintura con volante', 13.0, 10, 2);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Camiseta volante rígido liso burdeos', 11.0, 15, 1);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Pantalones anchos unicolor de cintura con cordon', 12.0, 20, 2);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Tacones gruesos de cuadros con tira tobillera', 16.0, 9, 3);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Pantalones anchos con estampado tribal', 14.0, 13, 2);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Zapatillas con diseño de lazo con estampado floral', 4.0, 21, 3);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Pantalones deportivos de Tie Dye de cintura elastica', 14.0, 2, 2);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Tacones gruesos gradiador con diseño claveteado', 12.0, 6, 3);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Zapatos con tira tobillera con diseño de perla ', 18.0, 8, 3);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Camiseta con cuello en V', 12.0, 23, 1);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Cuñas con diseño de diamante', 40.0, 11, 3);
+INSERT INTO producto (NOMBRE, PRECIO, STOCK, ID_CATEGORIA) VALUES ('Camiseta de puño fruncido de color combinado', 9.0, 3, 1);
 
 INSERT INTO pregunta (ID_USUARIO, ID_PRODUCTO, TEXTO) VALUES (2, 1, 'Es suave o rugosa?');
 INSERT INTO pregunta (ID_USUARIO, ID_PRODUCTO, TEXTO) VALUES (1, 1, '¿Qué colores tenéis disponibles?');

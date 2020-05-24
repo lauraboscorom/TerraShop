@@ -11,5 +11,9 @@ public interface VentaDao extends GenericDao<Venta> {
 	public void setLineaDC(Venta venta, Set<LineaDC> lineasDC);
 
 	public List<Venta> listarVentas(Long idUsuario);
+
+	public List<Venta> listarVentas();
+
+	public void eliminarLineasDC(Venta venta);
 	
 }

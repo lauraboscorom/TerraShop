@@ -25,6 +25,8 @@
 			th:action="@{/usuario/perfil/editar/{id}(id=${usuario.idUsuario})}"
 			th:object="${usuario}" method="post">
 			<fieldset>
+				<input type="hidden" th:field="*{idUsuario}" id="idUsuario" name="idUsuario" />
+			
 				<legend>Datos personales</legend>
 				<div class="form-group">
 					<label for="usuario">Usuario</label> <input type="text"

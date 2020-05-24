@@ -5,9 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.terrashop.entity.Imagen;
-import com.terrashop.entity.Pregunta;
-
 public class ProductoDto {
 	
 	private Long idProducto;
@@ -20,7 +17,7 @@ public class ProductoDto {
 	
 	private List<Long> idImagenes = new ArrayList<Long>();
 	
-	private Set<Pregunta> preguntas = new HashSet<>();
+	private Set<PreguntaDto> preguntas = new HashSet<>();
 	
 	public Long getIdProducto() {
 		return idProducto;
@@ -62,11 +59,11 @@ public class ProductoDto {
 		this.idImagenes = idImagenes;
 	}
 
-	public Set<Pregunta> getPreguntas() {
+	public Set<PreguntaDto> getPreguntas() {
 		return preguntas;
 	}
 
-	public void setPreguntas(Set<Pregunta> preguntas) {
+	public void setPreguntas(Set<PreguntaDto> preguntas) {
 		this.preguntas = preguntas;
 	}
 
